@@ -6,6 +6,13 @@ public class MapManager : MonoBehaviour {
 	const int m_Width = 10;
 	const int m_Height = 10;
 	public float size = 10F;
+    public bool insMap = false;
+
+    /// <summary>
+    /// タイルカラー用マテリアル
+    /// </summary>
+    public Material[] mat;
+    public int matNum = 0;
 
 	public class Block{
 		public int height = 1; // 高さ
@@ -40,7 +47,7 @@ public class MapManager : MonoBehaviour {
 
 	public GameObject[,] panel = new GameObject[m_Width, m_Height];
 
-	public void DrawMap(){
+    /*public void DrawMap(){
 		for (int x = 0; x < m_Width; x++) {
 			for (int y = 0; y < m_Height; y++) {
 
@@ -53,5 +60,31 @@ public class MapManager : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}*/
+
+    public void DrawMap()
+    {
+        for (int x = 0; x < m_Width; x++)
+        {
+            for (int y = 0; y < m_Height; y++)
+            {
+                if (insMap == false){
+                    panel[x, y] = Instantiate(Resources.Load("MapTile"), new Vector3(x * size, 0, y * size), Quaternion.identity) as GameObject;
+
+                    if (block[x, y].blockNum == 1)
+                    {
+                        Instantiate(Resources.Load("Cube"), new Vector3(x * size, 0, y * size), Quaternion.identity);
+                    }
+                }
+
+                if (block[x, y].movable == true)
+                {
+                    // panel[x, y].GetComponent<Renderer>().material.color = new Color(0, 0.5F, 0.5F);
+                    panel[x, y].GetComponent<Renderer>().material = mat[matNum];
+                }
+            }
+        }
+    }
+
+    
 }

@@ -3,19 +3,19 @@ using System.Collections;
 
 public class MovableScript : MonoBehaviour {
 	MapManager map;
-	
-	// Use this for initialization
+   
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        map = this.gameObject.GetComponent<MapManager>();
+    }
 
-	public void moveSearch(int x, int y, int step){
-		map.block [x, y].step = step; // ×
+    void Update()
+    {
+        
+    }
+
+	public void moveSearch( int x, int y, int step){
+        
+		map.block [x, y].step = step; 
 		step--;
 		map.block [x, y].movable = true;
 
