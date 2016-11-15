@@ -230,10 +230,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 10
   insMap: 0
+  isAlpha: 0
   mat:
   - {fileID: 2100000, guid: 7c7e9bb00ce25ff4b93f46c8680cf4e1, type: 2}
+  - {fileID: 2100000, guid: d581b5c7c7896db4e8a144afedc25eb7, type: 2}
   - {fileID: 2100000, guid: 74d66cbec7b632046a7a6323d3b78793, type: 2}
   matNum: 0
+  colorR: 0
+  colorG: 0
+  colorB: 0
+  alphaA: 0
 --- !u!114 &829210541
 MonoBehaviour:
   m_ObjectHideFlags: 0
