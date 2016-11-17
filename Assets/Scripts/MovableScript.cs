@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MovableScript : MonoBehaviour {
 	MapManager map;
-    CirsorController cir;
+    //CirsorController cir;
     PlayerController player;
     public int stepCount;
    
@@ -20,13 +20,15 @@ public class MovableScript : MonoBehaviour {
         player = GameObject.Find(name).GetComponent<PlayerController>();
 		map.block [x, y].step = step;
 		step--;
-        if (player.isMoving == false)
+		map.block[x, y].movable = true;
+
+        /*if (player.isMoving == false)
         {
             map.block[x, y].movable = true;
         } else
         {
             map.block[x, y].movable = false;
-        }
+        }*/
 
         if (step >= 0) {
 			

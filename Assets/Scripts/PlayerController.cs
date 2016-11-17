@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
         // 3なら透明
         else if(i == 3)
         {
-            map.isAlpha = false;
+			map.isAlpha = true;
             map.colorR = 1F;
             map.colorG = 1F;
             map.colorB = 1F;
@@ -95,13 +95,12 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     public void EnterButton()
     {
-        if (Input.GetButtonDown("Submit"))
-        {
-            if(!isPress)
-                isPress = true;
-            } else
-            {
-                isPress = false;
+		if (Input.GetButtonDown ("Submit")) {
+			if (!isPress){
+				isPress = true;
+			} else {
+			isPress = false;
+			}
         }
     }
 
@@ -119,7 +118,7 @@ public class PlayerController : MonoBehaviour {
         {
             ColorChange(1);
         }
-        else
+		else if(isMove = false && isUpCirsor == false)
         {
             ColorChange(3);
         }
@@ -146,53 +145,77 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
-
-
     /// <summary>
     /// キャラクターの移動
     /// </summary>
     public void CharacterMove()
     {
+		// 移動中かつ移動可能なマスの時
         if(isMove && isMovable)
         {
             if (Input.GetButtonDown("Submit"))
             {
-                isMoving = true;
-                movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);
+                // isMoving = true;
+                // movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);
                 float ix = cirsor.transform.position.x / posDivF;
                 float iz = cirsor.transform.position.z / posDivF;
                 this.transform.position = new Vector3(Mathf.CeilToInt(ix) * posDivF, this.transform.position.y,Mathf.CeilToInt(iz) * posDivF);
                 isMove = false;
-                isMovable = false;
-                isMoving = false;
+				isMoving = true;
+                // isMovable = false;
+                // isMoving = false;
             }
         }
     }
 
-    /// <summary>
-    /// 移動可能範囲の初期化
-    /// </summary>
-    public void MovableOff()
-    {
-        if (isMoving)
-        {
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    if (map.block[x, y].movable)
-                    {
-                        map.block[x, y].movable = false;
-                    }
+	/// <summary>
+	/// メニューウィンドウの切り替え
+	/// カーソルがキャラの上かつボタンを押したら
+	/// </summary>
+	public void Menu(){
+		if (isUpCirsor && isPress)
+		{
+			// メニューの表示
+			// ウィンドウ入力のboolをOnに
+			// 
+			isMove = true;
+		}
+	}
 
-                }
-            }
+	/// <summary>
+	/// 移動キャンセル
+	/// </summary>
+	public void Cancel(){
+		if (isMove)
+		{
+			if (Input.GetButtonDown("Cancel"))
+			{
+				isMove = false;
+			}
+		}
+	}
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	public void Initialize(){
+		if(isMoving == true ){
 
-            isMoving = false;
-        }
-    }
+			Debug.Log ("薄汚い大根");
+
+			for(int x = 0;x < 10;x++){
+				for(int y = 0;y < 10;y++){
+					map.block [x, y].movable = false;
+					map.block [x, y].step = -1;
+					// Debug.Log (map.block [x, y]);
+					isMoving = false;
+				}
+			}
+			// movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);	// 移動可能なマスの取得
+			ChangeColor();
+			map.DrawMap();			// 色塗り
+		}
+	}
 
 
 	void Start () {
@@ -208,32 +231,22 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-        pos = this.transform.position;
+		
         // 関数実行
-        CharaUpCorsor();
-        EnterButton();
-        movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);
-        CirsorIn();
-        CharacterMove();
-
-        // メニューウィンドウの切り替え
-        if (isUpCirsor && isPress)
-        {
-            // メニューの表示
-            // ウィンドウ入力のboolをOnに
-            isMove = true;
-        }
-        if (isMove)
-        {
-            if (Input.GetButtonDown("Cancel"))
-            {
-                isMove = false;
-            }
-        }
-        ChangeColor();
-
-        // 色の変更
-		map.DrawMap();
-        isMoving = false;
+        CharaUpCorsor();		// カーソルがキャラの上にいるかどうか
+		EnterButton();			// 決定キーを押しているかの判定
+		pos = this.transform.position;
+		Menu();
+		if(isUpCirsor){
+			movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);	// 移動可能なマスの取得
+			ChangeColor();			// 色変え
+			map.DrawMap();			// 色塗り
+		}
+        CirsorIn();				// カーソルが移動可能範囲のますかどうか
+		Cancel();				// キャンセル機能
+        CharacterMove();		// キャラクターの移動
+		Initialize();
+		map.DrawMap ();
+        // isMoving = false;
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MapManager : MonoBehaviour {
 
-	PlayerController playerController;
+	//PlayerController playerController;
 
 	public const int m_Width = 10;
 	public const int m_Height = 10;
@@ -59,6 +59,11 @@ public class MapManager : MonoBehaviour {
 			for (int y = 0; y < m_Height; y++) {
 				if (insMap == false) {
 					panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
+				}
+				panel [x, y].GetComponent<Renderer> ().enabled = false;
+
+				if (insMap == false) {
+					//panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
                     panel[x, y].GetComponent<MapTileManager>().map_x = x;
                     panel[x, y].GetComponent<MapTileManager>().map_y = y;
                     panel[x, y].GetComponent<Renderer> ().enabled = false;

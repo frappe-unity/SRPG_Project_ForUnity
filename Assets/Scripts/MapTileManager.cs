@@ -4,7 +4,7 @@ using System.Collections;
 public class MapTileManager : MonoBehaviour {
 
     public int map_x, map_y = 0;
-
+	public bool rend = true;
 	// Use this for initialization
 	void Start () {
 	
