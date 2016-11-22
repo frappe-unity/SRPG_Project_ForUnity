@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapTileManager : MonoBehaviour {
+public class MapTileController : MonoBehaviour {
 
     public int map_x, map_y = 0;
 	public bool rend = true;

@@ -13,15 +13,43 @@ public class CirsorController : MonoBehaviour {
     public bool slantingTrigger = false; //斜め移動（Rボタン・Lキー）が押されたときのトリガーフラグ
     public float moveSpeed = 10.0F;
 
+
+    UnitController unit;
+    public int unitCount = 0;
+
+    public int not = -1;
+
     void Start()
     {
         transform.position = new Vector3(0.0f, transform.position.y, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
         
         targetPos = new Vector3(0.0f, transform.position.y, 0.0f);
+
+        unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
     }
 
     void Update()
     {
+        if(not == -1)
+        {
+            for (int i = 0; i < unit.playerObj.Length; i++)
+            {
+                if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && !unit.isUnit)
+                {
+                    unitCount++;
+                    unit.isUnit = true;
+                    unit.selectUnit = i;
+                }
+                if (unitCount < 1)
+                {
+                    unit.isUnit = false;
+                    unit.selectUnit = 99;
+
+                } 
+            }
+        }
+        unitCount = 0;
+        Debug.Log(unit.playerObj[1].transform.position);
 
         ///////////////////////////////////////////////////////斜め移動//////////////////////////////////////////////////////////
 

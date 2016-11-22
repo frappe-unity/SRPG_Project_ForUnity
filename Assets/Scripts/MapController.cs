@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapManager : MonoBehaviour {
+public class MapController : MonoBehaviour {
 
 	//PlayerController playerController;
 
@@ -29,6 +29,14 @@ public class MapManager : MonoBehaviour {
 	}
 
 	public Block[,] block = new Block[m_Width,m_Height] ;
+
+    public void Start()
+    {
+        // マップの描画関係
+        MapInit();
+        DrawMap();
+        insMap = true;  // 初期描画完了
+    }
 
 	public void MapInit() { 
 		int[,] mapSet = new int[m_Height, m_Width] { // xとyを逆にしないように注意
@@ -59,17 +67,19 @@ public class MapManager : MonoBehaviour {
 			for (int y = 0; y < m_Height; y++) {
 				if (insMap == false) {
 					panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
-				}
+                    if (block[x, y].blockNum == 1)
+                    {
+                        Instantiate(Resources.Load("Cube"), new Vector3(x * size, 0, y * size), Quaternion.identity);
+                    }
+                }
 				panel [x, y].GetComponent<Renderer> ().enabled = false;
 
 				if (insMap == false) {
 					//panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
-                    panel[x, y].GetComponent<MapTileManager>().map_x = x;
-                    panel[x, y].GetComponent<MapTileManager>().map_y = y;
+                    panel[x, y].GetComponent<MapTileController>().map_x = x;
+                    panel[x, y].GetComponent<MapTileController>().map_y = y;
                     panel[x, y].GetComponent<Renderer> ().enabled = false;
-					if (block [x, y].blockNum == 1) {
-						Instantiate (Resources.Load ("Cube"), new Vector3 (x * size, 0, y * size), Quaternion.identity);
-					} 
+					
 				} else if (block [x, y].movable == true) {
 					if (!isAlpha) {
 						panel [x, y].GetComponent<Renderer> ().enabled = true;

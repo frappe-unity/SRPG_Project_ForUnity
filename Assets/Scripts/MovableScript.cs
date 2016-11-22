@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class MovableScript : MonoBehaviour {
-	MapManager map;
+	MapController map;
     //CirsorController cir;
     PlayerController player;
     public int stepCount;
    
 	void Start () {
-        map = this.gameObject.GetComponent<MapManager>();
+        map = this.gameObject.GetComponent<MapController>();
     }
 
     void Update()
@@ -16,34 +16,25 @@ public class MovableScript : MonoBehaviour {
         
     }
 
-	public void moveSearch( int x, int y, int step, string name){
-        player = GameObject.Find(name).GetComponent<PlayerController>();
+	public void moveSearch( int x, int y, int step){
 		map.block [x, y].step = step;
 		step--;
 		map.block[x, y].movable = true;
-
-        /*if (player.isMoving == false)
-        {
-            map.block[x, y].movable = true;
-        } else
-        {
-            map.block[x, y].movable = false;
-        }*/
 
         if (step >= 0) {
 			
 			// 上
 			if (map.block [x, y - 1].blockNum == 0 && map.block [x, y - 1].step <= step)
-				moveSearch (x, y - 1, step, name);	
+				moveSearch (x, y - 1, step);	
 			//　下
 			if (map.block [x, y + 1].blockNum == 0 && map.block [x, y + 1].step <= step)
-				moveSearch (x, y + 1, step, name);
+				moveSearch (x, y + 1, step);
 			// 右
 			if (map.block [x + 1, y].blockNum == 0 && map.block [x + 1, y].step <= step)
-				moveSearch (x + 1, y, step, name);
+				moveSearch (x + 1, y, step);
 			// 左
 			if (map.block [x - 1, y].blockNum == 0 && map.block [x - 1, y].step <= step)
-				moveSearch (x - 1, y, step, name);
+				moveSearch (x - 1, y, step);
 		}
 	}
 }
