@@ -69,7 +69,7 @@ public class MapController : MonoBehaviour {
 					panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
                     if (block[x, y].blockNum == 1)
                     {
-                        Instantiate(Resources.Load("Cube"), new Vector3(x * size, 0, y * size), Quaternion.identity);
+                        Instantiate(Resources.Load("Cube"), new Vector3(x * size,5, y * size), Quaternion.identity);
                     }
                 }
 				panel [x, y].GetComponent<Renderer> ().enabled = false;
