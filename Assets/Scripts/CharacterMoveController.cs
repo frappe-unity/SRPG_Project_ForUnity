@@ -87,43 +87,9 @@ public class CharacterMoveController : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// 決定キーを押しているかの判定
-    /// </summary>
-    public void EnterButton()
-    {
-        if (Input.GetButtonDown("Submit"))
-        {
-            if (!isPress)
-            {
-                isPress = true;
-            }
-            else
-            {
-                isPress = false;
-            }
-        }
-    }
+    
 
-    /// <summary>
-    /// マップの色変え
-    /// </summary>
-    public void ChangeColor()
-    {
-        // 移動中なら水色に
-        if (isMove)
-        {
-            ColorChange(2);
-        }
-        else if (isMove == false && isUpCirsor)
-        {
-            ColorChange(1);
-        }
-        else if (isMove == false && !isUpCirsor) 
-        {
-            ColorChange(3);
-        }
-    }
+   
 
     /// <summary>
     /// カーソルが移動範囲に入っているか
@@ -170,20 +136,8 @@ public class CharacterMoveController : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// メニューウィンドウの切り替え
-    /// カーソルがキャラの上かつボタンを押したら
-    /// </summary>
-    public void Menu()
-    {
-        if (isPress)
-        {
-            // メニューの表示
-            // ウィンドウ入力のboolをOnに
-            // 
-            isMove = true;
-        }
-    }
+    
+    
 
     /// <summary>
     /// 移動キャンセル
@@ -206,9 +160,6 @@ public class CharacterMoveController : MonoBehaviour {
     {
         if (isMoving == true)
         {
-
-            Debug.Log("薄汚い大根");
-
             for (int x = 0; x < 10; x++)
             {
                 for (int y = 0; y < 10; y++)
@@ -219,7 +170,7 @@ public class CharacterMoveController : MonoBehaviour {
                     isMoving = false;
                 }
             }
-            // movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, moveCost, name);	// 移動可能なマスの取得
+            // movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, unit.playerController[unitNumber].moveCost);	// 移動可能なマスの取得
             ChangeColor();
             map.DrawMap();          // 色塗り
         }
@@ -238,6 +189,7 @@ public class CharacterMoveController : MonoBehaviour {
 
     void Update()
     {
+#if _Debug
         //CharaUpCorsor();        // カーソルがキャラの上にいるかどうか
         if (unit.isUnit)
         {
@@ -269,5 +221,84 @@ public class CharacterMoveController : MonoBehaviour {
         }
         Initialize();
         map.DrawMap();
+#endif
+        CharaUpCorsor();
+        if (isUpCirsor)
+        {
+            // 移動範囲のサーチ
+            movableScript.moveSearch(Mathf.RoundToInt(pos.x) / posDiv, Mathf.RoundToInt(pos.z) / posDiv, unit.playerController[unitNumber].moveCost);   // 移動可能なマスの取得
+        }
+        
+        for (int i = 0;i < unit.playerObj.Length; i++)
+        {
+            if(map.block[Mathf.RoundToInt(circon.transform.position.x), Mathf.RoundToInt(circon.transform.position.z)].movable)
+            {
+                isMovable = true;
+            }
+            if (!isMovable)
+            {
+                isMovable = false;
+            }
+        }
+        circon.Search();
+        EnterButton();
+        Menu();
+        ChangeColor();
+        CharacterMove();
+        Initialize();
+        // map.DrawMap();
+    }
+
+    /// <summary>
+    /// マップの色変え
+    /// </summary>
+    public void ChangeColor()
+    {
+        // 移動中なら水色に
+        if (isMove)
+        {
+            ColorChange(2);
+        }
+        else if (isMove == false && isUpCirsor)
+        {
+            ColorChange(1);
+        }
+        else if (isMove == false && !isUpCirsor)
+        {
+            ColorChange(3);
+        }
+    }
+
+    /// <summary>
+    /// メニューウィンドウの切り替え
+    /// カーソルがキャラの上かつボタンを押したら
+    /// </summary>
+    public void Menu()
+    {
+        if (isPress)
+        {
+            // メニューの表示
+            // ウィンドウ入力のboolをOnに
+            // 
+            isMove = true;
+        }
+    }
+
+    /// <summary>
+    /// 決定キーを押しているかの判定
+    /// </summary>
+    public void EnterButton()
+    {
+        if (Input.GetButtonDown("Submit"))
+        {
+            if (!isPress)
+            {
+                isPress = true;
+            }
+            else
+            {
+                isPress = false;
+            }
+        }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CirsorController : MonoBehaviour {
 
+    [SerializeField] private UnitController unit;
+    [SerializeField] private MapController map;
+
     public Vector3 targetPos = new Vector3(0.0f, 0.0F, 0.0f); //プレイヤーのターゲット座標
     public Vector3 moveVec = new Vector3(0.0f, 0.0f, 0.0f); //プレイヤーの移動ベクトル
     public float speed = 0.0625f; //（デフォルト値0.5f）遅くするには[0.25][0.125][0.0625]と元の数字を２で割ってやる
@@ -12,9 +15,7 @@ public class CirsorController : MonoBehaviour {
     private float keyTimer = 0.0f; //キー入力不可時間カウント用タイマーを入れる入れ物
     public bool slantingTrigger = false; //斜め移動（Rボタン・Lキー）が押されたときのトリガーフラグ
     public float moveSpeed = 10.0F;
-
-    MapController map;
-    UnitController unit;
+    
     public int unitCount = 0;
 
     public int not = -1;
@@ -24,9 +25,7 @@ public class CirsorController : MonoBehaviour {
         transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
         
         targetPos = new Vector3(0.0f,25, 0.0f);
-
-        unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
-        map = GameObject.Find("MapManager").GetComponent<MapController>();
+        
     }
 
     void Update()
