@@ -5,6 +5,7 @@ public class CirsorController : MonoBehaviour {
 
     [SerializeField] private UnitController unit;
     [SerializeField] private MapController map;
+    [SerializeField] private CharacterMoveController chara;
 
     public Vector3 targetPos = new Vector3(0.0f, 0.0F, 0.0f); //プレイヤーのターゲット座標
     public Vector3 moveVec = new Vector3(0.0f, 0.0f, 0.0f); //プレイヤーの移動ベクトル
@@ -23,32 +24,27 @@ public class CirsorController : MonoBehaviour {
     void Start()
     {
         transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
-        
+        unitCount = 0;
         targetPos = new Vector3(0.0f,25, 0.0f);
         
     }
 
     void Update()
     {
-        if(not == -1)
+        for (int i = 0; i < unit.playerObj.Length; i++)
         {
-            for (int i = 0; i < unit.playerObj.Length; i++)
+            if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && !unit.isUnit)
             {
-                if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && !unit.isUnit)
-                {
-                    unitCount++;
-                    unit.isUnit = true;
-                    unit.selectUnit = i;
-                }
-                if (unitCount < 1)
-                {
-                    unit.isUnit = false;
-                    unit.selectUnit = 99;
-
-                } 
+                unitCount++;
+                unit.isUnit = true;
+                unit.selectUnit = i;
+                unitCount = i;
+            } else
+            {
+                unit.selectUnit = unitCount;
             }
         }
-        unitCount = 0;
+#if move
         if(map.block[(int)this.transform.position.x / 10, (int)this.transform.position.z / 10].blockNum == 1)
         {
             this.transform.position = new Vector3(this.transform.position.x,35,this.transform.position.z);
@@ -56,6 +52,7 @@ public class CirsorController : MonoBehaviour {
         {
             this.transform.position = new Vector3(this.transform.position.x,25, this.transform.position.z);
         }
+#endif
 
         ///////////////////////////////////////////////////////斜め移動//////////////////////////////////////////////////////////
 
