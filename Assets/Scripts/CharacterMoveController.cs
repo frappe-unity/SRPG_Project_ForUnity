@@ -7,19 +7,23 @@ public class CharacterMoveController : MonoBehaviour {
     /// <summary>
     /// 各種参照
     /// </summary>
-    MapController map;
-    MovableScript movableScript;
-    CirsorController cirsorController;
-    UnitController unit;
-    PlayerController player;
-    GameObject cirsor;
+    [SerializeField] private MapController map;
+    [SerializeField] private MovableScript movableScript;
+    [SerializeField] private CirsorController cirsorController;
+    [SerializeField] private UnitController unit;
+    // [SerializeField] private PlayerController player;
+    [SerializeField] private GameObject cirsor;
+    [SerializeField] private GameObject window;
+    [SerializeField] private GameObject eventSystem;
 
     /// <summary>
     /// 各種ブーリアン
     /// </summary>
     public bool isCirsor = false;   // カーソルがキャラ上にあるか
     public bool isMove = false;
-    public int moveStep = 0; // 移動
+    public bool isMenu = false;
+    public int stateCount = 0; // ステート番号
+    private int color = 0;
 
     /// <summary>
     /// ユニット情報
@@ -28,98 +32,158 @@ public class CharacterMoveController : MonoBehaviour {
     GameObject unitObj;
 
     public Vector3 pos;
+    private Vector3 backPos;
     private int div = 10;
     private float divF = 10F;
 
+    public enum PlayerState
+    {
+        START,
+        MOVE,
+        MENU,
+    }
+
+    public PlayerState playerState;
+
     void Start()
     {
-        // 各種参照
-        map = GameObject.Find("MapManager").GetComponent<MapController>();
-        movableScript = GameObject.Find("MapManager").GetComponent<MovableScript>();
-        cirsor = GameObject.Find("Cirsor");
-        cirsorController = cirsor.GetComponent<CirsorController>();
-        unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
-
-        
+        eventSystem.SetActive(true);
+        window.SetActive(false);
     }
 
     void Update()
     {
-
-        
-
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        if (!isMove)
-        {
-            moveStep = 0;
-            Initialize();
-        }
-        
-
         /// <summary>
         /// 必要な情報の取得
         /// </summary>
-        unitNumber = unit.selectUnit;
-        unitObj = unit.playerObj[unitNumber];
-        int x = Mathf.FloorToInt(unitObj.transform.position.x) / div;
-        int z = Mathf.FloorToInt(unitObj.transform.position.z) / div;
-        int cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;
-        int cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;
+        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
+        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+        int x = Mathf.FloorToInt(unitObj.transform.position.x) / div;       // ユニットのX座標
+        int z = Mathf.FloorToInt(unitObj.transform.position.z) / div;       // ユニットのZ座標
+        int cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;  // カーソルのX座標
+        int cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;  // カーソルのZ座標
 
-        /// <summary>
-        /// カーソル判定
-        /// </summary>
-        if (x == cirsorX && z == cirsorZ)
-        {
-            isCirsor = true;
-            moveStep = 1;
-        } else
-        {
-            isCirsor = false;
-        }
-
-        /// <summary>
-        /// 探索
-        /// </summary>
         movableScript.moveSearch(x, z, unit.playerController[unitNumber].moveCost);
-        if (map.block[cirsorX, cirsorZ].movable)
-        {
-            if (Input.GetButtonDown("Submit") && isCirsor)
-            {
-                isMove = true;
-                moveStep = 2;
-            }
-            
-        }
 
-        /// <summary>
-        /// 移動処理
-        /// </summary>
-        if (isMove)
+        switch (playerState)
         {
-            moveStep = 2;
-            if (Input.GetButtonDown("Submit"))
-            {
-                pos.x = cirsor.transform.position.x;
-                pos.z = cirsor.transform.position.z;
-                unitObj.transform.position = pos;
-                moveStep = 0;
-                isMove = false;
-            }
-        }
+            case PlayerState.START:
+                // ステート番号
+                stateCount = 0;
 
+                /// <summary>
+                /// カーソル判定
+                /// </summary>
+                if (x == cirsorX && z == cirsorZ)
+                {
+                    isCirsor = true;
+                    color = 1;
+                    
+                }
+                else
+                {
+                    isCirsor = false;
+                    color = 0;
+                }
+                
+                // キャラ上でボタンを押したらMOVEに移る
+                if (Input.GetButtonDown("Submit") && isCirsor)
+                {
+                    isMove = true;
+                    playerState = PlayerState.MOVE;     // ステート移動
+                }
+
+                // 色塗り
+                ChangeColor(color);
+                map.DrawMap();
+                break;
+
+            case PlayerState.MOVE:
+                // ステート番号
+                stateCount = 1;
+
+                /// <summary>
+                /// 探索
+                /// </summary>
+                if (map.block[cirsorX, cirsorZ].movable)
+                {
+                    /// <summary>
+                    /// 移動処理
+                    /// </summary>
+                    if (Input.GetButtonDown("Submit") && isMove)
+                    {
+                        backPos = pos;                          // posを保存しておく
+                        // カーソルの位置にキャラを移動
+                        pos.x = cirsor.transform.position.x;    
+                        pos.y = 8F;
+                        pos.z = cirsor.transform.position.z;
+                        unitObj.transform.position = pos;
+                        isMove = false;
+                        playerState = PlayerState.MENU;         // ステート移動
+                    }
+                }
+
+                // 色塗り
+                color = 2;
+                ChangeColor(color);
+                map.DrawMap();
+                break;
+
+            case PlayerState.MENU:
+                // ステート番号
+                stateCount = 2;
+
+                // メニュー関数を実行
+                MenuFunc();
+
+                // 色塗り
+                color = 0;
+                ChangeColor(color);
+                map.DrawMap();
+                break;
+        }
+        
         /// <summary>
         /// キャンセル
         /// </summary>
         if (Input.GetButtonDown("Cancel"))
         {
-            moveStep = 0;
+            stateCount--;
+            // キャンセル後のstate移動
+            moveState();
         }
-
-        ChangeColor(moveStep);
         map.DrawMap();
+    }
+
+    /// <summary>
+    /// state移動
+    /// </summary>
+    public void moveState()
+    {
+        if (stateCount == 0)
+        {
+            Initialize();
+            playerState = PlayerState.START;
+        }
+        else if (stateCount == 1)
+        {
+            playerState = PlayerState.MOVE;
+            pos = backPos;
+        }
+    }
+
+
+    /// <summary>
+    /// メニュー処理
+    /// </summary>
+    public void MenuFunc()
+    {
+        if (!isMenu)
+        {
+            isMenu = true;
+            eventSystem.SetActive(false);
+            window.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -171,7 +235,7 @@ public class CharacterMoveController : MonoBehaviour {
                 map.block[x, y].step = -1;
             }
         }
-        ChangeColor(moveStep);
+        ChangeColor(0);
         map.DrawMap();         
     }
 }

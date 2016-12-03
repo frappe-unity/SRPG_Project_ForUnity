@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692558, g: 0.49678743, b: 0.57508624, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -198,6 +198,7 @@ GameObject:
   - 222: {fileID: 123208727}
   - 114: {fileID: 123208726}
   - 114: {fileID: 123208725}
+  - 114: {fileID: 123208728}
   m_Layer: 5
   m_Name: Attack
   m_TagString: Untagged
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.69803923, b: 0.69803923, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -262,7 +263,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 123208726}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ATTACK
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &123208726
@@ -298,6 +310,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 123208723}
+--- !u!114 &123208728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 123208723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chara: {fileID: 570525674}
+  command: 0
 --- !u!1 &160633855
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +508,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u79FB\u52D5"
+  m_Text: "\u5F85\u6A5F"
 --- !u!222 &373683183
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -536,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 123208723}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
 --- !u!4 &543155455
@@ -592,9 +617,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf8ead682d37384f9ab85ecc4271b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 829210540}
+  movableScript: {fileID: 829210541}
+  cirsorController: {fileID: 1902271179}
+  unit: {fileID: 368118498}
+  cirsor: {fileID: 1902271174}
+  window: {fileID: 630870978}
+  eventSystem: {fileID: 543155452}
   isCirsor: 0
-  moveStep: 0
+  isMove: 0
+  isMenu: 0
+  stateCount: 0
   pos: {x: 0, y: 0, z: 0}
+  playerState: 0
 --- !u!1 &630870978
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +641,8 @@ GameObject:
   - 223: {fileID: 630870981}
   - 114: {fileID: 630870980}
   - 114: {fileID: 630870979}
+  - 114: {fileID: 630870984}
+  - 114: {fileID: 630870983}
   m_Layer: 5
   m_Name: CommandWindow
   m_TagString: Untagged
@@ -690,6 +727,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &630870983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 630870978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &630870984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 630870978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 123208723}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
 --- !u!1 &633690534
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +850,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 633690534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: 8, z: 20}
+  m_LocalPosition: {x: 70, y: 8, z: 30}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -798,6 +867,7 @@ GameObject:
   - 222: {fileID: 797717650}
   - 114: {fileID: 797717649}
   - 114: {fileID: 797717648}
+  - 114: {fileID: 797717651}
   m_Layer: 5
   m_Name: Cancel
   m_TagString: Untagged
@@ -844,7 +914,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.69803923, b: 0.69803923, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -862,7 +932,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 797717649}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CANCEL
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &797717649
@@ -898,6 +979,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 797717646}
+--- !u!114 &797717651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797717646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chara: {fileID: 570525674}
+  command: 1
 --- !u!1 &829210538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,8 +1307,9 @@ GameObject:
   - 222: {fileID: 1478725106}
   - 114: {fileID: 1478725105}
   - 114: {fileID: 1478725104}
+  - 114: {fileID: 1478725107}
   m_Layer: 5
-  m_Name: Move
+  m_Name: Stay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1259,7 +1354,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.6985294, b: 0.6985294, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1277,7 +1372,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1478725105}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: STAY
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1478725105
@@ -1313,6 +1419,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1478725102}
+--- !u!114 &1478725107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1478725102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chara: {fileID: 570525674}
+  command: 2
 --- !u!1 &1762371946
 GameObject:
   m_ObjectHideFlags: 0
