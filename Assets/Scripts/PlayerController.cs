@@ -11,6 +11,6 @@ public class PlayerController : MonoBehaviour {
     public int attack = 7;              // 攻撃力
     public int deffence = 4;            // 防御力
     public int moveCost = 5;			// 移動力
-
+    public bool isAct = false;
     
 }

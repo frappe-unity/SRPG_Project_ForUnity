@@ -264,9 +264,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 123208728}
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -794,6 +794,7 @@ MonoBehaviour:
   attack: 7
   deffence: 4
   moveCost: 5
+  isAct: 0
 --- !u!23 &633690536
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -933,9 +934,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 797717651}
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1171,6 +1172,7 @@ MonoBehaviour:
   attack: 7
   deffence: 4
   moveCost: 5
+  isAct: 0
 --- !u!23 &1072185427
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1373,9 +1375,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 294cff3f8d14c344d818497c2cf096b9, type: 3}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 1478725107}
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1467,6 +1469,7 @@ MonoBehaviour:
   attack: 7
   deffence: 4
   moveCost: 5
+  isAct: 0
 --- !u!23 &1762371948
 MeshRenderer:
   m_ObjectHideFlags: 0

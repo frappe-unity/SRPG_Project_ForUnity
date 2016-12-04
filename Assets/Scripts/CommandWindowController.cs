@@ -4,6 +4,7 @@ using System.Collections;
 public class CommandWindowController : MonoBehaviour {
 
     [SerializeField] private CharacterMoveController chara;
+    int stateNumber = 0;
 
     public enum Command
     {
@@ -14,21 +15,36 @@ public class CommandWindowController : MonoBehaviour {
 
     public Command command;
 
-	public void OnClick()
+    void Start()
     {
         switch (command)
         {
             case Command.ATTACK:
+                stateNumber = 1;
                 break;
             case Command.CANCEL:
-                chara.stateCount--;
-                chara.moveState();
+                stateNumber = 2;
                 break;
             case Command.STAY:
-                chara.Initialize();
-                chara.stateCount = 0;
-                chara.moveState();
+                stateNumber = 3;
                 break;
+        }
+    }
+
+	public void OnClick()
+    {
+        chara.MenuEnd();
+        if (stateNumber == 1)
+        {
+
+        } else if(stateNumber == 2)
+        {
+            chara.stateCount--;
+            chara.moveState();
+        } else if(stateNumber == 3)
+        {
+            chara.Initialize();
+            chara.moveState();
         }
     }
 }
