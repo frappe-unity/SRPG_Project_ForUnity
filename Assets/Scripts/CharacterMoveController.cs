@@ -21,17 +21,24 @@ public class CharacterMoveController : MonoBehaviour {
     public bool isCirsor = false;   // カーソルがキャラ上にあるか
     public bool isMove = false;
     public bool isMenu = false;
-    public int stateCount = 0; // ステート番号
+    public int stateCount = -1; // ステート番号
     private int color = 0;
 
     /// <summary>
     /// ユニット情報
     /// </summary>
-    private int unitNumber = 0;
+    public int unitNumber = 0;
     GameObject unitObj;
+    /// <summary>
+    /// ユニット情報
+    /// </summary>
+    public int x = 0;
+    public int z = 0;
+    public int cirsorX = 0;
+    public int cirsorZ = 0;
 
     public Vector3 pos;
-    private Vector3 backPos;
+    public Vector3 backPos;
     private int div = 10;
     private float divF = 10F;
 
@@ -52,18 +59,8 @@ public class CharacterMoveController : MonoBehaviour {
 
     void Update()
     {
-        /// <summary>
-        /// 必要な情報の取得
-        /// </summary>
-        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
-        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
-        int x = Mathf.FloorToInt(unitObj.transform.position.x) / div;       // ユニットのX座標
-        int z = Mathf.FloorToInt(unitObj.transform.position.z) / div;       // ユニットのZ座標
-        int cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;  // カーソルのX座標
-        int cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;  // カーソルのZ座標
+        MoveSearch();
 
-
-        movableScript.moveSearch(x, z, unit.playerController[unitNumber].moveCost);
         if (!unit.playerController[unitNumber].isAct)
         {
             switch (playerState)
@@ -115,11 +112,11 @@ public class CharacterMoveController : MonoBehaviour {
                         /// </summary>
                         if (Input.GetButtonDown("Submit") && isMove)
                         {
-                            backPos = pos;                          // posを保存しておく
-                                                                    // カーソルの位置にキャラを移動
-                            pos.x = cirsor.transform.position.x;
+                            backPos = unitObj.transform.position;    // posを保存しておく
+                            // カーソルの位置にキャラを移動
+                            pos.x = cirsorX * div;
                             pos.y = 8F;
-                            pos.z = cirsor.transform.position.z;
+                            pos.z = cirsorZ * div;
                             unitObj.transform.position = pos;
                             isMove = false;
                             Initialize();
@@ -154,18 +151,36 @@ public class CharacterMoveController : MonoBehaviour {
             {
                 stateCount--;
                 // キャンセル後のstate移動
-                moveState();
+                MoveState();
             }
             map.DrawMap();
         }
-        
+    }
 
+    /// <summary>
+    /// 移動範囲探索
+    /// </summary>
+    public void MoveSearch()
+    {
+        Initialize();
+
+        /// <summary>
+        /// 必要な情報の取得
+        /// </summary>
+        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
+        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+        x = Mathf.FloorToInt(unitObj.transform.position.x) / div;       // ユニットのX座標
+        z = Mathf.FloorToInt(unitObj.transform.position.z) / div;       // ユニットのZ座標
+        cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;  // カーソルのX座標
+        cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;  // カーソルのZ座標
+
+        movableScript.moveSearch(x, z, unit.playerController[unitNumber].moveCost);
     }
 
     /// <summary>
     /// state移動
     /// </summary>
-    public void moveState()
+    public void MoveState()
     {
         if (stateCount == 0)
         {
@@ -178,7 +193,6 @@ public class CharacterMoveController : MonoBehaviour {
             pos = backPos;
         }
     }
-
 
     /// <summary>
     /// メニュー処理
@@ -204,6 +218,16 @@ public class CharacterMoveController : MonoBehaviour {
     public void EndAct()
     {
         unit.playerController[unitNumber].isAct = true;
+        unit.stayCount++;
+        stateCount = 0;
+    }
+
+    public void ReturnPos()
+    {
+        isMove = true;
+        unitObj.transform.position = backPos;
+        cirsor.transform.position = new Vector3(backPos.x, cirsor.transform.position.y, backPos.z);
+        cirsorController.targetPos = new Vector3(backPos.x, cirsorController.targetPos.y, backPos.z);
     }
 
     /// <summary>

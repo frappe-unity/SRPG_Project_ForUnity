@@ -13,6 +13,7 @@ public class UnitController : MonoBehaviour {
     public GameObject[] playerObj;
     public int selectUnit = 99;
     public bool isUnit = false;
+    public int stayCount = 0;
 
 	// Use this for initialization
 	void Start () {

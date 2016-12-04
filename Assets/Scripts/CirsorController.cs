@@ -7,6 +7,7 @@ public class CirsorController : MonoBehaviour {
     [SerializeField] private MapController map;
     [SerializeField] private CharacterMoveController chara;
 
+    public bool debugKey = false;
     public Vector3 targetPos = new Vector3(0.0f, 0.0F, 0.0f); //プレイヤーのターゲット座標
     public Vector3 moveVec = new Vector3(0.0f, 0.0f, 0.0f); //プレイヤーの移動ベクトル
     public float speed = 0.0625f; //（デフォルト値0.5f）遅くするには[0.25][0.125][0.0625]と元の数字を２で割ってやる
@@ -19,8 +20,6 @@ public class CirsorController : MonoBehaviour {
     
     public int unitCount = 0;
 
-    public int not = -1;
-
     void Start()
     {
         transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
@@ -32,7 +31,7 @@ public class CirsorController : MonoBehaviour {
     {
         for (int i = 0; i < unit.playerObj.Length; i++)
         {
-            if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && chara.stateCount == 0)
+            if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && !unit.playerController[i].isAct)
             {
                 unit.selectUnit = i;
                 unitCount = i;
@@ -42,6 +41,7 @@ public class CirsorController : MonoBehaviour {
         ///////////////////////////////////////////////////////斜め移動//////////////////////////////////////////////////////////
         if(chara.stateCount != 2)
         {
+            debugKey = true;
             if (Input.GetKey(KeyCode.JoystickButton5) || Input.GetKey(KeyCode.L))
             {
                 slantingTrigger = true;//slantingTriggerをtrueにして斜め移動処理を可能にする
@@ -181,6 +181,9 @@ public class CirsorController : MonoBehaviour {
                     keyTimer = 0.0f; //キー入力不可タイマーの値をリセットする
                 }
             }
+        } else
+        {
+            debugKey = false;
         }
     }
         

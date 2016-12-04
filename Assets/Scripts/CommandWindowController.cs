@@ -39,12 +39,16 @@ public class CommandWindowController : MonoBehaviour {
 
         } else if(stateNumber == 2)
         {
-            chara.stateCount--;
-            chara.moveState();
+            chara.MenuEnd();
+            chara.ReturnPos();
+            chara.stateCount = 0;
+            chara.MoveState();
         } else if(stateNumber == 3)
         {
+            chara.EndAct();
+            chara.MenuEnd();
             chara.Initialize();
-            chara.moveState();
+            chara.MoveState();
         }
     }
 }
