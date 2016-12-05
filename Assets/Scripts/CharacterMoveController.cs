@@ -11,6 +11,7 @@ public class CharacterMoveController : MonoBehaviour {
     [SerializeField] private MovableScript movableScript;
     [SerializeField] private CirsorController cirsorController;
     [SerializeField] private UnitController unit;
+    [SerializeField] private GameController gm;
     [SerializeField] private GameObject cirsor;
     [SerializeField] private GameObject window;
     [SerializeField] private GameObject eventSystem;
@@ -59,102 +60,109 @@ public class CharacterMoveController : MonoBehaviour {
 
     void Update()
     {
-        MoveSearch();
-
-        if (!unit.playerController[unitNumber].isAct)
+        /// <summary>
+        /// Playerターンなら
+        /// </summary>
+        if (gm.playerTurn)
         {
-            switch (playerState)
+            MoveSearch();
+
+            if (!unit.playerController[unitNumber].isAct)
             {
-                case PlayerState.START:
-                    // ステート番号
-                    stateCount = 0;
+                switch (playerState)
+                {
+                    case PlayerState.START:
+                        // ステート番号
+                        stateCount = 0;
 
-                    /// <summary>
-                    /// カーソル判定
-                    /// </summary>
-                    if (x == cirsorX && z == cirsorZ)
-                    {
-                        isCirsor = true;
-                        color = 1;
-
-                    }
-                    else
-                    {
-                        Initialize();
-                        isMove = false;
-                        isCirsor = false;
-                        color = 0;
-                    }
-
-                    // キャラ上でボタンを押したらMOVEに移る
-                    if (Input.GetButtonDown("Submit") && isCirsor && stateCount == 0)
-                    {
-                        isMove = true;
-                        playerState = PlayerState.MOVE;     // ステート移動
-                    }
-
-                    // 色塗り
-                    ChangeColor(color);
-                    map.DrawMap();
-                    break;
-
-                case PlayerState.MOVE:
-                    // ステート番号
-                    stateCount = 1;
-
-                    /// <summary>
-                    /// 探索
-                    /// </summary>
-                    if (map.block[cirsorX, cirsorZ].movable)
-                    {
                         /// <summary>
-                        /// 移動処理
+                        /// カーソル判定
                         /// </summary>
-                        if (Input.GetButtonDown("Submit") && isMove)
+                        if (x == cirsorX && z == cirsorZ)
                         {
-                            backPos = unitObj.transform.position;    // posを保存しておく
-                            // カーソルの位置にキャラを移動
-                            pos.x = cirsorX * div;
-                            pos.y = 8F;
-                            pos.z = cirsorZ * div;
-                            unitObj.transform.position = pos;
-                            isMove = false;
-                            Initialize();
-                            playerState = PlayerState.MENU;         // ステート移動
+                            isCirsor = true;
+                            color = 1;
+
                         }
-                    }
+                        else
+                        {
+                            Initialize();
+                            isMove = false;
+                            isCirsor = false;
+                            color = 0;
+                        }
 
-                    // 色塗り
-                    color = 2;
-                    ChangeColor(color);
-                    map.DrawMap();
-                    break;
+                        // キャラ上でボタンを押したらMOVEに移る
+                        if (Input.GetButtonDown("Submit") && isCirsor && stateCount == 0)
+                        {
+                            isMove = true;
+                            playerState = PlayerState.MOVE;     // ステート移動
+                        }
 
-                case PlayerState.MENU:
-                    // ステート番号
-                    stateCount = 2;
-                    Initialize();
-                    // メニュー関数を実行
-                    MenuFunc();
+                        // 色塗り
+                        ChangeColor(color);
+                        map.DrawMap();
+                        break;
 
-                    // 色塗り
-                    color = 0;
-                    ChangeColor(color);
-                    map.DrawMap();
-                    break;
+                    case PlayerState.MOVE:
+                        // ステート番号
+                        stateCount = 1;
+
+                        /// <summary>
+                        /// 探索
+                        /// </summary>
+                        if (map.block[cirsorX, cirsorZ].movable)
+                        {
+                            /// <summary>
+                            /// 移動処理
+                            /// </summary>
+                            if (Input.GetButtonDown("Submit") && isMove)
+                            {
+                                backPos = unitObj.transform.position;    // posを保存しておく
+                                                                         // カーソルの位置にキャラを移動
+                                pos.x = cirsorX * div;
+                                pos.y = 8F;
+                                pos.z = cirsorZ * div;
+                                unitObj.transform.position = pos;
+                                isMove = false;
+                                Initialize();
+                                playerState = PlayerState.MENU;         // ステート移動
+                            }
+                        }
+
+                        // 色塗り
+                        color = 2;
+                        ChangeColor(color);
+                        map.DrawMap();
+                        break;
+
+                    case PlayerState.MENU:
+                        // ステート番号
+                        stateCount = 2;
+                        Initialize();
+                        // メニュー関数を実行
+                        MenuFunc();
+
+                        // 色塗り
+                        color = 0;
+                        ChangeColor(color);
+                        map.DrawMap();
+                        break;
+                }
+
+                /// <summary>
+                /// キャンセル
+                /// </summary>
+                if (Input.GetButtonDown("Cancel"))
+                {
+                    stateCount--;
+                    // キャンセル後のstate移動
+                    MoveState();
+                }
+                map.DrawMap();
             }
-
-            /// <summary>
-            /// キャンセル
-            /// </summary>
-            if (Input.GetButtonDown("Cancel"))
-            {
-                stateCount--;
-                // キャンセル後のstate移動
-                MoveState();
-            }
-            map.DrawMap();
         }
+        
     }
 
     /// <summary>
