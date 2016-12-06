@@ -7,8 +7,9 @@ public class CirsorController : MonoBehaviour {
     [SerializeField] private MapController map;
     [SerializeField] private CharacterMoveController chara;
 
+    private PlayerController player;
     public bool debugKey = false;
-    public Vector3 targetPos = new Vector3(0.0f, 0.0F, 0.0f); //プレイヤーのターゲット座標
+    public Vector2 targetPos = new Vector2(0.0F,0.0F); //プレイヤーのターゲット座標
     public Vector3 moveVec = new Vector3(0.0f, 0.0f, 0.0f); //プレイヤーの移動ベクトル
     public float speed = 0.0625f; //（デフォルト値0.5f）遅くするには[0.25][0.125][0.0625]と元の数字を２で割ってやる
     public float threshold = 0.05f; //ブロック停止座標のしきい値を設定speedの設定値に応じて精度を変える
@@ -17,21 +18,100 @@ public class CirsorController : MonoBehaviour {
     private float keyTimer = 0.0f; //キー入力不可時間カウント用タイマーを入れる入れ物
     public bool slantingTrigger = false; //斜め移動（Rボタン・Lキー）が押されたときのトリガーフラグ
     public float moveSpeed = 10.0F;
-    
+
+    public Vector2 cirsorPos = new Vector2(0, 0);
     public int unitCount = 0;
 
-    void Start()
-    {
-        transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
-        unitCount = 0;
-        targetPos = new Vector3(0.0f,25, 0.0f);
-    }
+
+
+
+    private Vector3 startPos;
+    private Vector3 endPos;
+    private bool isMove = false;
+    private int size = 10;
+    private float rate = 10F;
+
+
+
 
     void Update()
     {
         for (int i = 0; i < unit.playerObj.Length; i++)
         {
-            if (Mathf.RoundToInt(unit.playerObj[i].transform.position.x)  == Mathf.RoundToInt(this.transform.position.x) && Mathf.RoundToInt(unit.playerObj[i].transform.position.z) == Mathf.RoundToInt(this.transform.position.z) && !unit.playerController[i].isAct)
+            if (Mathf.RoundToInt(unit.playerController[i].unitPos.x) == Mathf.RoundToInt(cirsorPos.x) && Mathf.RoundToInt(unit.playerController[i].unitPos.y) == Mathf.RoundToInt(cirsorPos.y) && !unit.playerController[i].isAct)
+            {
+                unit.selectUnit = i;
+                unitCount = i;
+            }
+        }
+
+        if (chara.stateCount != 2)
+        {
+            if (!isMove)
+            {
+                // transform.position = startPos;
+                if (Input.GetAxis("Horizontal") >= 0.8 || Input.GetKey(KeyCode.RightArrow))
+                { //キー入力が「→」
+                    isMove = true;
+                    cirsorPos = new Vector2(cirsorPos.x + 1, cirsorPos.y);
+                    // endPos = new Vector3(startPos.x + size, startPos.y, startPos.z);
+                }
+                if (Input.GetAxis("Horizontal") <= -0.8 || Input.GetKey(KeyCode.LeftArrow))
+                { //キー入力が「←」
+                    isMove = true;
+                    cirsorPos = new Vector2(cirsorPos.x - 1, cirsorPos.y);
+                    // endPos = new Vector3(startPos.x - size, startPos.y, startPos.z);
+                }
+                if (Input.GetAxis("Vertical") >= 0.8 || Input.GetKey(KeyCode.UpArrow))
+                { //キー入力が「↑」
+                    isMove = true;
+                    cirsorPos = new Vector2(cirsorPos.x, cirsorPos.y + 1);
+                    //endPos = new Vector3(startPos.x, startPos.y, startPos.z + size);
+
+                }
+                if (Input.GetAxis("Vertical") <= -0.8 || Input.GetKey(KeyCode.DownArrow))
+                { //キー入力が「↑」
+                    isMove = true;
+                    cirsorPos = new Vector2(cirsorPos.x, cirsorPos.y - 1);
+                    //endPos = new Vector3(startPos.x, startPos.y, startPos.z - size);
+                }
+            }
+            
+            if (isMove)
+            {
+                Invoke("MoveChange", 1F);
+            }
+            transform.position = new Vector3(cirsorPos.x * size * 1, transform.position.y, cirsorPos.y * size * 1);
+        }
+    }
+
+    public void MoveChange()
+    {
+        isMove = false;
+    }
+
+
+
+
+
+
+
+
+
+
+    void Start()
+    {
+        transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
+        unitCount = 0;
+        targetPos = new Vector3(0.0f,0.0f);
+        player = unit.GetComponent<PlayerController>();
+    }
+
+    void Update2()
+    {
+        for (int i = 0; i < unit.playerObj.Length; i++)
+        {
+            if (Mathf.RoundToInt(unit.playerController[i].unitPos.x)  == Mathf.RoundToInt(cirsorPos.x) && Mathf.RoundToInt(unit.playerController[i].unitPos.y) == Mathf.RoundToInt(cirsorPos.y) && !unit.playerController[i].isAct)
             {
                 unit.selectUnit = i;
                 unitCount = i;
@@ -60,7 +140,7 @@ public class CirsorController : MonoBehaviour {
                   //Debug.Log(“右斜め上”);
                     dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                     targetPos.x += moveSpeed; //目標座標Xに１
-                    targetPos.z += moveSpeed; //目標座標Zに１
+                    targetPos.y += moveSpeed; //目標座標Zに１
                     moveVec.x = 0.5f; //移動ベクトルXに0.5代入
                     moveVec.z = 0.5f; //移動ベクトルZに0.5代入
 
@@ -71,7 +151,7 @@ public class CirsorController : MonoBehaviour {
                   //Debug.Log (“左斜め上”);
                     dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                     targetPos.x -= moveSpeed; //目標座標Xに-１
-                    targetPos.z += moveSpeed; //目標座標Zに１
+                    targetPos.y += moveSpeed; //目標座標Zに１
                     moveVec.x = -0.5f; //移動ベクトルXに-0.5代入
                     moveVec.z = 0.5f; //移動ベクトルZに0.5代入
 
@@ -82,7 +162,7 @@ public class CirsorController : MonoBehaviour {
                   //Debug.Log(“右斜め下”);
                     dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                     targetPos.x += moveSpeed; //目標座標Xに１
-                    targetPos.z -= moveSpeed; //目標座標Zに-１
+                    targetPos.y -= moveSpeed; //目標座標Zに-１
                     moveVec.x = 0.5f; //移動ベクトルXに0.5代入
                     moveVec.z = -0.5f; //移動ベクトルZに-0.5代入
 
@@ -93,7 +173,7 @@ public class CirsorController : MonoBehaviour {
                   //Debug.Log (“左斜め下”);
                     dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                     targetPos.x -= moveSpeed; //目標座標Xに-１
-                    targetPos.z -= moveSpeed; //目標座標Zに-１
+                    targetPos.y -= moveSpeed; //目標座標Zに-１
                     moveVec.x = -0.5f; //移動ベクトルXに-0.5代入
                     moveVec.z = -0.5f; //移動ベクトルZに-0.5代入
 
@@ -109,7 +189,7 @@ public class CirsorController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") >= 0.8 || Input.GetKey(KeyCode.RightArrow))
                 { //キー入力が「→」
-                    if (transform.position.x == targetPos.x)
+                    if (cirsorPos.x == targetPos.x)
                     { //今のX座標とターゲットX座標が同じなら
                         dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                         targetPos.x += moveSpeed; //目標座標Xに１
@@ -118,7 +198,7 @@ public class CirsorController : MonoBehaviour {
                 }
                 else if (Input.GetAxis("Horizontal") <= -0.8 || Input.GetKey(KeyCode.LeftArrow))
                 { //キー入力が「←」
-                    if (transform.position.x == targetPos.x)
+                    if (cirsorPos.x == targetPos.x)
                     { //今のX座標とターゲットX座標が同じなら
                         dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
                         targetPos.x -= moveSpeed; //目標座標Xに-１
@@ -127,31 +207,31 @@ public class CirsorController : MonoBehaviour {
                 }
                 else if (Input.GetAxis("Vertical") >= 0.8 || Input.GetKey(KeyCode.UpArrow))
                 { //キー入力が「↑」
-                    if (transform.position.z == targetPos.z)
+                    if (cirsorPos.y == targetPos.y)
                     { //今のZ座標とターゲットZ座標が同じなら
                         dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
-                        targetPos.z += moveSpeed; //目標座標Zに１
+                        targetPos.y += moveSpeed; //目標座標Zに１
                         moveVec.z = 1.0f; //移動ベクトルXに1代入
                     }
                 }
                 else if (Input.GetAxis("Vertical") <= -0.8 || Input.GetKey(KeyCode.DownArrow))
                 { //キー入力が「↓」
-                    if (transform.position.z == targetPos.z)
+                    if (cirsorPos.y == targetPos.y)
                     { //今のZ座標とターゲットZ座標が同じなら
                         dontPlayKey = true; //操作不化可能判定フラグをtrueにしてキー操作を受け付けなくする
-                        targetPos.z -= moveSpeed; //目標座標Zに-１
+                        targetPos.y -= moveSpeed; //目標座標Zに-１
                         moveVec.z = -1.0f; //移動ベクトルZに-1代入
                     }
                 }
 
             }
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
-            if (transform.position.x != targetPos.x)
+            if (cirsorPos.x != targetPos.x)
             { //今の座標がtargetPos.xと違うなら
                 transform.Translate(moveVec * speed); //移動処理
             }
-            else if (transform.position.x + transform.position.x + threshold >= targetPos.x ||
-          transform.position.x + transform.position.x - threshold <= targetPos.x)
+            else if (cirsorPos.x + cirsorPos.x + threshold >= targetPos.x ||
+          cirsorPos.x + cirsorPos.x - threshold <= targetPos.x)
             { //数値狂い対策でしきい値を含めた（又は引いた）値以上（以下）なら
 
                 keyTimer += Time.deltaTime; //キー入力不可タイマー発動
@@ -164,12 +244,12 @@ public class CirsorController : MonoBehaviour {
                 }
             }
 
-            if (transform.position.z != targetPos.z)
+            if (cirsorPos.y != targetPos.y)
             { //今の座標がtargetPos.xと違うなら
                 transform.Translate(moveVec * speed); //移動処理
             }
-            else if (transform.position.x + transform.position.z + threshold >= targetPos.z ||
-          transform.position.x + transform.position.z - threshold <= targetPos.z)
+            else if (cirsorPos.x + cirsorPos.y + threshold >= targetPos.y ||
+          cirsorPos.y + cirsorPos.y - threshold <= targetPos.y)
             { //数値狂い対策でしきい値を含めた（又は引いた）値以上（以下）
 
                 keyTimer += Time.deltaTime; //キー入力不可タイマー発動

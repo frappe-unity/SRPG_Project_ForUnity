@@ -15,13 +15,23 @@ MonoBehaviour:
   map: {x: 20, y: 20}
   entryPlayer:
   - playerID: 0
+    charaName: "\u30A2\u30EA\u30FC\u30B7\u30E3"
     playerPos: {x: 4, y: 4}
+    hp: 18
+    attack: 5
+    deffence: 4
+    hit: 6
+    moveCost: 5
   - playerID: 1
-    playerPos: {x: 5, y: 5}
+    charaName: "\u30A4\u30B6\u30D9\u30E9"
+    playerPos: {x: 5, y: 6}
+    hp: 24
+    attack: 8
+    deffence: 6
+    hit: 6
+    moveCost: 7
   entryEnemy:
   - enemyID: 0
-    enemyPos: {x: 10, y: 7}
+    enemyPos: {x: 0, y: 0}
   - enemyID: 0
-    enemyPos: {x: 14, y: 12}
-  - enemyID: 0
-    enemyPos: {x: 18, y: 16}
+    enemyPos: {x: 0, y: 0}

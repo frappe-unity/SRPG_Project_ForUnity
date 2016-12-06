@@ -17,7 +17,14 @@ public class MapData : ScriptableObject {
 public class PlayerSet
 {
     public int playerID;
+    public string charaName;
     public Vector2 playerPos;
+    public int hp;
+    public int attack;
+    public int deffence;
+    public int hit;
+    public int moveCost;
+
 }
 
 [System.Serializable]

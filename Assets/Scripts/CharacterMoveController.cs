@@ -11,6 +11,7 @@ public class CharacterMoveController : MonoBehaviour {
     [SerializeField] private MovableScript movableScript;
     [SerializeField] private CirsorController cirsorController;
     [SerializeField] private UnitController unit;
+    [SerializeField] private PlayerController player;
     [SerializeField] private GameController gm;
     [SerializeField] private GameObject cirsor;
     [SerializeField] private GameObject window;
@@ -34,9 +35,9 @@ public class CharacterMoveController : MonoBehaviour {
     /// ユニット情報
     /// </summary>
     public int x = 0;
-    public int z = 0;
+    public int y = 0;
     public int cirsorX = 0;
-    public int cirsorZ = 0;
+    public int cirsorY = 0;
 
     public Vector3 pos;
     public Vector3 backPos;
@@ -78,7 +79,7 @@ public class CharacterMoveController : MonoBehaviour {
                         /// <summary>
                         /// カーソル判定
                         /// </summary>
-                        if (x == cirsorX && z == cirsorZ)
+                        if (x == cirsorX && y == cirsorY)
                         {
                             isCirsor = true;
                             color = 1;
@@ -111,7 +112,7 @@ public class CharacterMoveController : MonoBehaviour {
                         /// <summary>
                         /// 探索
                         /// </summary>
-                        if (map.block[cirsorX, cirsorZ].movable)
+                        if (map.block[cirsorX, cirsorY].movable)
                         {
                             /// <summary>
                             /// 移動処理
@@ -122,7 +123,7 @@ public class CharacterMoveController : MonoBehaviour {
                                                                          // カーソルの位置にキャラを移動
                                 pos.x = cirsorX * div;
                                 pos.y = 8F;
-                                pos.z = cirsorZ * div;
+                                pos.z = cirsorY * div;
                                 unitObj.transform.position = pos;
                                 isMove = false;
                                 Initialize();
@@ -177,12 +178,18 @@ public class CharacterMoveController : MonoBehaviour {
         /// </summary>
         unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
         unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+        /*
         x = Mathf.FloorToInt(unitObj.transform.position.x) / div;       // ユニットのX座標
         z = Mathf.FloorToInt(unitObj.transform.position.z) / div;       // ユニットのZ座標
         cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;  // カーソルのX座標
         cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;  // カーソルのZ座標
+        */
+        x = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.x);       // ユニットのX座標
+        y = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.y);       // ユニットのZ座標
+        cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x) / div;  // カーソルのX座標
+        cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y) / div;  // カーソルのZ座標
 
-        movableScript.moveSearch(x, z, unit.playerController[unitNumber].moveCost);
+        movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost);
     }
 
     /// <summary>

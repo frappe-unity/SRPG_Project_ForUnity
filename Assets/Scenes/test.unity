@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692558, g: 0.49678743, b: 0.57508624, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -633,7 +633,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69830cca6e1d3c4ab50c974b9ba8078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapdata: {fileID: 11400000, guid: e7240ae25e082db438b7066a977c0a5c, type: 2}
   playerController: []
+  entryPlayer: []
   playerObj: []
   selectUnit: 0
   isUnit: 0
@@ -925,6 +927,7 @@ MonoBehaviour:
   movableScript: {fileID: 829210541}
   cirsorController: {fileID: 1902271179}
   unit: {fileID: 368118498}
+  player: {fileID: 0}
   gm: {fileID: 2010087815}
   cirsor: {fileID: 1902271174}
   window: {fileID: 630870978}
@@ -935,9 +938,9 @@ MonoBehaviour:
   stateCount: 0
   unitNumber: 0
   x: 0
-  z: 0
+  y: 0
   cirsorX: 0
-  cirsorZ: 0
+  cirsorY: 0
   pos: {x: 0, y: 0, z: 0}
   backPos: {x: 0, y: 0, z: 0}
   playerState: 0
@@ -1101,9 +1104,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charaID: 0
+  name: test
+  unitPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
+  hit: 0
   moveCost: 5
   isAct: 0
 --- !u!23 &633690536
@@ -1167,7 +1173,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1326207724}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &797717646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,9 +1528,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charaID: 0
+  name: test
+  unitPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
+  hit: 0
   moveCost: 5
   isAct: 0
 --- !u!23 &971558278
@@ -1607,9 +1616,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charaID: 0
+  name: test
+  unitPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
+  hit: 0
   moveCost: 5
   isAct: 0
 --- !u!23 &1072185427
@@ -1701,7 +1713,6 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1072185430}
-  - {fileID: 1762371951}
   - {fileID: 633690539}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -2054,9 +2065,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charaID: 0
+  name: test
+  unitPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
+  hit: 0
   moveCost: 5
   isAct: 0
 --- !u!23 &1520356293
@@ -2108,104 +2122,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1520356290}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1762371946
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1762371951}
-  - 33: {fileID: 1762371950}
-  - 136: {fileID: 1762371949}
-  - 23: {fileID: 1762371948}
-  - 114: {fileID: 1762371947}
-  m_Layer: 0
-  m_Name: Aike
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1762371947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762371946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dbef02f198f5d541a58b8fcdc830f67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charaID: 0
-  hp: 18
-  attack: 7
-  deffence: 4
-  moveCost: 5
-  isAct: 0
---- !u!23 &1762371948
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762371946}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 74d66cbec7b632046a7a6323d3b78793, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!136 &1762371949
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762371946}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &1762371950
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762371946}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1762371951
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762371946}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 80, y: 8, z: 60}
-  m_LocalScale: {x: 8, y: 8, z: 8}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 1326207724}
-  m_RootOrder: 1
 --- !u!1 &1847679547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,7 +2381,7 @@ MonoBehaviour:
   map: {fileID: 829210540}
   chara: {fileID: 570525674}
   debugKey: 0
-  targetPos: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0}
   moveVec: {x: 0, y: 0, z: 0}
   speed: 1
   threshold: 0.4
@@ -2473,6 +2389,7 @@ MonoBehaviour:
   KeytimerMax: 0.1
   slantingTrigger: 0
   moveSpeed: 10
+  cirsorPos: {x: 0, y: 0}
   unitCount: 0
 --- !u!1 &1966789335
 GameObject:
