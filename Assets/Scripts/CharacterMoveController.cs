@@ -181,6 +181,7 @@ public class CharacterMoveController : MonoBehaviour {
         cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x);  // カーソルのX座標
         cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
 
+        unit.UnitMovable();
         movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost);
     }
 

@@ -1377,6 +1377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e75f341a68ea047a52b25b440f5671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 829210540}
+  unit: {fileID: 368118498}
   stepCount: 0
 --- !u!1 &840126347
 GameObject:
@@ -2630,6 +2632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e75f341a68ea047a52b25b440f5671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 0}
+  unit: {fileID: 0}
   stepCount: 0
 --- !u!114 &2013951582
 MonoBehaviour:

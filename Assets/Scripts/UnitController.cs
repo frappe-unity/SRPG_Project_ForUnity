@@ -20,8 +20,17 @@ public class UnitController : MonoBehaviour {
     public bool isUnit = false;
     public int stayCount = 0;
 
-	// Use this for initialization
-	void Start () {
+    public class MapUnit
+    {
+        // public int height = 1; // 高さ
+        // public int blockNum = 0; // ブロックの種類
+        public bool movable = false; // 移動可能フラグ 
+    }
+
+    public MapUnit[,] mapUnit = new MapUnit[20, 20];
+
+    // Use this for initialization
+    void Start () {
         playerObj = GameObject.FindGameObjectsWithTag("Player");
         enemyObj = GameObject.FindGameObjectsWithTag("Enemy");
         // プレイヤー
@@ -51,6 +60,34 @@ public class UnitController : MonoBehaviour {
             enemyController[i].hit = mapdata.entryEnemy[i].hit;
             enemyController[i].moveCost = mapdata.entryEnemy[i].moveCost;
             enemyController[i].enemyPos = mapdata.entryEnemy[i].enemyPos;
+        }
+        for (int x = 0; x < 20; x++)
+        {
+            for (int y = 0; y < 20; y++)
+            {
+                mapUnit[x, y] = new MapUnit();
+            }
+        }
+    }
+
+    public void UnitMovable()
+    {
+        for (int x = 0; x < 20; x++)
+        {
+            for (int y = 0; y < 20; y++)
+            {
+                mapUnit[x, y].movable = true;
+            }
+        }
+        // プレイヤー
+        for (int i = 0; i < playerObj.Length; i++)
+        {
+            mapUnit[Mathf.FloorToInt(playerController[i].unitPos.x), Mathf.FloorToInt(playerController[i].unitPos.y)].movable = false;
+        }
+        // エネミー
+        for (int i = 0; i < enemyObj.Length; i++)
+        {
+            mapUnit[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
         }
     }
 }

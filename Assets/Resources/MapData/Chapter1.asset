@@ -41,7 +41,7 @@ MonoBehaviour:
     moveCost: 5
   - enemyID: 0
     enemyName: "\u30DC\u30B9"
-    enemyPos: {x: 18, y: 18}
+    enemyPos: {x: 3, y: 4}
     hp: 16
     attack: 6
     deffence: 4
