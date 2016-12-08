@@ -31,5 +31,11 @@ public class PlayerSet
 public class EnemySet
 {
     public int enemyID;
+    public string enemyName;
     public Vector2 enemyPos;
+    public int hp;
+    public int attack;
+    public int deffence;
+    public int hit;
+    public int moveCost;
 }

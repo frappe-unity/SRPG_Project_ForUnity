@@ -32,6 +32,18 @@ MonoBehaviour:
     moveCost: 7
   entryEnemy:
   - enemyID: 0
-    enemyPos: {x: 0, y: 0}
+    enemyName: "\u5C71\u8CCA"
+    enemyPos: {x: 8, y: 8}
+    hp: 12
+    attack: 5
+    deffence: 3
+    hit: 4
+    moveCost: 5
   - enemyID: 0
-    enemyPos: {x: 0, y: 0}
+    enemyName: "\u30DC\u30B9"
+    enemyPos: {x: 18, y: 18}
+    hp: 16
+    attack: 6
+    deffence: 4
+    hit: 5
+    moveCost: 5

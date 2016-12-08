@@ -635,8 +635,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapdata: {fileID: 11400000, guid: e7240ae25e082db438b7066a977c0a5c, type: 2}
   playerController: []
+  enemyController: []
   entryPlayer: []
+  entryEnemy: []
   playerObj: []
+  enemyObj: []
   selectUnit: 0
   isUnit: 0
   stayCount: 0
@@ -1524,12 +1527,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 971558275}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dbef02f198f5d541a58b8fcdc830f67, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a99f11f4084b844980bcf58b928bc64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charaID: 0
+  enemyID: 0
   name: test
-  unitPos: {x: 0, y: 0}
+  enemyPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
@@ -2061,12 +2064,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1520356290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dbef02f198f5d541a58b8fcdc830f67, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a99f11f4084b844980bcf58b928bc64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charaID: 0
+  enemyID: 0
   name: test
-  unitPos: {x: 0, y: 0}
+  enemyPos: {x: 0, y: 0}
   hp: 18
   attack: 7
   deffence: 4
@@ -2380,16 +2383,9 @@ MonoBehaviour:
   unit: {fileID: 368118498}
   map: {fileID: 829210540}
   chara: {fileID: 570525674}
-  debugKey: 0
-  moveVec: {x: 0, y: 0, z: 0}
-  speed: 1
-  threshold: 0.4
-  dontPlayKey: 0
-  KeytimerMax: 0.1
-  slantingTrigger: 0
-  moveSpeed: 10
   cirsorPos: {x: 0, y: 0}
   unitCount: 0
+  isMove: 0
   cirsorSpeed: 60
 --- !u!1 &1966789335
 GameObject:
