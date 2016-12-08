@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692558, g: 0.49678743, b: 0.57508624, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   cirsorX: 0
   cirsorY: 0
   pos: {x: 0, y: 0, z: 0}
-  backPos: {x: 0, y: 0, z: 0}
+  savePos: {x: 0, y: 0}
   playerState: 0
 --- !u!1 &630870978
 GameObject:
@@ -2381,7 +2381,6 @@ MonoBehaviour:
   map: {fileID: 829210540}
   chara: {fileID: 570525674}
   debugKey: 0
-  targetPos: {x: 0, y: 0}
   moveVec: {x: 0, y: 0, z: 0}
   speed: 1
   threshold: 0.4
@@ -2391,6 +2390,7 @@ MonoBehaviour:
   moveSpeed: 10
   cirsorPos: {x: 0, y: 0}
   unitCount: 0
+  cirsorSpeed: 60
 --- !u!1 &1966789335
 GameObject:
   m_ObjectHideFlags: 0

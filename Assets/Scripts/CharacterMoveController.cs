@@ -40,7 +40,7 @@ public class CharacterMoveController : MonoBehaviour {
     public int cirsorY = 0;
 
     public Vector3 pos;
-    public Vector3 backPos;
+    public Vector2 savePos;
     private int div = 10;
     private float divF = 10F;
 
@@ -119,12 +119,9 @@ public class CharacterMoveController : MonoBehaviour {
                             /// </summary>
                             if (Input.GetButtonDown("Submit") && isMove)
                             {
-                                backPos = unitObj.transform.position;    // posを保存しておく
-                                                                         // カーソルの位置にキャラを移動
-                                pos.x = cirsorX * div;
-                                pos.y = 8F;
-                                pos.z = cirsorY * div;
-                                unitObj.transform.position = pos;
+                                savePos = unit.playerController[unitNumber].unitPos;    // posを保存しておく
+                                                                                        // カーソルの位置にキャラを移動
+                                unit.playerController[unitNumber].unitPos = cirsorController.cirsorPos;
                                 isMove = false;
                                 Initialize();
                                 playerState = PlayerState.MENU;         // ステート移動
@@ -178,16 +175,11 @@ public class CharacterMoveController : MonoBehaviour {
         /// </summary>
         unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
         unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
-        /*
-        x = Mathf.FloorToInt(unitObj.transform.position.x) / div;       // ユニットのX座標
-        z = Mathf.FloorToInt(unitObj.transform.position.z) / div;       // ユニットのZ座標
-        cirsorX = Mathf.FloorToInt(cirsor.transform.position.x) / div;  // カーソルのX座標
-        cirsorZ = Mathf.FloorToInt(cirsor.transform.position.z) / div;  // カーソルのZ座標
-        */
+        
         x = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.x);       // ユニットのX座標
         y = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.y);       // ユニットのZ座標
-        cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x) / div;  // カーソルのX座標
-        cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y) / div;  // カーソルのZ座標
+        cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x);  // カーソルのX座標
+        cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
 
         movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost);
     }
@@ -205,7 +197,7 @@ public class CharacterMoveController : MonoBehaviour {
         else if (stateCount == 1)
         {
             playerState = PlayerState.MOVE;
-            pos = backPos;
+            pos = savePos;
         }
     }
 
@@ -240,9 +232,9 @@ public class CharacterMoveController : MonoBehaviour {
     public void ReturnPos()
     {
         isMove = true;
-        unitObj.transform.position = backPos;
-        cirsor.transform.position = new Vector3(backPos.x, cirsor.transform.position.y, backPos.z);
-        cirsorController.targetPos = new Vector3(backPos.x, cirsorController.targetPos.y, backPos.z);
+        unit.playerController[unitNumber].unitPos = savePos;
+        cirsor.transform.position = new Vector3(savePos.x * div, cirsor.transform.position.y, savePos.y * div);
+        cirsorController.cirsorPos = new Vector3(savePos.x, cirsorController.cirsorPos.y, savePos.y);
     }
 
     /// <summary>
