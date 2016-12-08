@@ -197,7 +197,6 @@ public class CharacterMoveController : MonoBehaviour {
         else if (stateCount == 1)
         {
             playerState = PlayerState.MOVE;
-            pos = savePos;
         }
     }
 
@@ -234,7 +233,10 @@ public class CharacterMoveController : MonoBehaviour {
         isMove = true;
         unit.playerController[unitNumber].unitPos = savePos;
         cirsor.transform.position = new Vector3(savePos.x * div, cirsor.transform.position.y, savePos.y * div);
-        cirsorController.cirsorPos = new Vector3(savePos.x, cirsorController.cirsorPos.y, savePos.y);
+        cirsorController.cirsorPos = new Vector2(savePos.x, savePos.y);
+        cirsorController.isMove = true;
+        cirsorController.Move();
+        Initialize();
     }
 
     /// <summary>
@@ -278,9 +280,9 @@ public class CharacterMoveController : MonoBehaviour {
     /// </summary>
     public void Initialize()
     {
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < 20; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < 20; y++)
             {
                 map.block[x, y].movable = false;
                 map.block[x, y].step = -1;
