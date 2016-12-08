@@ -286,7 +286,7 @@ public class CharacterMoveController : MonoBehaviour {
             for (int y = 0; y < 20; y++)
             {
                 map.block[x, y].movable = false;
-                map.block[x, y].step = -1;
+                // map.block[x, y].step = -1;
             }
         }
         ChangeColor(0);

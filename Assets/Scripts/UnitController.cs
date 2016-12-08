@@ -80,10 +80,10 @@ public class UnitController : MonoBehaviour {
             }
         }
         // プレイヤー
-        for (int i = 0; i < playerObj.Length; i++)
+        /*for (int i = 0; i < playerObj.Length; i++)
         {
             mapUnit[Mathf.FloorToInt(playerController[i].unitPos.x), Mathf.FloorToInt(playerController[i].unitPos.y)].movable = false;
-        }
+        }*/
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
         {
