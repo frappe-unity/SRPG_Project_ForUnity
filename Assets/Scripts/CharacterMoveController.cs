@@ -66,7 +66,11 @@ public class CharacterMoveController : MonoBehaviour {
         /// </summary>
         if (gm.playerTurn)
         {
-            MoveSearch();
+            if(stateCount != 2)
+            {
+                MoveSearch();
+            }
+            
 
             if (!unit.playerController[unitNumber].isAct)
             {
@@ -99,9 +103,7 @@ public class CharacterMoveController : MonoBehaviour {
                             isMove = true;
                             playerState = PlayerState.MOVE;     // ステート移動
                         }
-
-                        // 色塗り
-                        ChangeColor(color);
+                        
                         map.DrawMap();
                         break;
 
@@ -124,27 +126,21 @@ public class CharacterMoveController : MonoBehaviour {
                                 unit.playerController[unitNumber].unitPos = cirsorController.cirsorPos;
                                 isMove = false;
                                 Initialize();
+                                MenuFunc();
                                 playerState = PlayerState.MENU;         // ステート移動
                             }
                         }
 
                         // 色塗り
-                        color = 2;
-                        ChangeColor(color);
                         map.DrawMap();
                         break;
 
                     case PlayerState.MENU:
+                        Initialize();
+                        AttackRange();
                         // ステート番号
                         stateCount = 2;
-                        Initialize();
                         // メニュー関数を実行
-                        MenuFunc();
-
-                        // 色塗り
-                        color = 0;
-                        ChangeColor(color);
-                        map.DrawMap();
                         break;
                 }
 
@@ -182,7 +178,7 @@ public class CharacterMoveController : MonoBehaviour {
         cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
 
         unit.UnitMovable();
-        movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost);
+        movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost, stateCount);
     }
 
     /// <summary>
@@ -219,7 +215,7 @@ public class CharacterMoveController : MonoBehaviour {
         isMenu = false;
         eventSystem.SetActive(true);
         window.SetActive(false);
-        stateCount = 0;
+        //stateCount = 0;
     }
 
     public void EndAct()
@@ -241,40 +237,15 @@ public class CharacterMoveController : MonoBehaviour {
     }
 
     /// <summary>
-    /// 色変え
+    /// 攻撃範囲取得
     /// </summary>
-    public void ChangeColor(int i)
+    public void AttackRange()
     {
-        // 1なら濃い青
-        if (i == 1)
-        {
-            map.isAlpha = false;
-            map.colorR = 0F;
-            map.colorG = 0.5F;
-            map.colorB = 1.0F;
-            map.alphaA = 0.7F;
-        }
-
-        // 2なら水色
-        else if (i == 2)
-        {
-            map.isAlpha = false;
-            map.colorR = 0.5F;
-            map.colorG = 1F;
-            map.colorB = 1F;
-            map.alphaA = 0.7F;
-        }
-
-        // 0なら透明
-        else if (i == 0)
-        {
-            map.isAlpha = true;
-            map.colorR = 1F;
-            map.colorG = 1F;
-            map.colorB = 1F;
-            map.alphaA = 0F;
-        }
+        Initialize();
+        movableScript.AttackRange(x, y, 2);
+        map.DrawMap();
     }
+    
 
     /// <summary>
     /// 初期化
@@ -286,10 +257,9 @@ public class CharacterMoveController : MonoBehaviour {
             for (int y = 0; y < 20; y++)
             {
                 map.block[x, y].movable = false;
-                // map.block[x, y].step = -1;
+                map.block[x, y].color = 0;
             }
         }
-        ChangeColor(0);
         map.DrawMap();         
     }
 }

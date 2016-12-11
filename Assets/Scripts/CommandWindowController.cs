@@ -36,8 +36,10 @@ public class CommandWindowController : MonoBehaviour {
         chara.MenuEnd();
         if (stateNumber == 1)
         {
-
-        } else if(stateNumber == 2)
+            chara.AttackRange();
+            chara.MenuEnd();
+        }
+        else if(stateNumber == 2)
         {
             chara.MenuEnd();
             chara.ReturnPos();

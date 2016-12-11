@@ -22,10 +22,11 @@ public class MapController : MonoBehaviour {
 	public float alphaA = 0;
 
 	public class Block{
-		public int height = 1; // 高さ
-		public int blockNum = 0; // ブロックの種類
+		public int color = 3; // 色
+		public int blockNum = 0; // 高さ(重み)
 		public int step = 0; // ステップ格納 
 		public bool movable = false; // 移動可能フラグ 
+        public bool attackable = false;
 	}
 
 	public Block[,] block = new Block[m_Width,m_Height] ;
@@ -41,24 +42,24 @@ public class MapController : MonoBehaviour {
 	public void MapInit() { 
 		int[,] mapSet = new int[m_Height, m_Width] { // xとyを逆にしないように注意
 			{ -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20} ,
-			{ -20, -1, -1, -1, -2, -1, -1, -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
-			{ -20, -1, -20, -1, -3, -1, -1, -20, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-			{ -20, -1, -1, -2, -1, -1, -20, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-			{ -20, -1, -3, -1, -1, -1, -1, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-			{ -20, -1, -1, -1, -20, -20, -1, -1, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -1, -1, -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -20, -1, -1, -1, -1, -20, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -1, -20, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -20, -20, -1, -1, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -1, -1, -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -20, -1, -1, -1, -1, -20, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -2, -1, -20, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -2, -1, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -20, -20, -3, -1, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -2, -1, -2, -1, -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -20, -1, -1, -1, -1, -20, -1, -1, -20, -20, -20, -1, -1, -1, -1, -1, -1, -20} ,
-            { -20, -1, -1, -1, -1, -1, -20, -1, -1, -1, -20, -1, -20, -1, -1, -1, -1, -1, -1, -20} ,
+			{ -20, -1, -1, -1, -2, -1, -1, -19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
+			{ -20, -1, -19, -1, -3, -1, -1, -19, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+			{ -20, -1, -1, -2, -1, -1, -19, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+			{ -20, -1, -3, -1, -1, -1, -1, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+			{ -20, -1, -1, -1, -19, -19, -1, -1, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -1, -1, -19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -19, -1, -1, -1, -1, -19, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -1, -19, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -1, -1, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -19, -19, -1, -1, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -1, -1, -19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -19, -1, -1, -1, -1, -19, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -2, -1, -19, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -2, -1, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -19, -19, -3, -1, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -2, -1, -2, -1, -19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -19, -1, -1, -1, -1, -19, -1, -1, -19, -19, -19, -1, -1, -1, -1, -1, -1, -20} ,
+            { -20, -1, -1, -1, -1, -1, -19, -1, -1, -1, -19, -1, -19, -1, -1, -1, -1, -1, -1, -20} ,
             { -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20, -20} ,
         };
 
@@ -78,26 +79,60 @@ public class MapController : MonoBehaviour {
 				if (insMap == false) {
 					panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
                     panel[x, y].GetComponent<MapTileController>().tipCost = block[x, y].blockNum;
-                    if (block[x, y].blockNum == -20)
+                    if (block[x, y].blockNum == -20 || block[x, y].blockNum == -19)
                     {
                         Instantiate(Resources.Load("Cube"), new Vector3(x * size,5, y * size), Quaternion.identity);
                     }
                 }
-				panel [x, y].GetComponent<Renderer> ().enabled = false;
+				// panel [x, y].GetComponent<Renderer> ().enabled = false;
 
-				if (insMap == false) {
+				if (!insMap) {
 					//panel [x, y] = Instantiate (Resources.Load ("MapTile"), new Vector3 (x * size, 0, y * size), Quaternion.identity) as GameObject;
                     panel[x, y].GetComponent<MapTileController>().map_x = x;
                     panel[x, y].GetComponent<MapTileController>().map_y = y;
                     panel[x, y].GetComponent<Renderer> ().enabled = false;
 					
-				} else if (block [x, y].movable == true) {
-					if (!isAlpha) {
-						panel [x, y].GetComponent<Renderer> ().enabled = true;
-						panel [x, y].GetComponent<Renderer> ().material.color = new Color (colorR, colorG, colorB, alphaA);
-					} else {
-						panel [x, y].GetComponent<Renderer> ().enabled = false;
-					}
+				}
+                else
+                {
+                    switch (block[x, y].color)
+                    {
+                        case 0:
+                            isAlpha = true;
+                            colorR = 1F;
+                            colorG = 1F;
+                            colorB = 1F;
+                            alphaA = 0F;
+                            panel[x, y].GetComponent<Renderer>().enabled = false;
+                            break;
+                        case 1:
+                            isAlpha = false;
+                            colorR = 0F;
+                            colorG = 0.5F;
+                            colorB = 1.0F;
+                            alphaA = 0.7F;
+                            panel[x, y].GetComponent<Renderer>().enabled = true;
+                            panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
+                            break;
+                        case 2:
+                            isAlpha = false;
+                            colorR = 0.5F;
+                            colorG = 1F;
+                            colorB = 1F;
+                            alphaA = 0.7F;
+                            panel[x, y].GetComponent<Renderer>().enabled = true;
+                            panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
+                            break;
+                        case 3:
+                            isAlpha = false;
+                            colorR = 1F;
+                            colorG = 0F;
+                            colorB = 0F;
+                            alphaA = 0.7F;
+                            panel[x, y].GetComponent<Renderer>().enabled = true;
+                            panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
+                            break;
+                    }
 				}
 			}
 		}
