@@ -13,6 +13,7 @@ public class TextManager : MonoBehaviour {
         STAY,
         TURN,
         TURN_NAME,
+        Parameter,
     }
 
     public TextCommand textCommand;
@@ -44,6 +45,11 @@ public class TextManager : MonoBehaviour {
                 {
                     tex.text = "Enemy".ToString();
                 }
+                break;
+            case TextCommand.Parameter:
+                int unitNum = unit.selectUnit;
+                var param = unit.playerController[unitNum];
+                tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                 break;
         }
     }

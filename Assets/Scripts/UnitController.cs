@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using LitJson;
 
 public class UnitController : MonoBehaviour {
 
     public MapData mapdata;
+    public CharacterParameter chara;
     
     /// <summary>
     /// キャラクターの管理
@@ -19,6 +21,8 @@ public class UnitController : MonoBehaviour {
     public int selectUnit = 99;
     public bool isUnit = false;
     public int stayCount = 0;
+
+    public string save;
 
     public class MapUnit
     {
@@ -68,6 +72,8 @@ public class UnitController : MonoBehaviour {
                 mapUnit[x, y] = new MapUnit();
             }
         }
+        SaveCharaParam();
+        Debug.Log(mapdata.entryPlayer);
     }
 
     public void UnitMovable()
@@ -89,5 +95,10 @@ public class UnitController : MonoBehaviour {
         {
             mapUnit[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
         }
+    }
+    
+
+    public void SaveCharaParam()
+    {
     }
 }

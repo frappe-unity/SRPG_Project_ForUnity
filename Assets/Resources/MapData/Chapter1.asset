@@ -24,7 +24,7 @@ MonoBehaviour:
     moveCost: 5
   - playerID: 1
     charaName: "\u30A4\u30B6\u30D9\u30E9"
-    playerPos: {x: 5, y: 6}
+    playerPos: {x: 5, y: 3}
     hp: 24
     attack: 8
     deffence: 6

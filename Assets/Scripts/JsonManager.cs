@@ -2,9 +2,14 @@
 using System.Collections;
 
 public class JsonManager : MonoBehaviour {
-
-	void OnGUI()
+    
+    public static T ToObject<T>(string json)
     {
-        if()
+        return LitJson.JsonMapper.ToObject<T>(json);
+    }
+
+    public static string ToJson(Object obj)
+    {
+        return LitJson.JsonMapper.ToJson(obj);
     }
 }
