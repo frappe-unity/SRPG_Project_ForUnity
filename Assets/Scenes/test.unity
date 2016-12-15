@@ -634,7 +634,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapdata: {fileID: 11400000, guid: e7240ae25e082db438b7066a977c0a5c, type: 2}
-  chara: {fileID: 0}
+  chara: {fileID: 11400000, guid: c678f966013acf74e8f1ada0ba595b8d, type: 2}
+  playerManager: {fileID: 1326207723}
   playerController: []
   enemyController: []
   entryPlayer: []
@@ -1096,7 +1097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &633690535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,6 +1112,8 @@ MonoBehaviour:
   charaID: 0
   name: test
   unitPos: {x: 0, y: 0}
+  unitType: 0
+  unit: 0
   hp: 18
   attack: 7
   deffence: 4
@@ -1610,7 +1613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1072185426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1625,6 +1628,8 @@ MonoBehaviour:
   charaID: 0
   name: test
   unitPos: {x: 0, y: 0}
+  unitType: 0
+  unit: 0
   hp: 18
   attack: 7
   deffence: 4

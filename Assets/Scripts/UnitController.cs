@@ -5,8 +5,9 @@ using LitJson;
 
 public class UnitController : MonoBehaviour {
 
-    public MapData mapdata;
-    public CharacterParameter chara;
+    [SerializeField] private MapData mapdata;
+    [SerializeField] private CharacterParameter chara;
+    [SerializeField] private GameObject playerManager;
     
     /// <summary>
     /// キャラクターの管理
@@ -35,20 +36,30 @@ public class UnitController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        for (int i = 0;i < mapdata.entryPlayer.Count; i++)
+        {
+            Instantiate(Resources.Load("PlayerObj"));
+        }
         playerObj = GameObject.FindGameObjectsWithTag("Player");
         enemyObj = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0;i < mapdata.entryPlayer.Count; i++)
+        {
+            playerObj[i].transform.parent = playerManager.transform;
+        }
         // プレイヤー
-        for (int i = 0; i < playerObj.Length; i++)
+        for (int i = 0; i < 2; i++)
         {
             playerController.Add(playerObj[i].GetComponent<PlayerController>());
             entryPlayer.Add(mapdata.entryPlayer[i]);
-            playerController[i].charaID = i;
-            playerController[i].name = mapdata.entryPlayer[i].charaName;
-            playerController[i].hp = mapdata.entryPlayer[i].hp;
-            playerController[i].attack = mapdata.entryPlayer[i].attack;
-            playerController[i].deffence = mapdata.entryPlayer[i].deffence;
-            playerController[i].hit = mapdata.entryPlayer[i].hit;
-            playerController[i].moveCost = mapdata.entryPlayer[i].moveCost;
+            playerController[i].charaID = chara.entryPlayer[i].playerID;
+            playerController[i].name = chara.entryPlayer[i].charaName;
+            playerObj[i].name = playerController[i].name;
+            playerController[i].unitType = (int)chara.entryPlayer[i].unit;
+            playerController[i].hp = chara.entryPlayer[i].hp;
+            playerController[i].attack = chara.entryPlayer[i].attack;
+            playerController[i].deffence = chara.entryPlayer[i].deffence;
+            playerController[i].hit = chara.entryPlayer[i].hit;
+            playerController[i].moveCost = chara.entryPlayer[i].moveCost;
             playerController[i].unitPos = mapdata.entryPlayer[i].playerPos;
         }
         // エネミー
