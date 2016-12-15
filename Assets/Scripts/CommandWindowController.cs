@@ -37,17 +37,19 @@ public class CommandWindowController : MonoBehaviour {
         if (stateNumber == 1)
         {
             // chara.AttackRange();
-            chara.EndAct();
-            chara.stateCount = 0;
+            chara.stateCount = 3;
             chara.MenuEnd();
             chara.MoveState();
         }
         else if(stateNumber == 2)
         {
+            chara.backMenu = true;
             chara.MenuEnd();
-            chara.ReturnPos();
-            chara.stateCount = 0;
-            chara.MoveState();
+            chara.Cancel();
+            Invoke("BackMenu", 0.5F);
+            //chara.ReturnPos();
+            //chara.stateCount = 1;
+            //chara.MoveState();
         } else if(stateNumber == 3)
         {
             chara.EndAct();
@@ -55,5 +57,10 @@ public class CommandWindowController : MonoBehaviour {
             chara.Initialize();
             chara.MoveState();
         }
+    }
+
+    public void BackMenu()
+    {
+        chara.backMenu = false;
     }
 }

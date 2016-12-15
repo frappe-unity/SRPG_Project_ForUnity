@@ -13,6 +13,7 @@ public class CharacterMoveController : MonoBehaviour {
     [SerializeField] private UnitController unit;
     [SerializeField] private PlayerController player;
     [SerializeField] private GameController gm;
+    [SerializeField] private WeaponData weapondata;
     [SerializeField] private GameObject cirsor;
     [SerializeField] private GameObject window;
     [SerializeField] private GameObject eventSystem;
@@ -23,6 +24,7 @@ public class CharacterMoveController : MonoBehaviour {
     public bool isCirsor = false;   // カーソルがキャラ上にあるか
     public bool isMove = false;
     public bool isMenu = false;
+    public bool backMenu = false;
     public int stateCount = -1; // ステート番号
     private int color = 0;
 
@@ -30,7 +32,10 @@ public class CharacterMoveController : MonoBehaviour {
     /// ユニット情報
     /// </summary>
     public int unitNumber = 0;
+    public int enemyNumber = 0;
     GameObject unitObj;
+    GameObject enemyObj;
+
     /// <summary>
     /// ユニット情報
     /// </summary>
@@ -49,6 +54,7 @@ public class CharacterMoveController : MonoBehaviour {
         START,
         MOVE,
         MENU,
+        ATTACK,
     }
 
     public PlayerState playerState;
@@ -64,9 +70,9 @@ public class CharacterMoveController : MonoBehaviour {
         /// <summary>
         /// Playerターンなら
         /// </summary>
-        if (gm.playerTurn)
+        if (gm.playerTurn && unit.selectUnit != 99)
         {
-            if(stateCount != 2)
+            if(stateCount <= 1)
             {
                 MoveSearch();
             }
@@ -119,7 +125,7 @@ public class CharacterMoveController : MonoBehaviour {
                             /// <summary>
                             /// 移動処理
                             /// </summary>
-                            if (Input.GetButtonDown("Submit") && isMove)
+                            if (Input.GetButtonDown("Submit") && isMove && !backMenu)
                             {
                                 savePos = unit.playerController[unitNumber].unitPos;    // posを保存しておく
                                                                                         // カーソルの位置にキャラを移動
@@ -130,17 +136,27 @@ public class CharacterMoveController : MonoBehaviour {
                                 playerState = PlayerState.MENU;         // ステート移動
                             }
                         }
-
                         // 色塗り
                         map.DrawMap();
                         break;
-
                     case PlayerState.MENU:
                         Initialize();
                         AttackRange();
                         // ステート番号
                         stateCount = 2;
                         // メニュー関数を実行
+                        break;
+                    case PlayerState.ATTACK:
+                        enemyNumber = unit.selectEnemy;
+                        Initialize();
+                        AttackRange();
+                        if (map.block[cirsorX, cirsorY].attackable)
+                        {
+                            if (Input.GetButtonDown("Submit"))
+                            {
+                                Attack(unitNumber, enemyNumber);
+                            }
+                        }
                         break;
                 }
 
@@ -149,9 +165,7 @@ public class CharacterMoveController : MonoBehaviour {
                 /// </summary>
                 if (Input.GetButtonDown("Cancel"))
                 {
-                    stateCount--;
-                    // キャンセル後のstate移動
-                    MoveState();
+                    Cancel();
                 }
                 map.DrawMap();
             }
@@ -194,6 +208,9 @@ public class CharacterMoveController : MonoBehaviour {
         else if (stateCount == 1)
         {
             playerState = PlayerState.MOVE;
+        } else if (stateCount == 3)
+        {
+            playerState = PlayerState.ATTACK;
         }
     }
 
@@ -236,6 +253,20 @@ public class CharacterMoveController : MonoBehaviour {
         Initialize();
     }
 
+    public void Cancel()
+    {
+        if (stateCount == 2)
+        {
+            MenuEnd();
+            ReturnPos();
+        }
+        stateCount--;
+        // キャンセル後のstate移動
+        MoveState();
+    }
+
+    
+
     /// <summary>
     /// 攻撃範囲取得
     /// </summary>
@@ -245,7 +276,36 @@ public class CharacterMoveController : MonoBehaviour {
         movableScript.AttackRange(x, y, 2);
         map.DrawMap();
     }
-    
+
+    /// <summary>
+    /// 攻撃
+    /// </summary>
+    public void Attack(int playernum, int enemynum)
+    {
+        int power, guard, damage, hit, avoid, critical, c_avoid, hitper, criticalper, rhit, rcritical;
+        power = unit.playerController[playernum].attack + weapondata.blade[unit.playerController[playernum].weapon[playernum]].attack;
+        guard = unit.enemyController[enemynum].deffence;
+        hit = weapondata.blade[unit.playerController[playernum].weapon[playernum]].hitper + (unit.playerController[playernum].hit / 2);
+        avoid = unit.enemyController[enemynum].speed * 2 + unit.enemyController[enemynum].lucky;
+        critical = weapondata.blade[unit.playerController[playernum].weapon[playernum]].criticalper + (unit.playerController[playernum].hit / 2);
+        c_avoid = unit.enemyController[enemynum].lucky;
+        hitper = hit - avoid;
+        criticalper = critical - c_avoid;
+        rcritical = Random.Range(1, criticalper);
+        if(rcritical <= criticalper || criticalper >= 100)
+        {
+            damage = (power - guard) * 3;
+        } else
+        {
+            damage = power - guard;
+        }
+        rhit = Random.Range(1, hitper);
+        if(rhit <= hitper || hitper >= 100)
+        {
+            unit.enemyController[enemynum].hp -= damage;
+        }
+
+    }
 
     /// <summary>
     /// 初期化

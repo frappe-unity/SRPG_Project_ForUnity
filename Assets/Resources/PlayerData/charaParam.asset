@@ -14,28 +14,34 @@ MonoBehaviour:
   entryPlayer:
   - playerID: 0
     charaName: "\u30A2\u30EA\u30FC\u30B7\u30E3"
-    icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    icon: {fileID: 21300000, guid: a477cb8347a8bf64889b549566268f9d, type: 3}
     unit: 0
     level: 1
     hp: 16
     attack: 5
     deffence: 4
     hit: 6
+    speed: 5
+    lucky: 5
     moveCost: 5
+    weapon: 
     l_hp: 8
     l_attack: 6
     l_deffence: 3
     l_hit: 7
   - playerID: 1
     charaName: "\u30A4\u30B6\u30D9\u30E9"
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: a477cb8347a8bf64889b549566268f9d, type: 3}
     unit: 1
     level: 2
     hp: 20
     attack: 7
     deffence: 5
     hit: 6
+    speed: 6
+    lucky: 4
     moveCost: 7
+    weapon: 
     l_hp: 9
     l_attack: 6
     l_deffence: 4

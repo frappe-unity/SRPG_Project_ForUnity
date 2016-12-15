@@ -20,6 +20,7 @@ public class UnitController : MonoBehaviour {
     public GameObject[] playerObj;
     public GameObject[] enemyObj;
     public int selectUnit = 99;
+    public int selectEnemy = 99;
     public bool isUnit = false;
     public int stayCount = 0;
 
@@ -54,13 +55,18 @@ public class UnitController : MonoBehaviour {
             playerController[i].charaID = chara.entryPlayer[i].playerID;
             playerController[i].name = chara.entryPlayer[i].charaName;
             playerObj[i].name = playerController[i].name;
+            playerController[i].icon = chara.entryPlayer[i].icon;
             playerController[i].unitType = (int)chara.entryPlayer[i].unit;
+            playerController[i].level = chara.entryPlayer[i].level;
             playerController[i].hp = chara.entryPlayer[i].hp;
             playerController[i].attack = chara.entryPlayer[i].attack;
             playerController[i].deffence = chara.entryPlayer[i].deffence;
             playerController[i].hit = chara.entryPlayer[i].hit;
+            playerController[i].speed = chara.entryPlayer[i].speed;
+            playerController[i].lucky = chara.entryPlayer[i].lucky;
             playerController[i].moveCost = chara.entryPlayer[i].moveCost;
             playerController[i].unitPos = mapdata.entryPlayer[i].playerPos;
+            playerController[i].weapon = chara.entryPlayer[i].weapon;
         }
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
@@ -69,10 +75,13 @@ public class UnitController : MonoBehaviour {
             entryEnemy.Add(mapdata.entryEnemy[i]);
             enemyController[i].enemyID = i;
             enemyController[i].name = mapdata.entryEnemy[i].enemyName;
+            enemyController[i].level = mapdata.entryEnemy[i].level;
             enemyController[i].hp = mapdata.entryEnemy[i].hp;
             enemyController[i].attack = mapdata.entryEnemy[i].attack;
             enemyController[i].deffence = mapdata.entryEnemy[i].deffence;
             enemyController[i].hit = mapdata.entryEnemy[i].hit;
+            enemyController[i].speed = mapdata.entryEnemy[i].speed;
+            enemyController[i].lucky = mapdata.entryEnemy[i].lucky;
             enemyController[i].moveCost = mapdata.entryEnemy[i].moveCost;
             enemyController[i].enemyPos = mapdata.entryEnemy[i].enemyPos;
         }

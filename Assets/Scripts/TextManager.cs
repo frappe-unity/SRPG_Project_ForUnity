@@ -7,6 +7,7 @@ public class TextManager : MonoBehaviour {
     [SerializeField] private UnitController unit;
     [SerializeField] private GameController gm;
     [SerializeField] private Text tex;
+    
 
     public enum TextCommand
     {
@@ -23,9 +24,10 @@ public class TextManager : MonoBehaviour {
 	void Start () {
         
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         switch (textCommand)
         {
             case TextCommand.STAY:
@@ -41,16 +43,34 @@ public class TextManager : MonoBehaviour {
                 {
                     tex.text = "Player".ToString();
 
-                } else
+                }
+                else
                 {
                     tex.text = "Enemy".ToString();
                 }
                 break;
             case TextCommand.Parameter:
                 int unitNum = unit.selectUnit;
-                var param = unit.playerController[unitNum];
-                tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                int enemyNum = unit.selectEnemy;
+                if (unitNum != 99 && enemyNum == 99)
+                {
+                    Debug.Log("player");
+                    var param = unit.playerController[unitNum];
+                    tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                }
+                else if (unitNum == 99 && enemyNum != 99)
+                {
+                    Debug.Log("Enemy");
+                    var param = unit.enemyController[enemyNum];
+                    tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                }
+                else if (unitNum == 99 && enemyNum == 99)
+                {
+                    Debug.Log("null");
+                    tex.text = "";
+                }
                 break;
+
         }
     }
 }
