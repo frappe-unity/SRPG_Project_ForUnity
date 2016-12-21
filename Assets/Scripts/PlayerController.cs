@@ -2,7 +2,8 @@
 using System;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     public enum UnitType
     {
@@ -33,9 +34,12 @@ public class PlayerController : MonoBehaviour {
     // 装備
     public int[] weapon;
 
+    public int selectWeapon;
+
     void Start()
     {
         unit = (UnitType)Enum.ToObject(typeof(UnitType), unitType);
+        selectWeapon = weapon[0];
     }
 
     void Update()
@@ -44,5 +48,5 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    
+
 }

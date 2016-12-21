@@ -9,13 +9,14 @@ public class CharacterMoveController : MonoBehaviour {
     /// </summary>
     [SerializeField] private MapController map;
     [SerializeField] private MovableScript movableScript;
+    [SerializeField] private AttackController attackController;
     [SerializeField] private CirsorController cirsorController;
     [SerializeField] private UnitController unit;
     [SerializeField] private PlayerController player;
     [SerializeField] private GameController gm;
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private GameObject cirsor;
-    [SerializeField] private GameObject window;
+    [SerializeField] private GameObject[] window;
     [SerializeField] private GameObject eventSystem;
 
     /// <summary>
@@ -62,7 +63,10 @@ public class CharacterMoveController : MonoBehaviour {
     void Start()
     {
         eventSystem.SetActive(true);
-        window.SetActive(false);
+        for(int i = 0;i < window.Length; i++)
+        {
+            window[i].SetActive(false);
+        }
     }
 
     void Update()
@@ -132,7 +136,7 @@ public class CharacterMoveController : MonoBehaviour {
                                 unit.playerController[unitNumber].unitPos = cirsorController.cirsorPos;
                                 isMove = false;
                                 Initialize();
-                                MenuFunc();
+                                MenuFunc(0);
                                 playerState = PlayerState.MENU;         // ステート移動
                             }
                         }
@@ -147,14 +151,21 @@ public class CharacterMoveController : MonoBehaviour {
                         // メニュー関数を実行
                         break;
                     case PlayerState.ATTACK:
-                        enemyNumber = unit.selectEnemy;
                         Initialize();
                         AttackRange();
-                        if (map.block[cirsorX, cirsorY].attackable)
+                        if (map.block[cirsorX, cirsorY].attackable && new Vector2(cirsorX, cirsorY) != new Vector2(x, y) && !backMenu)
                         {
+                            Debug.Log("if");
+                            EnemySearch();
+                            attackController.PlayerAttack();
+                            attackController.EnemyAttack();
+                            attackController.PlayerBattleParam();
                             if (Input.GetButtonDown("Submit"))
                             {
-                                Attack(unitNumber, enemyNumber);
+                                Debug.Log("enter");
+                                attackController.PlayerBattle();
+                                // Attack(unitNumber, enemyNumber);
+                                MenuFunc(1);
                             }
                         }
                         break;
@@ -217,21 +228,21 @@ public class CharacterMoveController : MonoBehaviour {
     /// <summary>
     /// メニュー処理
     /// </summary>
-    public void MenuFunc()
+    public void MenuFunc(int i)
     {
         if (!isMenu)
         {
             isMenu = true;
             eventSystem.SetActive(false);
-            window.SetActive(true);
+            window[i].SetActive(true);
         } 
     }
 
-    public void MenuEnd()
+    public void MenuEnd(int i)
     {
         isMenu = false;
         eventSystem.SetActive(true);
-        window.SetActive(false);
+        window[i].SetActive(false);
         //stateCount = 0;
     }
 
@@ -257,7 +268,7 @@ public class CharacterMoveController : MonoBehaviour {
     {
         if (stateCount == 2)
         {
-            MenuEnd();
+            MenuEnd(0);
             ReturnPos();
         }
         stateCount--;
@@ -266,6 +277,16 @@ public class CharacterMoveController : MonoBehaviour {
     }
 
     
+    public void EnemySearch()
+    {
+        for(int i = 0;i < unit.enemyObj.Length; i++)
+        {
+            if(cirsorX == unit.enemyController[i].enemyPos.x && cirsorY == unit.enemyController[i].enemyPos.y)
+            {
+                unit.selectEnemy = i;
+            }
+        }
+    }
 
     /// <summary>
     /// 攻撃範囲取得
@@ -273,39 +294,23 @@ public class CharacterMoveController : MonoBehaviour {
     public void AttackRange()
     {
         Initialize();
+
+
+        /// <summary>
+        /// 必要な情報の取得
+        /// </summary>
+        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
+        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+
+        x = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.x);       // ユニットのX座標
+        y = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.y);       // ユニットのZ座標
+        cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x);  // カーソルのX座標
+        cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
+
         movableScript.AttackRange(x, y, 2);
         map.DrawMap();
     }
-
-    /// <summary>
-    /// 攻撃
-    /// </summary>
-    public void Attack(int playernum, int enemynum)
-    {
-        int power, guard, damage, hit, avoid, critical, c_avoid, hitper, criticalper, rhit, rcritical;
-        power = unit.playerController[playernum].attack + weapondata.blade[unit.playerController[playernum].weapon[playernum]].attack;
-        guard = unit.enemyController[enemynum].deffence;
-        hit = weapondata.blade[unit.playerController[playernum].weapon[playernum]].hitper + (unit.playerController[playernum].hit / 2);
-        avoid = unit.enemyController[enemynum].speed * 2 + unit.enemyController[enemynum].lucky;
-        critical = weapondata.blade[unit.playerController[playernum].weapon[playernum]].criticalper + (unit.playerController[playernum].hit / 2);
-        c_avoid = unit.enemyController[enemynum].lucky;
-        hitper = hit - avoid;
-        criticalper = critical - c_avoid;
-        rcritical = Random.Range(1, criticalper);
-        if(rcritical <= criticalper || criticalper >= 100)
-        {
-            damage = (power - guard) * 3;
-        } else
-        {
-            damage = power - guard;
-        }
-        rhit = Random.Range(1, hitper);
-        if(rhit <= hitper || hitper >= 100)
-        {
-            unit.enemyController[enemynum].hp -= damage;
-        }
-
-    }
+    
 
     /// <summary>
     /// 初期化

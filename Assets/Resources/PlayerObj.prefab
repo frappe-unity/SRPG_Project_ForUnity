@@ -16,13 +16,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000013948167162}
-  - 33: {fileID: 33000012385000790}
-  - 136: {fileID: 136000011046422882}
-  - 23: {fileID: 23000010413166516}
-  - 114: {fileID: 114000014113905550}
+  - component: {fileID: 4000013948167162}
+  - component: {fileID: 33000012385000790}
+  - component: {fileID: 136000011046422882}
+  - component: {fileID: 23000010413166516}
+  - component: {fileID: 114000014113905550}
   m_Layer: 0
   m_Name: PlayerObj
   m_TagString: Player
@@ -39,10 +39,10 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 50, y: 8, z: 40}
   m_LocalScale: {x: 8, y: 8, z: 8}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23000010413166516
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -57,7 +57,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 74d66cbec7b632046a7a6323d3b78793, type: 2}
-  m_SubsetIndices: 
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
@@ -65,7 +67,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -93,12 +95,20 @@ MonoBehaviour:
   charaID: 0
   name: test
   unitPos: {x: 0, y: 0}
+  icon: {fileID: 0}
+  unitType: 0
+  unit: 0
+  level: 1
   hp: 18
   attack: 7
   deffence: 4
   hit: 0
+  speed: 0
+  lucky: 0
   moveCost: 5
   isAct: 0
+  weapon: 
+  selectWeapon: 0
 --- !u!136 &136000011046422882
 CapsuleCollider:
   m_ObjectHideFlags: 1

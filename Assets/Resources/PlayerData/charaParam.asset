@@ -24,7 +24,7 @@ MonoBehaviour:
     speed: 5
     lucky: 5
     moveCost: 5
-    weapon: 
+    weapon: 0000000001000000
     l_hp: 8
     l_attack: 6
     l_deffence: 3
@@ -41,7 +41,7 @@ MonoBehaviour:
     speed: 6
     lucky: 4
     moveCost: 7
-    weapon: 
+    weapon: 0000000001000000
     l_hp: 9
     l_attack: 6
     l_deffence: 4

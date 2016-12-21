@@ -6,6 +6,7 @@ public class TextManager : MonoBehaviour {
 
     [SerializeField] private UnitController unit;
     [SerializeField] private GameController gm;
+    [SerializeField] private AttackController attackController;
     [SerializeField] private Text tex;
     
 
@@ -15,6 +16,7 @@ public class TextManager : MonoBehaviour {
         TURN,
         TURN_NAME,
         Parameter,
+        PlayerBattle,
     }
 
     public TextCommand textCommand;
@@ -54,21 +56,23 @@ public class TextManager : MonoBehaviour {
                 int enemyNum = unit.selectEnemy;
                 if (unitNum != 99 && enemyNum == 99)
                 {
-                    Debug.Log("player");
                     var param = unit.playerController[unitNum];
                     tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                 }
                 else if (unitNum == 99 && enemyNum != 99)
                 {
-                    Debug.Log("Enemy");
                     var param = unit.enemyController[enemyNum];
                     tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                 }
                 else if (unitNum == 99 && enemyNum == 99)
                 {
-                    Debug.Log("null");
                     tex.text = "";
                 }
+                break;
+            case TextCommand.PlayerBattle:
+                int damage = attackController.damage;
+                int hitPer;
+                int criticalPer;
                 break;
 
         }
