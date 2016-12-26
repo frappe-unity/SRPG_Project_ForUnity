@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CharacterMoveController : MonoBehaviour {
@@ -158,6 +159,7 @@ public class CharacterMoveController : MonoBehaviour {
                     case PlayerState.ATTACK:
                         Initialize();
                         AttackRange();
+                        Debug.Log("AttackFase");
                         if (map.block[cirsorX, cirsorY].attackable && new Vector2(cirsorX, cirsorY) != new Vector2(x, y) && !backMenu)
                         {
                             Debug.Log("if");
@@ -244,6 +246,10 @@ public class CharacterMoveController : MonoBehaviour {
             isMenu = true;
             eventSystem.SetActive(false);
             window[i].SetActive(true);
+            if(i == 1)
+            {
+                GameObject.Find("Content").GetComponent<WeaponScrollController>().NodeInstance();
+            }
         } 
     }
 

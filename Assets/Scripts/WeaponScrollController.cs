@@ -10,7 +10,7 @@ public class WeaponScrollController : MonoBehaviour {
     [SerializeField] private WeaponData weapondata;
 
 
-    void Start()
+    public void NodeInstance()
     {
         for (int i = 0; i < unitController.playerController[unitController.selectUnit].weapon.Length; i++)
         {

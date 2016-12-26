@@ -36,11 +36,13 @@ public class CommandWindowController : MonoBehaviour {
                 stateNumber = 4;
                 break;
         }
+        chara = GameObject.Find("CharacterMoveManager").GetComponent<CharacterMoveController>();
+        unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
     }
 
 	public void OnClick()
     {
-        chara.MenuEnd();
+        // chara.MenuEnd();
         if (stateNumber == 1)
         {
             // chara.AttackRange();
@@ -66,17 +68,27 @@ public class CommandWindowController : MonoBehaviour {
             chara.MoveState();
         } else if(stateNumber == 4)
         {
-            unitcontroller.playerController[unitcontroller.selectUnit].selectWeapon = weaponNumber;
-            chara.stateCount = 4;
-            chara.backMenu = true;
+            NodeDelete();
             chara.MenuEnd();
+            unitcontroller.playerController[unitcontroller.selectUnit].selectWeapon = weaponNumber;
+            chara.backMenu = true;
+            Invoke("BackMenu", 1F);
+            chara.stateCount = 4;
             chara.MoveState();
-            Invoke("BackMenu", 0.5F);
         }
     }
 
     public void BackMenu()
     {
         chara.backMenu = false;
+    }
+
+    public void NodeDelete()
+    {
+        var nodes = GameObject.FindGameObjectsWithTag("Node");
+        foreach(var node in nodes)
+        {
+            Destroy(node);
+        }
     }
 }
