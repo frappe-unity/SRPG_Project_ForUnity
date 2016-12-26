@@ -247,11 +247,14 @@ public class CharacterMoveController : MonoBehaviour {
         } 
     }
 
-    public void MenuEnd(int i)
+    public void MenuEnd()
     {
         isMenu = false;
         eventSystem.SetActive(true);
-        window[i].SetActive(false);
+        for(int i = 0;i < window.Length; i++)
+        {
+            window[i].SetActive(false);
+        }
         //stateCount = 0;
     }
 
@@ -277,7 +280,7 @@ public class CharacterMoveController : MonoBehaviour {
     {
         if (stateCount == 2)
         {
-            MenuEnd(0);
+            MenuEnd();
             ReturnPos();
         }
         stateCount--;

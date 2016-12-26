@@ -40,19 +40,19 @@ public class CommandWindowController : MonoBehaviour {
 
 	public void OnClick()
     {
-        chara.MenuEnd(0);
+        chara.MenuEnd();
         if (stateNumber == 1)
         {
             // chara.AttackRange();
             chara.stateCount = 3;
-            chara.MenuEnd(0);
+            chara.MenuEnd();
             chara.MoveState();
             Invoke("BackMenu", 1F);
         }
         else if(stateNumber == 2)
         {
             chara.backMenu = true;
-            chara.MenuEnd(0);
+            chara.MenuEnd();
             chara.Cancel();
             Invoke("BackMenu", 0.5F);
             //chara.ReturnPos();
@@ -61,7 +61,7 @@ public class CommandWindowController : MonoBehaviour {
         } else if(stateNumber == 3)
         {
             chara.EndAct();
-            chara.MenuEnd(0);
+            chara.MenuEnd();
             chara.Initialize();
             chara.MoveState();
         } else if(stateNumber == 4)
@@ -69,7 +69,7 @@ public class CommandWindowController : MonoBehaviour {
             unitcontroller.playerController[unitcontroller.selectUnit].selectWeapon = weaponNumber;
             chara.stateCount = 4;
             chara.backMenu = true;
-            chara.MenuEnd(1);
+            chara.MenuEnd();
             chara.MoveState();
             Invoke("BackMenu", 0.5F);
         }

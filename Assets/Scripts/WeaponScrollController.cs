@@ -16,6 +16,11 @@ public class WeaponScrollController : MonoBehaviour {
         {
             var item = GameObject.Instantiate(node) as RectTransform;
             item.SetParent(transform, false);
+            if(i == 0)
+            {
+                Selectable select = item.GetComponent<Selectable>();
+                select.Select();
+            }
             var text = item.GetComponentInChildren<Text>();
             var commandWindowController = item.GetComponentInChildren<CommandWindowController>();
             text.text = weapondata.blade[unitController.playerController[unitController.selectUnit].weapon[i]].bladeName.ToString();
