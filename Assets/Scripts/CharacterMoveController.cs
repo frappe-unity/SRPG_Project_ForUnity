@@ -55,6 +55,7 @@ public class CharacterMoveController : MonoBehaviour {
         START,
         MOVE,
         MENU,
+        SELECT_ATTACK,
         ATTACK,
     }
 
@@ -150,6 +151,10 @@ public class CharacterMoveController : MonoBehaviour {
                         stateCount = 2;
                         // メニュー関数を実行
                         break;
+                    case PlayerState.SELECT_ATTACK:
+                        Initialize();
+                        MenuFunc(1);
+                        break;
                     case PlayerState.ATTACK:
                         Initialize();
                         AttackRange();
@@ -164,8 +169,9 @@ public class CharacterMoveController : MonoBehaviour {
                             {
                                 Debug.Log("enter");
                                 attackController.PlayerBattle();
-                                // Attack(unitNumber, enemyNumber);
-                                MenuFunc(1);
+                                EndAct();
+                                Initialize();
+                                MoveState();
                             }
                         }
                         break;
@@ -220,6 +226,9 @@ public class CharacterMoveController : MonoBehaviour {
         {
             playerState = PlayerState.MOVE;
         } else if (stateCount == 3)
+        {
+            playerState = PlayerState.SELECT_ATTACK;
+        } else if(stateCount == 4)
         {
             playerState = PlayerState.ATTACK;
         }

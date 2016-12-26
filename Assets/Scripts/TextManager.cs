@@ -7,7 +7,10 @@ public class TextManager : MonoBehaviour {
     [SerializeField] private UnitController unit;
     [SerializeField] private GameController gm;
     [SerializeField] private AttackController attackController;
+    [SerializeField] private WeaponData weapondata;
     [SerializeField] private Text tex;
+
+    public int weaponNumber;
     
 
     public enum TextCommand
@@ -17,6 +20,7 @@ public class TextManager : MonoBehaviour {
         TURN_NAME,
         Parameter,
         PlayerBattle,
+        Weapon,
     }
 
     public TextCommand textCommand;
@@ -74,7 +78,12 @@ public class TextManager : MonoBehaviour {
                 int hitPer;
                 int criticalPer;
                 break;
-
+            case TextCommand.Weapon:
+                unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+                weapondata = Resources.Load<WeaponData>("Database/Weapon");
+                tex = gameObject.GetComponent<Text>();
+                tex.text = weapondata.blade[weaponNumber].bladeName.ToString();
+                break;
         }
     }
 }

@@ -4,13 +4,17 @@ using System.Collections;
 public class CommandWindowController : MonoBehaviour {
 
     [SerializeField] private CharacterMoveController chara;
+    [SerializeField] private UnitController unitcontroller;
     int stateNumber = 0;
+
+    public int weaponNumber;
 
     public enum Command
     {
         ATTACK,
         CANCEL,
         STAY,
+        WEAPON,
     }
 
     public Command command;
@@ -27,6 +31,9 @@ public class CommandWindowController : MonoBehaviour {
                 break;
             case Command.STAY:
                 stateNumber = 3;
+                break;
+            case Command.WEAPON:
+                stateNumber = 4;
                 break;
         }
     }
@@ -57,6 +64,14 @@ public class CommandWindowController : MonoBehaviour {
             chara.MenuEnd(0);
             chara.Initialize();
             chara.MoveState();
+        } else if(stateNumber == 4)
+        {
+            unitcontroller.playerController[unitcontroller.selectUnit].selectWeapon = weaponNumber;
+            chara.stateCount = 4;
+            chara.backMenu = true;
+            chara.MenuEnd(1);
+            chara.MoveState();
+            Invoke("BackMenu", 0.5F);
         }
     }
 

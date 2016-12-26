@@ -51,7 +51,7 @@ public class CirsorController : MonoBehaviour {
         }
         
 
-        if (chara.stateCount != 2)
+        if (chara.stateCount == 0 || chara.stateCount == 1 || chara.stateCount == 4)
         {
             if (!isMove)
             {
