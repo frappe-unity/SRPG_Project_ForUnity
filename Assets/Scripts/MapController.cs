@@ -25,8 +25,11 @@ public class MapController : MonoBehaviour {
 		public int color = 3; // 色
 		public int blockNum = 0; // 高さ(重み)
 		public int step = 0; // ステップ格納 
+        public int savestep = -1;
 		public bool movable = false; // 移動可能フラグ 
-        public bool attackable = false;
+        public bool attackable = false; // 攻撃可能フラグ 
+        public bool enemyMovable = false; // 敵移動可能フラグ
+        public bool enemyAttackable = false; // 敵攻撃可能フラグ
 	}
 
 	public Block[,] block = new Block[m_Width,m_Height] ;
@@ -95,6 +98,8 @@ public class MapController : MonoBehaviour {
 				}
                 else
                 {
+                    panel[x, y].GetComponent<MapTileController>().savestep = block[x, y].savestep;
+                    panel[x, y].GetComponent<MapTileController>().GetStep();
                     switch (block[x, y].color)
                     {
                         case 0:

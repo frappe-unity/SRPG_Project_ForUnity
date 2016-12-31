@@ -5,6 +5,8 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
 
+    UnitController unitcontroller;
+
     public enum UnitType
     {
         プリンセス = 0,
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// ユニットのステータス
     /// </summary>
-    public int charaID = 0;         // キャラクターID
+    public int playerID = 0;         // キャラクターID
     public string name = "test";    // キャラクター名
     public Vector2 unitPos;         // 位置情報
     public Sprite icon;             // アイコン画像
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
         unit = (UnitType)Enum.ToObject(typeof(UnitType), unitType);
         selectWeapon = weapon[0];
     }
@@ -45,6 +48,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(unitPos.x * cross, transform.position.y, unitPos.y * cross);
+
+        // hpが0になったらデリート
+        if(hp <= 0)
+        {
+            unitcontroller.PlayerListRemove(playerID);
+        }
     }
 
 

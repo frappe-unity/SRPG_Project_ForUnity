@@ -103,6 +103,7 @@ public class CharacterMoveController : MonoBehaviour {
                         }
                         else
                         {
+                            unitNumber = 99;
                             Initialize();
                             isMove = false;
                             isCirsor = false;
@@ -227,10 +228,12 @@ public class CharacterMoveController : MonoBehaviour {
         else if (stateCount == 1)
         {
             playerState = PlayerState.MOVE;
-        } else if (stateCount == 3)
+        }
+        else if (stateCount == 3)
         {
             playerState = PlayerState.SELECT_ATTACK;
-        } else if(stateCount == 4)
+        }
+        else if(stateCount == 4)
         {
             playerState = PlayerState.ATTACK;
         }
@@ -266,9 +269,14 @@ public class CharacterMoveController : MonoBehaviour {
 
     public void EndAct()
     {
+        isCirsor = false;
+        isMove = false;
+        isMenu = false;
+        backMenu = false;
         unit.playerController[unitNumber].isAct = true;
         unit.stayCount++;
         stateCount = 0;
+        MoveState();
     }
 
     public void ReturnPos()

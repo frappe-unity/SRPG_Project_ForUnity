@@ -21,7 +21,7 @@ MonoBehaviour:
   entryEnemy:
   - enemyID: 0
     enemyName: "\u5C71\u8CCA"
-    enemyPos: {x: 8, y: 8}
+    enemyPos: {x: 5, y: 6}
     level: 0
     hp: 12
     attack: 5

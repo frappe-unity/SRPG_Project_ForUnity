@@ -31,6 +31,7 @@ public class UnitController : MonoBehaviour {
         // public int height = 1; // 高さ
         // public int blockNum = 0; // ブロックの種類
         public bool movable = false; // 移動可能フラグ 
+        public bool enemyMovable = false;
     }
 
     public MapUnit[,] mapUnit = new MapUnit[20, 20];
@@ -52,7 +53,7 @@ public class UnitController : MonoBehaviour {
         {
             playerController.Add(playerObj[i].GetComponent<PlayerController>());
             entryPlayer.Add(mapdata.entryPlayer[i]);
-            playerController[i].charaID = chara.entryPlayer[i].playerID;
+            playerController[i].playerID = chara.entryPlayer[i].playerID;
             playerController[i].name = chara.entryPlayer[i].charaName;
             playerObj[i].name = playerController[i].name;
             playerController[i].icon = chara.entryPlayer[i].icon;
@@ -92,8 +93,8 @@ public class UnitController : MonoBehaviour {
                 mapUnit[x, y] = new MapUnit();
             }
         }
-        SaveCharaParam();
-        Debug.Log(mapdata.entryPlayer);
+        // SaveCharaParam();
+        // Debug.Log(mapdata.entryPlayer);
     }
 
     public void UnitMovable()
@@ -103,20 +104,33 @@ public class UnitController : MonoBehaviour {
             for (int y = 0; y < 20; y++)
             {
                 mapUnit[x, y].movable = true;
+                mapUnit[x, y].enemyMovable = true;
             }
         }
         // プレイヤー
-        /*for (int i = 0; i < playerObj.Length; i++)
+        for (int i = 0; i < playerObj.Length; i++)
         {
-            mapUnit[Mathf.FloorToInt(playerController[i].unitPos.x), Mathf.FloorToInt(playerController[i].unitPos.y)].movable = false;
-        }*/
+            mapUnit[Mathf.FloorToInt(playerController[i].unitPos.x), Mathf.FloorToInt(playerController[i].unitPos.y)].enemyMovable = false;
+        }
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
         {
             mapUnit[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
         }
     }
-    
+
+    public void PlayerListRemove(int playerID)
+    {
+        playerController.Remove(playerObj[playerID].GetComponent<PlayerController>());
+        entryPlayer.Remove(mapdata.entryPlayer[playerID]);
+    }
+
+    public void EnemyListRemove(int enemyID)
+    {
+        mapUnit[Mathf.FloorToInt(enemyController[enemyID].enemyPos.x), Mathf.FloorToInt(enemyController[enemyID].enemyPos.y)].movable = true;
+        // enemyController.Remove(enemyObj[enemyID].GetComponent<EnemyController>());
+        // entryEnemy.Remove(mapdata.entryEnemy[enemyID]);
+    }
 
     public void SaveCharaParam()
     {

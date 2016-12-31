@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
+    UnitController unitcontroller;
+
     public int enemyID = 0;  // キャラクターID
     public string name = "test";
     public Vector2 enemyPos;
@@ -17,8 +19,20 @@ public class EnemyController : MonoBehaviour {
     public bool isAct = false;
     private int cross = 10;
 
+    void Start()
+    {
+        unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+    }
+
     void Update()
     {
         transform.position = new Vector3(enemyPos.x * cross, transform.position.y, enemyPos.y * cross);
+
+        // hpが0になったらデリート
+        if(hp <= 0)
+        {
+            unitcontroller.EnemyListRemove(enemyID);
+            Destroy(gameObject);
+        }
     }
 }
