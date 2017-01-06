@@ -18,7 +18,8 @@ public class EnemyAIController : MonoBehaviour {
 	void Update () {
         if (gamecontroller.enemyTurn)
         {
-            // Initialize();
+            // 
+
             cirsorEnemy = unitcontroller.enemyController[0].enemyID;
             enemy = unitcontroller.enemyObj[cirsorEnemy];
             Search();

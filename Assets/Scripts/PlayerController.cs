@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public int playerID = 0;         // キャラクターID
     public string name = "test";    // キャラクター名
-    public Vector2 unitPos;         // 位置情報
+    public Vector2 playerPos;         // 位置情報
     public Sprite icon;             // アイコン画像
     public int unitType = 0;        // 役職カウント
     public UnitType unit;           // 役職
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(unitPos.x * cross, transform.position.y, unitPos.y * cross);
+        transform.position = new Vector3(playerPos.x * cross, transform.position.y, playerPos.y * cross);
 
         // hpが0になったらデリート
         if(hp <= 0)

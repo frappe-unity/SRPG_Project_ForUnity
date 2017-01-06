@@ -5,6 +5,7 @@ using LitJson;
 
 public class UnitController : MonoBehaviour {
 
+    [SerializeField] private MapController map;
     [SerializeField] private MapData mapdata;
     [SerializeField] private CharacterParameter chara;
     [SerializeField] private GameObject playerManager;
@@ -23,6 +24,8 @@ public class UnitController : MonoBehaviour {
     public int selectEnemy = 99;
     public bool isUnit = false;
     public int stayCount = 0;
+    public int paramPlayer = 99;
+    public int paramEnemy = 99;
 
     public string save;
 
@@ -66,7 +69,7 @@ public class UnitController : MonoBehaviour {
             playerController[i].speed = chara.entryPlayer[i].speed;
             playerController[i].lucky = chara.entryPlayer[i].lucky;
             playerController[i].moveCost = chara.entryPlayer[i].moveCost;
-            playerController[i].unitPos = mapdata.entryPlayer[i].playerPos;
+            playerController[i].playerPos = mapdata.entryPlayer[i].playerPos;
             playerController[i].weapon = chara.entryPlayer[i].weapon;
         }
         // エネミー
@@ -97,25 +100,34 @@ public class UnitController : MonoBehaviour {
         // Debug.Log(mapdata.entryPlayer);
     }
 
+    private void Update()
+    {
+        UnitMovable();
+    }
+
     public void UnitMovable()
     {
         for (int x = 0; x < 20; x++)
         {
             for (int y = 0; y < 20; y++)
             {
-                mapUnit[x, y].movable = true;
-                mapUnit[x, y].enemyMovable = true;
+                map.block[x, y].movable = true;
+                map.block[x, y].enemyMovable = true;
             }
         }
         // プレイヤー
         for (int i = 0; i < playerObj.Length; i++)
         {
-            mapUnit[Mathf.FloorToInt(playerController[i].unitPos.x), Mathf.FloorToInt(playerController[i].unitPos.y)].enemyMovable = false;
+            map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].enemyMovable = false;
+            map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].playerOn = true;
+            map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].playerID = playerController[i].playerID;
         }
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
         {
-            mapUnit[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
+            map.block[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
+            map.block[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].enemyOn = true;
+            map.block[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].enemyID = enemyController[i].enemyID;
         }
     }
 

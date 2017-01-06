@@ -33,7 +33,7 @@ public class CharacterMoveController : MonoBehaviour {
     /// <summary>
     /// ユニット情報
     /// </summary>
-    public int unitNumber = 0;
+    public int playerID = 0;
     public int enemyNumber = 0;
     GameObject unitObj;
     GameObject enemyObj;
@@ -84,7 +84,7 @@ public class CharacterMoveController : MonoBehaviour {
             }
             
 
-            if (!unit.playerController[unitNumber].isAct)
+            if (!unit.playerController[playerID].isAct)
             {
                 switch (playerState)
                 {
@@ -103,8 +103,8 @@ public class CharacterMoveController : MonoBehaviour {
                         }
                         else
                         {
-                            unitNumber = 99;
-                            Initialize();
+                            playerID = 99;
+                            movableScript.Initialize();
                             isMove = false;
                             isCirsor = false;
                             color = 0;
@@ -134,11 +134,11 @@ public class CharacterMoveController : MonoBehaviour {
                             /// </summary>
                             if (Input.GetButtonDown("Submit") && isMove && !backMenu)
                             {
-                                savePos = unit.playerController[unitNumber].unitPos;    // posを保存しておく
+                                savePos = unit.playerController[playerID].playerPos;    // posを保存しておく
                                                                                         // カーソルの位置にキャラを移動
-                                unit.playerController[unitNumber].unitPos = cirsorController.cirsorPos;
+                                unit.playerController[playerID].playerPos = cirsorController.cirsorPos;
                                 isMove = false;
-                                Initialize();
+                                movableScript.Initialize();
                                 MenuFunc(0);
                                 playerState = PlayerState.MENU;         // ステート移動
                             }
@@ -147,33 +147,33 @@ public class CharacterMoveController : MonoBehaviour {
                         map.DrawMap();
                         break;
                     case PlayerState.MENU:
-                        Initialize();
+                        movableScript.Initialize();
                         AttackRange();
                         // ステート番号
                         stateCount = 2;
                         // メニュー関数を実行
                         break;
                     case PlayerState.SELECT_ATTACK:
-                        Initialize();
+                        movableScript.Initialize();
                         MenuFunc(1);
                         break;
                     case PlayerState.ATTACK:
-                        Initialize();
+                        movableScript.Initialize();
                         AttackRange();
                         Debug.Log("AttackFase");
-                        if (map.block[cirsorX, cirsorY].attackable && new Vector2(cirsorX, cirsorY) != new Vector2(x, y) && !backMenu)
+                        if (map.block[cirsorX, cirsorY].enemyOn && !backMenu)
                         {
                             Debug.Log("if");
                             EnemySearch();
-                            attackController.PlayerAttack();
-                            attackController.EnemyAttack();
-                            attackController.PlayerBattleParam();
+                            attackController.PlayerAttack(unit.selectUnit);
+                            attackController.EnemyAttack(unit.selectEnemy);
+                            attackController.BattleParam();
                             if (Input.GetButtonDown("Submit"))
                             {
                                 Debug.Log("enter");
-                                attackController.PlayerBattle();
+                                attackController.Battle();
                                 EndAct();
-                                Initialize();
+                                movableScript.Initialize();
                                 MoveState();
                             }
                         }
@@ -198,21 +198,21 @@ public class CharacterMoveController : MonoBehaviour {
     /// </summary>
     public void MoveSearch()
     {
-        Initialize();
+        movableScript.Initialize();
 
         /// <summary>
         /// 必要な情報の取得
         /// </summary>
-        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
-        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+        playerID = unit.selectUnit;                                       // 選択ユニットの番号
+        unitObj = unit.playerObj[playerID];                               // ユニットの取得
         
-        x = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.x);       // ユニットのX座標
-        y = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.y);       // ユニットのZ座標
+        x = Mathf.RoundToInt(unit.playerController[playerID].playerPos.x);       // ユニットのX座標
+        y = Mathf.RoundToInt(unit.playerController[playerID].playerPos.y);       // ユニットのZ座標
         cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x);  // カーソルのX座標
         cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
 
         unit.UnitMovable();
-        movableScript.moveSearch(x, y, unit.playerController[unitNumber].moveCost, stateCount);
+        movableScript.moveSearch(x, y, unit.playerController[playerID].moveCost, stateCount);
     }
 
     /// <summary>
@@ -222,7 +222,7 @@ public class CharacterMoveController : MonoBehaviour {
     {
         if (stateCount == 0)
         {
-            Initialize();
+            movableScript.Initialize();
             playerState = PlayerState.START;
         }
         else if (stateCount == 1)
@@ -273,7 +273,7 @@ public class CharacterMoveController : MonoBehaviour {
         isMove = false;
         isMenu = false;
         backMenu = false;
-        unit.playerController[unitNumber].isAct = true;
+        unit.playerController[playerID].isAct = true;
         unit.stayCount++;
         stateCount = 0;
         MoveState();
@@ -282,12 +282,13 @@ public class CharacterMoveController : MonoBehaviour {
     public void ReturnPos()
     {
         isMove = true;
-        unit.playerController[unitNumber].unitPos = savePos;
+        unit.playerController[playerID].playerPos = savePos;
         cirsor.transform.position = new Vector3(savePos.x * div, cirsor.transform.position.y, savePos.y * div);
         cirsorController.cirsorPos = new Vector2(savePos.x, savePos.y);
         cirsorController.isMove = true;
         cirsorController.Move();
-        Initialize();
+        movableScript.Initialize();
+
     }
 
     public void Cancel()
@@ -319,38 +320,21 @@ public class CharacterMoveController : MonoBehaviour {
     /// </summary>
     public void AttackRange()
     {
-        Initialize();
+        movableScript.Initialize();
 
 
         /// <summary>
         /// 必要な情報の取得
         /// </summary>
-        unitNumber = unit.selectUnit;                                       // 選択ユニットの番号
-        unitObj = unit.playerObj[unitNumber];                               // ユニットの取得
+        playerID = unit.selectUnit;                                       // 選択ユニットの番号
+        unitObj = unit.playerObj[playerID];                               // ユニットの取得
 
-        x = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.x);       // ユニットのX座標
-        y = Mathf.RoundToInt(unit.playerController[unitNumber].unitPos.y);       // ユニットのZ座標
+        x = Mathf.RoundToInt(unit.playerController[playerID].playerPos.x);       // ユニットのX座標
+        y = Mathf.RoundToInt(unit.playerController[playerID].playerPos.y);       // ユニットのZ座標
         cirsorX = Mathf.FloorToInt(cirsorController.cirsorPos.x);  // カーソルのX座標
         cirsorY = Mathf.FloorToInt(cirsorController.cirsorPos.y);  // カーソルのZ座標
 
         movableScript.AttackRange(x, y, 2);
         map.DrawMap();
-    }
-    
-
-    /// <summary>
-    /// 初期化
-    /// </summary>
-    public void Initialize()
-    {
-        for (int x = 0; x < 20; x++)
-        {
-            for (int y = 0; y < 20; y++)
-            {
-                map.block[x, y].movable = false;
-                map.block[x, y].color = 0;
-            }
-        }
-        map.DrawMap();         
     }
 }

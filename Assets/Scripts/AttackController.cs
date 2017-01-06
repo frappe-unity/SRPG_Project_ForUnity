@@ -8,71 +8,55 @@ public class AttackController : MonoBehaviour
     /// <summary>
     /// 各種参照
     /// </summary>
-    [SerializeField]
-    private UnitController unitController;
-    [SerializeField]
-    private WeaponData weapondata;
+    [SerializeField] private UnitController unitController;
+    [SerializeField] private WeaponData weapondata;
+    [SerializeField] private GameController gm;
 
     /// <summary>
-    /// プレーヤーバトルパラメータ
+    /// バトルパラメータ
     /// </summary>
-    public int attackPower;
-    public int deffencePower;
-    public int damage;
-    public int hit;
-    public int avoid;
-    public int critical;
-    public int criticalAvoid;
-    public int hitPer;
-    public int criticalPer;
-
-    /// <summary>
-    /// エネミーバトルパラメータ
-    /// </summary>
-    public int enemyAttackPower;
-    public int enemyDeffencePower;
-    public int enemyDamage;
-    public int enemyHitPower;
-    public int enemyAvoid;
-    public int enemyCritical;
-    public int enemyCriticalAvoid;
-    public int enemyHitPer;
-    public int enemyCriticalPer;
-
+    public int attackPower = 0;
+    public int deffencePower = 0;
+    public int damage = 0;
+    public int hit = 0;
+    public int avoid = 0;
+    public int critical = 0;
+    public int criticalAvoid = 0;
+    public int hitPer = 0;
+    public int criticalPer = 0;
 
     /// <summary>
     /// プレイヤーの能力
     /// </summary>
-    public int selectPlayer;
-    public int playerAttack;
-    public int playerDeffence;
-    public int playerHit;
-    public int playerSpeed;
-    public int playerLucky;
-    public int playerWeapon;
+    public int selectPlayer = 0;
+    public int playerAttack = 0;
+    public int playerDeffence = 0;
+    public int playerHit = 0;
+    public int playerSpeed = 0;
+    public int playerLucky = 0;
+    public int playerWeapon = 0;
 
     /// <summary>
     /// エネミーの能力
     /// </summary>
-    public int selectEnemy;
-    public int enemyAttack;
-    public int enemyDeffence;
-    public int enemyHit;
-    public int enemySpeed;
-    public int enemyLucky;
-    public int enemyWeapon;
+    public int selectEnemy = 0;
+    public int enemyAttack = 0;
+    public int enemyDeffence = 0;
+    public int enemyHit = 0;
+    public int enemySpeed = 0;
+    public int enemyLucky = 0;
+    public int enemyWeapon = 0;
 
-    private int randomHit;
-    private int randomCritical;
+    private int randomHit = 0;
+    private int randomCritical = 0;
 
     void Update()
     {
 
     }
 
-    public void PlayerAttack()
+    public void PlayerAttack(int selectPlayer)
     {
-        selectPlayer = unitController.selectUnit;
         playerAttack = unitController.playerController[selectPlayer].attack;
         playerDeffence = unitController.playerController[selectPlayer].deffence;
         playerHit = unitController.playerController[selectPlayer].hit;
@@ -80,42 +64,62 @@ public class AttackController : MonoBehaviour
         playerWeapon = unitController.playerController[selectPlayer].selectWeapon;
     }
 
-    public void EnemyAttack()
+    public void EnemyAttack(int selectEnemy)
     {
-        selectEnemy = unitController.selectEnemy;
-        enemyAttack = unitController.enemyController[selectEnemy].attack;
-        enemyDeffence = unitController.enemyController[selectEnemy].deffence;
-        enemyHit = unitController.enemyController[selectEnemy].hit;
-        enemySpeed = unitController.enemyController[selectEnemy].speed;
-        enemyLucky = unitController.enemyController[selectEnemy].lucky;
+        if(selectEnemy != 99)
+        {
+            Debug.Log("EnemyID : " + selectEnemy);
+            enemyAttack = unitController.enemyController[selectEnemy].attack;
+            enemyDeffence = unitController.enemyController[selectEnemy].deffence;
+            enemyHit = unitController.enemyController[selectEnemy].hit;
+            enemySpeed = unitController.enemyController[selectEnemy].speed;
+            enemyLucky = unitController.enemyController[selectEnemy].lucky;
+        } else
+        {
+            enemyAttack = 0;
+            enemyDeffence = 0;
+            enemyHit = 0;
+            enemySpeed = 0;
+            enemyLucky = 0;
+        }
     }
 
-    public void PlayerBattleParam()
+    public void BattleParam()
     {
-        attackPower = playerAttack + weapondata.blade[playerWeapon].attack;
-        deffencePower = enemyDeffence;
-        hit = weapondata.blade[playerWeapon].hitper + (playerHit / 2);
-        avoid = enemySpeed * 2 + enemyLucky;
-        critical = weapondata.blade[playerWeapon].criticalper + (playerHit / 2);
-        criticalAvoid = enemyLucky;
-        hitPer = hit - avoid;
-        criticalAvoid = critical - criticalAvoid;
+        if (gm.playerTurn)
+        {
+            attackPower = playerAttack + weapondata.blade[playerWeapon].attack;
+            deffencePower = enemyDeffence;
+            damage = attackPower - deffencePower;
+            hit = weapondata.blade[playerWeapon].hitper + (playerHit / 2);
+            avoid = enemySpeed * 2 + enemyLucky;
+            critical = weapondata.blade[playerWeapon].criticalper + (playerHit / 2);
+            criticalAvoid = enemyLucky;
+            hitPer = hit - avoid;
+            criticalAvoid = critical - criticalAvoid;
+        } else
+        {
+            attackPower = enemyAttack;
+            deffencePower = playerDeffence;
+            damage = attackPower - deffencePower;
+            hit = 100 + (enemyHit / 2);
+            avoid = playerSpeed * 2 + playerLucky;
+            critical = 5 + (enemyHit / 2);
+            criticalAvoid = playerLucky;
+            hitPer = hit - avoid;
+            criticalPer = critical - criticalAvoid;
+        }
+        
     }
 
-    public void EnemyBattleParam()
-    {
-        enemyAttackPower = enemyAttack;
-        enemyDeffencePower = playerDeffence;
-    }
-
-    public void PlayerBattle()
+    public void Battle()
     {
         randomCritical = Random.Range(1, 100);
         randomHit = Random.Range(1, 100);
 
         if(randomCritical <= criticalPer || criticalPer >= 100)
         {
-            attackPower *= 3;
+            damage *= 3;
             Debug.Log("critial");
             // Debug.Log(attackPower);
         }
@@ -123,7 +127,13 @@ public class AttackController : MonoBehaviour
         {
             Debug.Log("hit");
             // Debug.Log(attackPower);
-            unitController.enemyController[selectEnemy].hp -= attackPower;
+            if (gm.playerTurn)
+            {
+                unitController.enemyController[selectEnemy].Damage(damage);
+            } else
+            {
+                unitController.playerController[selectPlayer].hp -= attackPower;
+            }
             Debug.Log(unitController.enemyController[selectEnemy].hp);
         }
     }

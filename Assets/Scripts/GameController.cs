@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private UnitController unit;
     [SerializeField] private GameObject cirsor;
     [SerializeField] private CharacterMoveController charactermovecontroller;
+    [SerializeField] private MovableScript movablescript;
 
     public int turnCount = 0;
     public bool playerTurn = false;
@@ -28,10 +29,10 @@ public class GameController : MonoBehaviour {
 
     public void StartPlayer()
     {
-        charactermovecontroller.Initialize();
+        movablescript.Initialize();
         unit.stayCount = 0;
         charactermovecontroller.isCirsor = false;
-        charactermovecontroller.unitNumber = 99;
+        charactermovecontroller.playerID = 99;
         for(int i = 0;i < unit.playerObj.Length; i++)
         {
             unit.playerController[i].isAct = false;
@@ -44,7 +45,7 @@ public class GameController : MonoBehaviour {
 
     public void StartEnemy()
     {
-        charactermovecontroller.Initialize();
+        movablescript.Initialize();
         unit.stayCount = 0;
         cirsor.SetActive(false);
         enemyTurn = true;

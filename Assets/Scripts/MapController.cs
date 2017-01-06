@@ -26,10 +26,14 @@ public class MapController : MonoBehaviour {
 		public int blockNum = 0; // 高さ(重み)
 		public int step = 0; // ステップ格納 
         public int savestep = -1;
+        public int playerID;
+        public int enemyID;
 		public bool movable = false; // 移動可能フラグ 
         public bool attackable = false; // 攻撃可能フラグ 
         public bool enemyMovable = false; // 敵移動可能フラグ
         public bool enemyAttackable = false; // 敵攻撃可能フラグ
+        public bool playerOn = false;
+        public bool enemyOn = false;
 	}
 
 	public Block[,] block = new Block[m_Width,m_Height] ;

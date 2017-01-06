@@ -56,8 +56,8 @@ public class TextManager : MonoBehaviour {
                 }
                 break;
             case TextCommand.Parameter:
-                int unitNum = unit.selectUnit;
-                int enemyNum = unit.selectEnemy;
+                int unitNum = unit.paramPlayer;
+                int enemyNum = unit.paramEnemy;
                 if (unitNum != 99 && enemyNum == 99)
                 {
                     var param = unit.playerController[unitNum];
@@ -75,8 +75,15 @@ public class TextManager : MonoBehaviour {
                 break;
             case TextCommand.PlayerBattle:
                 int damage = attackController.damage;
-                int hitPer;
-                int criticalPer;
+                int hitPer = attackController.hitPer;
+                int criticalPer = attackController.criticalPer;
+                if(unit.selectEnemy != 99)
+                {
+                    tex.text = "命中率 : " + hitPer + "\n" + "攻撃 : " + damage + "\n" + "必殺" + criticalPer; 
+                } else
+                {
+                    tex.text = "";
+                }
                 break;
             case TextCommand.Weapon:
                 unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();

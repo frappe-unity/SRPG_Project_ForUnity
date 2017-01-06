@@ -30,27 +30,32 @@ public class CirsorController : MonoBehaviour {
         {
             if(chara.stateCount < 3)
             {
-                unit.selectUnit = 99;
-                unit.selectEnemy = 99;
-                for (int i = 0; i < unit.playerObj.Length; i++)
+                if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
                 {
-                    if (Mathf.RoundToInt(unit.playerController[i].unitPos.x) == Mathf.RoundToInt(cirsorPos.x) && Mathf.RoundToInt(unit.playerController[i].unitPos.y) == Mathf.RoundToInt(cirsorPos.y) && !unit.playerController[i].isAct)
-                    {
-                        unit.selectUnit = i;
-                    }
-                }
-            }
-            
-            for (int i = 0; i < unit.enemyObj.Length; i++)
-            {
-                if (Mathf.RoundToInt(unit.enemyController[i].enemyPos.x) == Mathf.RoundToInt(cirsorPos.x) && Mathf.RoundToInt(unit.enemyController[i].enemyPos.y) == Mathf.RoundToInt(cirsorPos.y))
+                    unit.selectUnit = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+                } else
                 {
-                    unit.selectEnemy = i;
+                    unit.selectUnit = 99;
                 }
             }
         }
-        
-
+        if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyOn)
+        {
+            unit.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            unit.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+        } else
+        {
+            unit.selectEnemy = 99;
+            unit.paramEnemy = 99;
+        }
+        if (map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
+        {
+            unit.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+        }
+        else
+        {
+            unit.paramPlayer = 99;
+        }
         if (chara.stateCount == 0 || chara.stateCount == 1 || chara.stateCount == 4)
         {
             if (!isMove)

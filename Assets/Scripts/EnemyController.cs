@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
     UnitController unitcontroller;
+
+    public Text text;
+    public GameObject textObj;
 
     public int enemyID = 0;  // キャラクターID
     public string name = "test";
@@ -21,18 +25,36 @@ public class EnemyController : MonoBehaviour {
 
     void Start()
     {
+        // textObj = transform.FindChild("Canvas").gameObject;
+        //text = gameObject.GetComponentInChildren<Text>();
         unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+        // textObj.SetActive(false);
+        text.color = new Color(1,1,1,0);
     }
 
     void Update()
     {
         transform.position = new Vector3(enemyPos.x * cross, transform.position.y, enemyPos.y * cross);
+    }
 
-        // hpが0になったらデリート
+    public void Damage(int damage)
+    {
+        text.color = new Color(1, 1, 1,1);
+        text.text = damage.ToString();
+        StartCoroutine("damageText");
+        hp -= damage;
         if(hp <= 0)
         {
             unitcontroller.EnemyListRemove(enemyID);
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator damageText()
+    {
+        Debug.Log("tex");
+        yield return new WaitForSeconds(2);
+        text.color = new Color(1,1,1,0);
+        yield break;
     }
 }
