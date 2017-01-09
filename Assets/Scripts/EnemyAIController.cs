@@ -28,7 +28,7 @@ public class EnemyAIController : MonoBehaviour {
         if (!gamecontroller.playerTurn)
         {
             /*
-            for(int i = 0;i < unitcontroller.enemyObj.Length; i++)
+            for(int i = 0;i < unitcontroller.enemy.Count; i++)
             {
                 Initialize();
                 cirsorEnemy = unitcontroller.enemyController[i].enemyID;
@@ -37,7 +37,7 @@ public class EnemyAIController : MonoBehaviour {
             }
             
             */
-            if(section && unitcontroller.stayCount < unitcontroller.enemyObj.Length)
+            if(section && unitcontroller.stayCount < unitcontroller.enemy.Count)
             {
                 section = false;
 
@@ -47,7 +47,7 @@ public class EnemyAIController : MonoBehaviour {
                 Search();
 
             }
-            if (unitcontroller.stayCount >= unitcontroller.enemyObj.Length  && section)
+            if (unitcontroller.stayCount >= unitcontroller.enemy.Count  && section)
             {
                 // Debug.Log("startplayer");
                 unitcontroller.stayCount = 0;

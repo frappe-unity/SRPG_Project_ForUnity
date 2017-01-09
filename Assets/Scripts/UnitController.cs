@@ -20,6 +20,7 @@ public class UnitController : MonoBehaviour {
     public List<EnemySet> entryEnemy = new List<EnemySet>();
     public GameObject[] playerObj;
     public GameObject[] enemyObj;
+    public List<GameObject> enemy = new List<GameObject>();
     public int selectPlayer = 99;
     public int selectEnemy = 99;
     public bool isUnit = false;
@@ -63,7 +64,7 @@ public class UnitController : MonoBehaviour {
             playerObj[i].transform.parent = playerManager.transform;
         }
         // プレイヤー
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < playerObj.Length; i++)
         {
             playerController.Add(playerObj[i].GetComponent<PlayerController>());
             entryPlayer.Add(mapdata.entryPlayer[i]);
@@ -86,6 +87,7 @@ public class UnitController : MonoBehaviour {
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
         {
+            enemy.Add(enemyObj[0]);
             enemyController.Add(enemyObj[i].GetComponent<EnemyController>());
             entryEnemy.Add(mapdata.entryEnemy[i]);
             enemyController[i].enemyID = i;
@@ -137,7 +139,7 @@ public class UnitController : MonoBehaviour {
             map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].playerID = playerController[i].playerID;
         }
         // エネミー
-        for (int i = 0; i < enemyObj.Length; i++)
+        for (int i = 0; i < enemy.Count; i++)
         {
             map.block[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].movable = false;
             map.block[Mathf.FloorToInt(enemyController[i].enemyPos.x), Mathf.FloorToInt(enemyController[i].enemyPos.y)].enemyOn = true;
@@ -153,9 +155,9 @@ public class UnitController : MonoBehaviour {
 
     public void EnemyListRemove(int enemyID)
     {
-        mapUnit[Mathf.FloorToInt(enemyController[enemyID].enemyPos.x), Mathf.FloorToInt(enemyController[enemyID].enemyPos.y)].movable = true;
-        // enemyController.Remove(enemyObj[enemyID].GetComponent<EnemyController>());
-        // entryEnemy.Remove(mapdata.entryEnemy[enemyID]);
+       enemy.Remove(enemyObj[enemyID]);
+       enemyController.RemoveAt(enemyID);
+       entryEnemy.RemoveAt(enemyID);
     }
 
     public void SaveCharaParam()

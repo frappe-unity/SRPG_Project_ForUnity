@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
@@ -28,6 +29,10 @@ public class GameController : MonoBehaviour {
             unit.stayCount = 0;
             StartEnemy();
         }
+        if(unit.enemy.Count == 0)
+        {
+            SceneManager.LoadScene("clear");
+        }
 	}
 
     public void StartPlayer()
@@ -54,7 +59,7 @@ public class GameController : MonoBehaviour {
         // Debug.Log("Start :" + start);
         movablescript.Initialize();
         unit.stayCount = 0;
-        for (int i = 0; i < unit.enemyObj.Length; i++)
+        for (int i = 0; i < unit.enemy.Count; i++)
         {
             unit.enemyController[i].isAct = false;
         }

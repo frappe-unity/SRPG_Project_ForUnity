@@ -338,7 +338,7 @@ public class CharacterMoveController : MonoBehaviour {
     
     public void EnemySearch()
     {
-        for(int i = 0;i < unitcontroller.enemyObj.Length; i++)
+        for(int i = 0;i < unitcontroller.enemy.Count; i++)
         {
             if(cirsorX == unitcontroller.enemyController[i].enemyPos.x && cirsorY == unitcontroller.enemyController[i].enemyPos.y)
             {

@@ -7,6 +7,7 @@ public class WeaponScrollController : MonoBehaviour {
 
 	[SerializeField] private RectTransform node = null;
     [SerializeField] private UnitController unitcontroller;
+    [SerializeField] private CharacterMoveController chara;
     [SerializeField] private WeaponData weapondata;
 
     void Start()
@@ -16,6 +17,8 @@ public class WeaponScrollController : MonoBehaviour {
 
     public void NodeInstance()
     {
+        unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+        chara = GameObject.Find("CharacterMoveManager").GetComponent<CharacterMoveController>();
         var nodes = GameObject.FindGameObjectsWithTag("Node");
         if(nodes.Length > 0)
         {
@@ -24,7 +27,7 @@ public class WeaponScrollController : MonoBehaviour {
                 Destroy(node);
             }
         }
-        for (int i = 0; i < unitcontroller.playerController[unitcontroller.selectPlayer].weapon.Length; i++)
+        for (int i = 0; i < unitcontroller.playerController[chara.playerID].weapon.Length; i++)
         {
             var item = GameObject.Instantiate(node) as RectTransform;
             item.SetParent(transform, false);
@@ -35,8 +38,8 @@ public class WeaponScrollController : MonoBehaviour {
             }
             var text = item.GetComponentInChildren<Text>();
             var commandWindowController = item.GetComponentInChildren<CommandWindowController>();
-            text.text = weapondata.blade[unitcontroller.playerController[unitcontroller.selectPlayer].weapon[i]].bladeName.ToString();
-            commandWindowController.weaponNumber = weapondata.blade[unitcontroller.playerController[unitcontroller.selectPlayer].weapon[i]].weaponID;
+            text.text = weapondata.blade[unitcontroller.playerController[chara.playerID].weapon[i]].bladeName.ToString();
+            commandWindowController.weaponNumber = weapondata.blade[unitcontroller.playerController[chara.playerID].weapon[i]].weaponID;
         }
     }
 
