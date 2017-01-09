@@ -485,6 +485,7 @@ MonoBehaviour:
   movablescript: {fileID: 829210541}
   mapcontroller: {fileID: 829210540}
   gamecontroller: {fileID: 2010087815}
+  attackcontroller: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   cirsorEnemy: 0
   enemy: {fileID: 0}

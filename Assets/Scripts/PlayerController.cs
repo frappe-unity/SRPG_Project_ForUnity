@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
         if (damage > 0)
         {
+            Debug.Log("PlayerID :" + playerID + "Damage :" + damage);
             text.text = damage.ToString();
             hp -= damage;
         }

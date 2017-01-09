@@ -61,6 +61,7 @@ public class AttackController : MonoBehaviour
         playerAttack = unitcontroller.playerController[selectPlayer].attack;
         playerDeffence = unitcontroller.playerController[selectPlayer].deffence;
         playerHit = unitcontroller.playerController[selectPlayer].hit;
+        playerSpeed = unitcontroller.playerController[selectPlayer].speed;
         playerLucky = unitcontroller.playerController[selectPlayer].lucky;
         playerWeapon = unitcontroller.playerController[selectPlayer].selectWeapon;
     }
@@ -76,6 +77,7 @@ public class AttackController : MonoBehaviour
             enemyHit = unitcontroller.enemyController[selectEnemy].hit;
             enemySpeed = unitcontroller.enemyController[selectEnemy].speed;
             enemyLucky = unitcontroller.enemyController[selectEnemy].lucky;
+            enemyWeapon = unitcontroller.enemyController[selectEnemy].selectWeapon;
         } else
         {
             enemyAttack = 0;
@@ -99,14 +101,14 @@ public class AttackController : MonoBehaviour
             criticalAvoid = enemyLucky;
             hitPer = hit - avoid;
             criticalAvoid = critical - criticalAvoid;
-        } else
+        } else if(!gm.playerTurn)
         {
-            attackPower = enemyAttack;
+            attackPower = enemyAttack + weapondata.blade[enemyWeapon].attack;
             deffencePower = playerDeffence;
             damage = attackPower - deffencePower;
-            hit = 100 + (enemyHit / 2);
+            hit = weapondata.blade[enemyWeapon].hitper + (enemyHit / 2);
             avoid = playerSpeed * 2 + playerLucky;
-            critical = 5 + (enemyHit / 2);
+            critical = weapondata.blade[enemyWeapon].criticalper + (enemyHit / 2);
             criticalAvoid = playerLucky;
             hitPer = hit - avoid;
             criticalPer = critical - criticalAvoid;
@@ -116,6 +118,7 @@ public class AttackController : MonoBehaviour
 
     public void Battle()
     {
+        Debug.Log("PlayerTurn is" + gm.playerTurn);
         randomCritical = Random.Range(1, 100);
         randomHit = Random.Range(1, 100);
 

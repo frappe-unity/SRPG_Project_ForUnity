@@ -8,6 +8,7 @@ public class EnemyAIController : MonoBehaviour {
     [SerializeField] private MovableScript movablescript;
     [SerializeField] private MapController mapcontroller;
     [SerializeField] private GameController gamecontroller;
+    [SerializeField] private AttackController attackcontroller;
     [SerializeField] private WeaponData weapondata;
     public int cirsorEnemy;
     public GameObject enemy;
@@ -46,7 +47,7 @@ public class EnemyAIController : MonoBehaviour {
                 Search();
 
             }
-            if (unitcontroller.stayCount >= unitcontroller.enemyObj.Length)
+            if (unitcontroller.stayCount >= unitcontroller.enemyObj.Length  && section)
             {
                 // Debug.Log("startplayer");
                 unitcontroller.stayCount = 0;
@@ -174,6 +175,21 @@ public class EnemyAIController : MonoBehaviour {
         unitcontroller.enemyController[cirsorEnemy].isAct = true;
         unitcontroller.stayCount++;
         unitcontroller.UnitMovable();
+        // section = true;
+        Invoke("Attack", moveTime);
+    }
+
+    public void Attack()
+    {
+        attackcontroller.PlayerAttack(selectPlayer);
+        attackcontroller.EnemyAttack(cirsorEnemy);
+        attackcontroller.BattleParam();
+        attackcontroller.Battle();
+        Invoke("NextChara", moveTime);
+    }
+
+    public void NextChara()
+    {
         section = true;
     }
 

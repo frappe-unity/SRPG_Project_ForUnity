@@ -47,6 +47,7 @@ public class EnemyController : MonoBehaviour {
         ColorChange(1);
         if(damage > 0)
         {
+            Debug.Log("EnemyID :" + enemyID + "Damage :" + damage);
             text.text = damage.ToString();
             hp -= damage;
         } else
