@@ -30,6 +30,7 @@ MonoBehaviour:
     speed: 3
     lucky: 4
     moveCost: 5
+    weapon: 00000000
   - enemyID: 1
     enemyName: "\u30DC\u30B9"
     enemyPos: {x: 3, y: 4}
@@ -41,3 +42,4 @@ MonoBehaviour:
     speed: 5
     lucky: 6
     moveCost: 5
+    weapon: 0000000001000000

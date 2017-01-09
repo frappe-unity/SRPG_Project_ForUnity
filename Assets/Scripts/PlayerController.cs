@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
         プリンセス = 0,
         騎士 = 1,
     }
+
+    public Text text;
 
     /// <summary>
     /// ユニットのステータス
@@ -40,9 +43,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        text = gameObject.GetComponentInChildren<Text>();
         unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
         unit = (UnitType)Enum.ToObject(typeof(UnitType), unitType);
         selectWeapon = weapon[0];
+        ColorChange(0);
     }
 
     void Update()
@@ -56,6 +61,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Damage(int damage)
+    {
+        ColorChange(1);
 
+        if (damage > 0)
+        {
+            text.text = damage.ToString();
+            hp -= damage;
+        }
+        else
+        {
+            text.text = "Miss!";
+        }
+        StartCoroutine("damageText");
+        if (hp <= 0)
+        {
+            unitcontroller.PlayerListRemove(playerID);
+            Destroy(gameObject);
+        }
+    }
+
+    IEnumerator damageText()
+    {
+        Debug.Log("tex");
+        yield return new WaitForSeconds(2);
+        ColorChange(0);
+        yield break;
+    }
+
+    public void ColorChange(int alpha)
+    {
+        var color = text.color;
+        color.a = alpha;
+        text.color = color;
+    }
 
 }

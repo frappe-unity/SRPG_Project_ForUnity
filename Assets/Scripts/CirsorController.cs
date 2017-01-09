@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CirsorController : MonoBehaviour {
 
-    [SerializeField] private UnitController unit;
+    [SerializeField] private UnitController unitcontroller;
     [SerializeField] private MapController map;
     [SerializeField] private CharacterMoveController chara;
     private PlayerController player;
@@ -20,7 +20,7 @@ public class CirsorController : MonoBehaviour {
     {
         transform.position = new Vector3(0.0f, 25, 0.0f); //プレイヤーの座標を初期化（数値が狂うのを防止するため）
         cirsorPos = new Vector2(0.0f, 0.0f);
-        player = unit.GetComponent<PlayerController>();
+        player = unitcontroller.GetComponent<PlayerController>();
     }
 
 
@@ -32,29 +32,29 @@ public class CirsorController : MonoBehaviour {
             {
                 if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
                 {
-                    unit.selectUnit = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+                    unitcontroller.selectPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
                 } else
                 {
-                    unit.selectUnit = 99;
+                    unitcontroller.selectPlayer = 99;
                 }
             }
         }
         if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyOn)
         {
-            unit.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
-            unit.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            unitcontroller.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            unitcontroller.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
         } else
         {
-            unit.selectEnemy = 99;
-            unit.paramEnemy = 99;
+            unitcontroller.selectEnemy = 99;
+            unitcontroller.paramEnemy = 99;
         }
         if (map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
         {
-            unit.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+            unitcontroller.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
         }
         else
         {
-            unit.paramPlayer = 99;
+            unitcontroller.paramPlayer = 99;
         }
         if (chara.stateCount == 0 || chara.stateCount == 1 || chara.stateCount == 4)
         {

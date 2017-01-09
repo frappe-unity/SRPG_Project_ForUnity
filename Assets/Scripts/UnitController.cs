@@ -20,12 +20,23 @@ public class UnitController : MonoBehaviour {
     public List<EnemySet> entryEnemy = new List<EnemySet>();
     public GameObject[] playerObj;
     public GameObject[] enemyObj;
-    public int selectUnit = 99;
+    public int selectPlayer = 99;
     public int selectEnemy = 99;
     public bool isUnit = false;
     public int stayCount = 0;
     public int paramPlayer = 99;
     public int paramEnemy = 99;
+
+    public enum TurnState
+    {
+        START,
+        MOVE,
+        MENU,
+        SELECT_ATTACK,
+        ATTACK,
+    }
+
+    public TurnState turnState;
 
     public string save;
 
@@ -88,6 +99,7 @@ public class UnitController : MonoBehaviour {
             enemyController[i].lucky = mapdata.entryEnemy[i].lucky;
             enemyController[i].moveCost = mapdata.entryEnemy[i].moveCost;
             enemyController[i].enemyPos = mapdata.entryEnemy[i].enemyPos;
+            enemyController[i].weapon = chara.entryPlayer[i].weapon;
         }
         for (int x = 0; x < 20; x++)
         {
@@ -102,7 +114,7 @@ public class UnitController : MonoBehaviour {
 
     private void Update()
     {
-        UnitMovable();
+        // UnitMovable();
     }
 
     public void UnitMovable()
@@ -111,8 +123,10 @@ public class UnitController : MonoBehaviour {
         {
             for (int y = 0; y < 20; y++)
             {
-                map.block[x, y].movable = true;
+                map.block[x, y].movable = false;
                 map.block[x, y].enemyMovable = true;
+                map.block[x, y].enemyOn = false;
+                map.block[x, y].playerOn = false;
             }
         }
         // プレイヤー

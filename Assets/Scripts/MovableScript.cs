@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MovableScript : MonoBehaviour {
 	[SerializeField] private MapController map;
-    [SerializeField] private UnitController unit;
+    [SerializeField] private UnitController unitcontroller;
     [SerializeField] private GameController gamecontroller;
 
     public int stepCount;
@@ -16,78 +16,147 @@ public class MovableScript : MonoBehaviour {
         
     }
 
-	public void moveSearch( int x, int y, int step, int num){
-        if (gamecontroller.playerTurn)
+	public void MoveSearch( int x, int y, int step, int num){
+        var up = map.block[x, y - 1];
+        var down = map.block[x, y + 1];
+        var right = map.block[x + 1, y];
+        var left = map.block[x - 1, y];
+        if (step == 0 && map.block[x, y].savestep == -1)
         {
-            if(step == 0 && map.block[x, y].savestep == -1)
+            map.block[x, y].savestep = 0;
+            map.block[x, y].color = 3;
+        }
+        if (map.block[x, y].movable && step > -1)
+        {
+            map.block[x, y].movable = true;
+            if (num == 0)
             {
-                map.block[x, y].savestep = 0;
-                map.block[x, y].color = 3;
+                map.block[x, y].color = 1;
             }
-            if (map.block[x, y].movable && step > -1)
+            else if (num == 1)
             {
-                map.block[x, y].movable = true;
-                if (num == 0)
-                {
-                    map.block[x, y].color = 1;
-                }
-                else if (num == 1)
-                {
-                    map.block[x, y].color = 2;
-                }
+                map.block[x, y].color = 2;
             }
-            if (step > -1)
+        } else if(map.block[x, y].movable && step <= -1)
+        {
+            map.block[x, y].savestep = 0;
+            map.block[x, y].color = 3;
+        }
+        if (step > -1)
+        {
+            if (gamecontroller.playerTurn)
             {
                 // 上
-                if (map.block[x, y - 1].blockNum != -20 && map.block[x, y - 1].movable && step + 1 >= -map.block[x, y - 1].blockNum)
+                if (up.blockNum != -20 && !up.enemyOn && step + 1 >= -up.blockNum)
                 {
-                    if (map.block[x, y - 1].savestep < step)
+                    if (up.savestep < step)
                     {
-                        map.block[x, y - 1].savestep = step;
+                        up.savestep = step;
                     }
-                    if (map.block[x, y - 1].blockNum != -20 && map.block[x, y - 1].movable && step >= -map.block[x, y - 1].blockNum)
+                    if (up.blockNum != -20 && !up.enemyOn && step >= -up.blockNum)
                     {
-                        moveSearch(x, y - 1, step + map.block[x, y - 1].blockNum, num);
+                        up.movable = true;
+                        MoveSearch(x, y - 1, step + up.blockNum, num);
                     }
                 }
                 //　下
-                if (map.block[x, y + 1].blockNum != -20 && map.block[x, y + 1].movable && step + 1 >= -map.block[x, y + 1].blockNum)
+                if (down.blockNum != -20 && !down.enemyOn && step + 1 >= -down.blockNum)
                 {
-                    if (map.block[x, y + 1].savestep < step)
+                    if (down.savestep < step)
                     {
-                        map.block[x, y + 1].savestep = step;
+                        down.savestep = step;
                     }
-                    if (map.block[x, y + 1].blockNum != -20 && map.block[x, y - 1].movable && step >= -map.block[x, y + 1].blockNum)
+                    if (down.blockNum != -20 && !down.enemyOn && step >= -down.blockNum)
                     {
-                        moveSearch(x, y + 1, step + map.block[x, y + 1].blockNum, num);
+                        down.movable = true;
+                        MoveSearch(x, y + 1, step + down.blockNum, num);
                     }
                 }
                 // 右
-                if (map.block[x + 1, y].blockNum != -20 && map.block[x + 1, y].movable && step + 1 >= -map.block[x + 1, y].blockNum)
+                if (right.blockNum != -20 && !right.enemyOn && step + 1 >= -right.blockNum)
                 {
-                    if (map.block[x + 1, y].savestep < step)
+                    if (right.savestep < step)
                     {
-                        map.block[x + 1, y].savestep = step;
+                        right.savestep = step;
                     }
-                    if (map.block[x + 1, y].blockNum != -20 && map.block[x, y - 1].movable && step >= -map.block[x + 1, y].blockNum)
+                    if (right.blockNum != -20 && !right.enemyOn && step >= -right.blockNum)
                     {
-                         moveSearch(x + 1, y, step + map.block[x + 1, y].blockNum, num);
+                        right.movable = true;
+                        MoveSearch(x + 1, y, step + right.blockNum, num);
                     }
                 }
                 // 左
-                if (map.block[x - 1, y].blockNum != -20 && map.block[x - 1, y].movable && step + 1 >= -map.block[x - 1, y].blockNum)
+                if (left.blockNum != -20 && !left.enemyOn && step + 1 >= -left.blockNum)
                 {
-                    if (map.block[x - 1, y].savestep < step)
+                    if (left.savestep < step)
                     {
-                        map.block[x - 1, y].savestep = step;
+                        left.savestep = step;
                     }
-                    if (map.block[x - 1, y].blockNum != -20 && map.block[x, y - 1].movable && step >= -map.block[x - 1, y].blockNum)
+                    if (left.blockNum != -20 && !left.enemyOn && step >= -left.blockNum)
                     {
-                        moveSearch(x - 1, y, step + map.block[x - 1, y].blockNum, num);
+                        left.movable = true;
+                        MoveSearch(x - 1, y, step + left.blockNum, num);
                     }
                 }
+            } else if (!gamecontroller.playerTurn)
+            {
+                // 上
+            if (up.blockNum != -20 && !up.playerOn  && step + 1 >= -up.blockNum)
+            {
+                if (up.savestep < step)
+                {
+                    up.savestep = step;
+                }
+                if (up.blockNum != -20 && !up.playerOn && step >= -up.blockNum)
+                {
+                    up.movable = true;
+                    MoveSearch(x, y - 1, step + up.blockNum, num);
+                }
             }
-        }  else if (map.block[x, y].enemyMovable)
+            //　下
+            if (down.blockNum != -20 && !down.playerOn && step + 1 >= -down.blockNum)
+            {
+                if (down.savestep < step)
+                {
+                    down.savestep = step;
+                }
+                if (down.blockNum != -20 && !down.playerOn && step >= -down.blockNum)
+                {
+                    down.movable = true;
+                    MoveSearch(x, y + 1, step + down.blockNum, num);
+                }
+            }
+            // 右
+            if (right.blockNum != -20 && !right.playerOn && step + 1 >= -right.blockNum)
+            {
+                if (right.savestep < step)
+                {
+                    right.savestep = step;
+                }
+                if (right.blockNum != -20 && !right.playerOn && step >= -right.blockNum)
+                {
+                    right.movable = true;
+                    MoveSearch(x + 1, y, step + right.blockNum, num);
+                }
+            } 
+            // 左
+            if (left.blockNum != -20 && !left.playerOn && step + 1 >= -left.blockNum)
+            {
+                if (left.savestep < step)
+                {
+                    left.savestep = step;
+                }
+                if (left.blockNum != -20 && !left.playerOn && step >= -left.blockNum)
+                {
+                    left.movable = true;
+                    MoveSearch(x - 1, y, step + left.blockNum, num);
+                }
+            }
+            }
+            
+        }
+        /*
+        else if (map.block[x, y].enemyMovable)
         { 
             {
                 map.block[x, y].enemyMovable = true;
@@ -97,21 +166,111 @@ public class MovableScript : MonoBehaviour {
             {
                 // 上
                 if (map.block[x, y - 1].blockNum != -20 && map.block[x, y - 1].enemyMovable && step >= -map.block[x, y - 1].blockNum)
-                    moveSearch(x, y - 1, step + map.block[x, y - 1].blockNum, num);
+                    MoveSearch(x, y - 1, step + map.block[x, y - 1].blockNum, num);
                 //　下
                 if (map.block[x, y + 1].blockNum != -20 && map.block[x, y + 1].enemyMovable && step >= -map.block[x, y + 1].blockNum)
-                    moveSearch(x, y + 1, step + map.block[x, y + 1].blockNum, num);
+                    MoveSearch(x, y + 1, step + map.block[x, y + 1].blockNum, num);
                 // 右
                 if (map.block[x + 1, y].blockNum != -20 && map.block[x + 1, y].enemyMovable && step >= -map.block[x + 1, y].blockNum)
-                    moveSearch(x + 1, y, step + map.block[x + 1, y].blockNum, num);
+                    MoveSearch(x + 1, y, step + map.block[x + 1, y].blockNum, num);
                 // 左
                 if (map.block[x - 1, y].blockNum != -20 && map.block[x - 1, y].enemyMovable && step >= -map.block[x - 1, y].blockNum)
-                    moveSearch(x - 1, y, step + map.block[x - 1, y].blockNum, num);
+                    MoveSearch(x - 1, y, step + map.block[x - 1, y].blockNum, num);
             }
         }
+        */
         return;
 	}
 
+    public void AttackSearch(int range)
+    {
+        for(int x = 0;x < 20; x++)
+        {
+            for (int y = 0;y < 20; y++)
+            {
+                if (map.block[x, y].savestep != -1 && map.block[x, y].color == 0)
+                {
+                    map.block[x, y].savestep = 0;
+                }
+                if (map.block[x, y].savestep == 0)
+                {
+                    map.block[x, y].color = 3;
+                    map.block[x, y].attackArea = true;
+                    AttackAreaSearch(x, y, range - 2);
+                }
+            }
+        }
+        map.DrawMap();
+    }
+
+    public void AttackAreaSearch(int x, int y, int range)
+    {
+        var up = map.block[x, y - 1];
+        var down = map.block[x, y + 1];
+        var right = map.block[x + 1, y];
+        var left = map.block[x - 1, y];
+        if (range >= 0)
+        {
+            // 上
+            if (up.blockNum != -20 && up.savestep == -1 && !up.attackArea)
+            {
+                if (!gamecontroller.playerTurn)
+                {
+                    map.block[x, y].enemyMovable = true;
+                }
+                up.attackArea = true;
+                up.color = 3;
+                if (range > 0)
+                {
+                    AttackAreaSearch(x, y - 1, range - 1);
+                }
+            }
+            // 下
+            if (down.blockNum != -20 && down.savestep == -1 && !down.attackArea)
+            {
+                if (!gamecontroller.playerTurn)
+                {
+                    map.block[x, y].enemyMovable = true;
+                }
+                down.attackArea = true;
+                down.color = 3;
+                if (range > 0)
+                {
+                    AttackAreaSearch(x, y + 1, range - 1);
+                }
+            }
+            // 右
+            if (right.blockNum != -20 && right.savestep == -1 && !right.attackArea)
+            {
+                if (!gamecontroller.playerTurn)
+                {
+                    map.block[x, y].enemyMovable = true;
+                }
+                right.attackArea = true;
+                right.color = 3;
+                if (range > 0)
+                {
+                    AttackAreaSearch(x + 1, y, range - 1);
+                }
+            }
+            // 左
+            if (left.blockNum != -20 && left.savestep == -1 && !left.attackArea)
+            {
+                if (!gamecontroller.playerTurn)
+                {
+                    map.block[x, y].enemyMovable = true;
+                }
+                left.attackArea = true;
+                left.color = 3;
+                if (range > 0)
+                {
+                    AttackAreaSearch(x - 1, y, range - 1);
+                }
+            }
+        }
+        
+    }
+    
     public void AttackRange(int x, int y, int range)
     {
         if (range > 0 && map.block[x, y - 1].blockNum != -20)
@@ -164,7 +323,12 @@ public class MovableScript : MonoBehaviour {
             for (int y = 0; y < 20; y++)
             {
                 map.block[x, y].movable = false;
+                map.block[x, y].attackArea = false;
+                map.block[x, y].attackable = false;
+                map.block[x, y].enemyMovable = false;
                 map.block[x, y].savestep = -1;
+                map.block[x, y].count = 0;
+                map.panel[x, y].GetComponent<MapTileController>().GetStep(map.block[x, y].savestep, map.block[x, y].count);
                 map.block[x, y].color = 0;
             }
         }

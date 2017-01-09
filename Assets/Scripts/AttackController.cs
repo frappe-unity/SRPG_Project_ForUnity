@@ -8,7 +8,7 @@ public class AttackController : MonoBehaviour
     /// <summary>
     /// 各種参照
     /// </summary>
-    [SerializeField] private UnitController unitController;
+    [SerializeField] private UnitController unitcontroller;
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private GameController gm;
 
@@ -55,25 +55,27 @@ public class AttackController : MonoBehaviour
 
     }
 
-    public void PlayerAttack(int selectPlayer)
+    public void PlayerAttack(int playerID)
     {
-        playerAttack = unitController.playerController[selectPlayer].attack;
-        playerDeffence = unitController.playerController[selectPlayer].deffence;
-        playerHit = unitController.playerController[selectPlayer].hit;
-        playerLucky = unitController.playerController[selectPlayer].lucky;
-        playerWeapon = unitController.playerController[selectPlayer].selectWeapon;
+        selectPlayer = playerID;
+        playerAttack = unitcontroller.playerController[selectPlayer].attack;
+        playerDeffence = unitcontroller.playerController[selectPlayer].deffence;
+        playerHit = unitcontroller.playerController[selectPlayer].hit;
+        playerLucky = unitcontroller.playerController[selectPlayer].lucky;
+        playerWeapon = unitcontroller.playerController[selectPlayer].selectWeapon;
     }
 
-    public void EnemyAttack(int selectEnemy)
+    public void EnemyAttack(int enemyID)
     {
+        selectEnemy = enemyID;
         if(selectEnemy != 99)
         {
-            Debug.Log("EnemyID : " + selectEnemy);
-            enemyAttack = unitController.enemyController[selectEnemy].attack;
-            enemyDeffence = unitController.enemyController[selectEnemy].deffence;
-            enemyHit = unitController.enemyController[selectEnemy].hit;
-            enemySpeed = unitController.enemyController[selectEnemy].speed;
-            enemyLucky = unitController.enemyController[selectEnemy].lucky;
+            // Debug.Log("EnemyID : " + selectEnemy);
+            enemyAttack = unitcontroller.enemyController[selectEnemy].attack;
+            enemyDeffence = unitcontroller.enemyController[selectEnemy].deffence;
+            enemyHit = unitcontroller.enemyController[selectEnemy].hit;
+            enemySpeed = unitcontroller.enemyController[selectEnemy].speed;
+            enemyLucky = unitcontroller.enemyController[selectEnemy].lucky;
         } else
         {
             enemyAttack = 0;
@@ -120,21 +122,34 @@ public class AttackController : MonoBehaviour
         if(randomCritical <= criticalPer || criticalPer >= 100)
         {
             damage *= 3;
-            Debug.Log("critial");
+            // Debug.Log("critial");
             // Debug.Log(attackPower);
         }
         if(randomHit <= hitPer || hitPer >= 100)
         {
-            Debug.Log("hit");
+            // Debug.Log("hit");
             // Debug.Log(attackPower);
             if (gm.playerTurn)
             {
-                unitController.enemyController[selectEnemy].Damage(damage);
+                unitcontroller.enemyController[selectEnemy].Damage(damage);
             } else
             {
-                unitController.playerController[selectPlayer].hp -= attackPower;
+                unitcontroller.playerController[selectPlayer].Damage(damage);
             }
-            Debug.Log(unitController.enemyController[selectEnemy].hp);
+            Debug.Log(unitcontroller.enemyController[selectEnemy].hp);
+        } else
+        {
+            // Debug.Log("miss");
+            // Debug.Log(attackPower);
+            if (gm.playerTurn)
+            {
+                unitcontroller.enemyController[selectEnemy].Damage(0);
+            }
+            else
+            {
+                unitcontroller.playerController[selectPlayer].Damage(0);
+            }
+            Debug.Log(unitcontroller.enemyController[selectEnemy].hp);
         }
     }
 }

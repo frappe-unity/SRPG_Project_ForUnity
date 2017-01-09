@@ -72,7 +72,7 @@ public class CommandWindowController : MonoBehaviour {
         {
             NodeDelete();
             chara.MenuEnd();
-            unitcontroller.playerController[unitcontroller.selectUnit].selectWeapon = weaponNumber;
+            unitcontroller.playerController[unitcontroller.selectPlayer].selectWeapon = weaponNumber;
             chara.backMenu = true;
             Invoke("BackMenu", 1F);
             chara.stateCount = 4;

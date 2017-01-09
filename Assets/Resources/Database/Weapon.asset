@@ -16,6 +16,7 @@ MonoBehaviour:
     bladeName: "\u30D5\u30A1\u30D5\u30CB\u30FC\u30EB"
     icon: {fileID: 0}
     level: 1
+    range: 1
     attack: 6
     hitper: 105
     criticalper: 10
@@ -23,6 +24,7 @@ MonoBehaviour:
     bladeName: "\u30EC\u30A4\u30D4\u30A2"
     icon: {fileID: 0}
     level: 1
+    range: 2
     attack: 5
     hitper: 100
     criticalper: 5

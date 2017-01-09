@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca67972ac0eda40a251325660dc8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -485,8 +485,12 @@ MonoBehaviour:
   movablescript: {fileID: 829210541}
   mapcontroller: {fileID: 829210540}
   gamecontroller: {fileID: 2010087815}
+  weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   cirsorEnemy: 0
   enemy: {fileID: 0}
+  section: 1
+  selectPlayer: 0
+  moveTime: 1
 --- !u!1 &160633855
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,12 +704,13 @@ MonoBehaviour:
   entryEnemy: []
   playerObj: []
   enemyObj: []
-  selectUnit: 0
+  selectPlayer: 99
   selectEnemy: 99
   isUnit: 0
   stayCount: 0
   paramPlayer: 99
   paramEnemy: 99
+  turnState: 0
   save: 
 --- !u!1 &373683180
 GameObject:
@@ -830,7 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca67972ac0eda40a251325660dc8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -1083,10 +1088,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 829210540}
-  movableScript: {fileID: 829210541}
-  attackController: {fileID: 2096358045}
-  cirsorController: {fileID: 1902271179}
-  unit: {fileID: 368118498}
+  movablescript: {fileID: 829210541}
+  attackcontroller: {fileID: 2096358045}
+  cirsorcontroller: {fileID: 1902271179}
+  unitcontroller: {fileID: 368118498}
   player: {fileID: 0}
   gm: {fileID: 2010087815}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -1157,7 +1162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   node: {fileID: 224404680803121764, guid: 9b4777a1031da01438646da0d5ed4263, type: 2}
-  unitController: {fileID: 368118498}
+  unitcontroller: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
 --- !u!114 &596201970
 MonoBehaviour:
@@ -1527,7 +1532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 829210540}
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gamecontroller: {fileID: 2010087815}
   stepCount: 0
 --- !u!1 &840126347
@@ -1680,7 +1685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 21.991001, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.003, y: 2.05}
+  m_AnchoredPosition: {x: -0.003, y: 2.89}
   m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!227 &880709650
@@ -1833,6 +1838,8 @@ MonoBehaviour:
   lucky: 0
   moveCost: 5
   isAct: 0
+  weapon: 
+  selectWeapon: 0
 --- !u!23 &971558278
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2035,7 +2042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 21.991001, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.089, y: 2.209999}
+  m_AnchoredPosition: {x: -0.089, y: 3.05}
   m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!227 &1261471933
@@ -2555,7 +2562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca67972ac0eda40a251325660dc8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -2621,6 +2628,8 @@ MonoBehaviour:
   lucky: 0
   moveCost: 5
   isAct: 0
+  weapon: 
+  selectWeapon: 0
 --- !u!23 &1520356293
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2719,7 +2728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca67972ac0eda40a251325660dc8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -2902,7 +2911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca67972ac0eda40a251325660dc8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
@@ -3117,7 +3126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1c8021b27461a4aac5960fb7b8baa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   map: {fileID: 829210540}
   chara: {fileID: 570525674}
   cirsorPos: {x: 0, y: 0}
@@ -3367,8 +3376,8 @@ MonoBehaviour:
   charactermovecontroller: {fileID: 570525674}
   movablescript: {fileID: 829210541}
   turnCount: 0
+  start: 0
   playerTurn: 0
-  enemyTurn: 0
 --- !u!1 &2013951575
 GameObject:
   m_ObjectHideFlags: 0
@@ -3381,7 +3390,6 @@ GameObject:
   - component: {fileID: 2013951578}
   - component: {fileID: 2013951577}
   - component: {fileID: 2013951576}
-  - component: {fileID: 2013951581}
   - component: {fileID: 2013951582}
   m_Layer: 0
   m_Name: Main Camera
@@ -3458,21 +3466,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
---- !u!114 &2013951581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2013951575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8e75f341a68ea047a52b25b440f5671, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  map: {fileID: 0}
-  unit: {fileID: 0}
-  gamecontroller: {fileID: 0}
-  stepCount: 0
 --- !u!114 &2013951582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3722,7 +3715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04e9863190f3384c8ff584146f62d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitController: {fileID: 368118498}
+  unitcontroller: {fileID: 368118498}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   gm: {fileID: 2010087815}
   attackPower: 0

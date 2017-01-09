@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TextManager : MonoBehaviour {
 
-    [SerializeField] private UnitController unit;
+    [SerializeField] private UnitController unitcontroller;
     [SerializeField] private GameController gm;
     [SerializeField] private AttackController attackController;
     [SerializeField] private WeaponData weapondata;
@@ -37,7 +37,7 @@ public class TextManager : MonoBehaviour {
         switch (textCommand)
         {
             case TextCommand.STAY:
-                number = unit.stayCount;
+                number = unitcontroller.stayCount;
                 tex.text = number.ToString();
                 break;
             case TextCommand.TURN:
@@ -56,19 +56,19 @@ public class TextManager : MonoBehaviour {
                 }
                 break;
             case TextCommand.Parameter:
-                int unitNum = unit.paramPlayer;
-                int enemyNum = unit.paramEnemy;
-                if (unitNum != 99 && enemyNum == 99)
+                int playerNum = unitcontroller.paramPlayer;
+                int enemyNum = unitcontroller.paramEnemy;
+                if (playerNum != 99 && enemyNum == 99)
                 {
-                    var param = unit.playerController[unitNum];
+                    var param = unitcontroller.playerController[playerNum];
                     tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                 }
-                else if (unitNum == 99 && enemyNum != 99)
+                else if (playerNum == 99 && enemyNum != 99)
                 {
-                    var param = unit.enemyController[enemyNum];
+                    var param = unitcontroller.enemyController[enemyNum];
                     tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                 }
-                else if (unitNum == 99 && enemyNum == 99)
+                else if (playerNum == 99 && enemyNum == 99)
                 {
                     tex.text = "";
                 }
@@ -77,7 +77,7 @@ public class TextManager : MonoBehaviour {
                 int damage = attackController.damage;
                 int hitPer = attackController.hitPer;
                 int criticalPer = attackController.criticalPer;
-                if(unit.selectEnemy != 99)
+                if(unitcontroller.selectEnemy != 99 && unitcontroller.turnState == UnitController.TurnState.ATTACK)
                 {
                     tex.text = "命中率 : " + hitPer + "\n" + "攻撃 : " + damage + "\n" + "必殺" + criticalPer; 
                 } else
@@ -86,7 +86,7 @@ public class TextManager : MonoBehaviour {
                 }
                 break;
             case TextCommand.Weapon:
-                unit = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+                unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
                 weapondata = Resources.Load<WeaponData>("Database/Weapon");
                 tex = gameObject.GetComponent<Text>();
                 tex.text = weapondata.blade[weaponNumber].bladeName.ToString();

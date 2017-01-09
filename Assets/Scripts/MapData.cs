@@ -35,4 +35,6 @@ public class EnemySet
     public int speed;
     public int lucky;
     public int moveCost;
+    public int[] weapon;
+
 }

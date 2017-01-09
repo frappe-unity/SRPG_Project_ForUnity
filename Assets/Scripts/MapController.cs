@@ -29,11 +29,13 @@ public class MapController : MonoBehaviour {
         public int playerID;
         public int enemyID;
 		public bool movable = false; // 移動可能フラグ 
+        public bool attackArea = false;
         public bool attackable = false; // 攻撃可能フラグ 
         public bool enemyMovable = false; // 敵移動可能フラグ
         public bool enemyAttackable = false; // 敵攻撃可能フラグ
         public bool playerOn = false;
         public bool enemyOn = false;
+        public int count;
 	}
 
 	public Block[,] block = new Block[m_Width,m_Height] ;
@@ -102,8 +104,17 @@ public class MapController : MonoBehaviour {
 				}
                 else
                 {
-                    panel[x, y].GetComponent<MapTileController>().savestep = block[x, y].savestep;
-                    panel[x, y].GetComponent<MapTileController>().GetStep();
+                    /*
+                    if(block[x, y].savestep != -1 && block[x, y].color == 0)
+                    {
+                        block[x, y].savestep = 0;
+                    }
+                    if(block[x, y].savestep == 0)
+                    {
+                        block[x, y].color = 3;
+                    }
+                    */
+                    panel[x, y].GetComponent<MapTileController>().GetStep(block[x, y].savestep, block[x, y].count);
                     switch (block[x, y].color)
                     {
                         case 0:

@@ -8,6 +8,7 @@ public class MapTileController : MonoBehaviour {
 	public bool rend = true;
     public int savestep = -1;
     public int tipCost = 0;
+    public int count;
     public Text text;
 	// Use this for initialization
 	void Start () {
@@ -19,9 +20,16 @@ public class MapTileController : MonoBehaviour {
         
 	}
 
-    public void GetStep()
+    public void GetStep(int getStep, int mapcount)
     {
-        if(savestep != -1)
-        text.text = savestep.ToString();
+        count = mapcount;
+        savestep = getStep;
+        if(savestep > -1)
+        {
+            text.text = savestep.ToString();
+        } else
+        {
+            text.text = "";
+        }
     }
 }

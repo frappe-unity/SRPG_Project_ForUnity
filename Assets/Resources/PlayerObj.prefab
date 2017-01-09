@@ -130,9 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbef02f198f5d541a58b8fcdc830f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
   playerID: 0
   name: test
-  unitPos: {x: 0, y: 0}
+  playerPos: {x: 0, y: 0}
   icon: {fileID: 0}
   unitType: 0
   unit: 0
@@ -303,7 +304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 21.991001, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.05, y: 2.21}
+  m_AnchoredPosition: {x: 0.05, y: 3.05}
   m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!227 &227382719571104816

@@ -23,13 +23,18 @@ public class EnemyController : MonoBehaviour {
     public bool isAct = false;
     private int cross = 10;
 
+    public int[] weapon;
+    public int selectWeapon;
+
     void Start()
     {
         // textObj = transform.FindChild("Canvas").gameObject;
-        //text = gameObject.GetComponentInChildren<Text>();
+        text = gameObject.GetComponentInChildren<Text>();
         unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
         // textObj.SetActive(false);
-        text.color = new Color(1,1,1,0);
+        selectWeapon = weapon[0];
+        ColorChange(0);
+        
     }
 
     void Update()
@@ -39,10 +44,16 @@ public class EnemyController : MonoBehaviour {
 
     public void Damage(int damage)
     {
-        text.color = new Color(1, 1, 1,1);
-        text.text = damage.ToString();
+        ColorChange(1);
+        if(damage > 0)
+        {
+            text.text = damage.ToString();
+            hp -= damage;
+        } else
+        {
+            text.text = "Miss!";
+        }
         StartCoroutine("damageText");
-        hp -= damage;
         if(hp <= 0)
         {
             unitcontroller.EnemyListRemove(enemyID);
@@ -54,7 +65,14 @@ public class EnemyController : MonoBehaviour {
     {
         Debug.Log("tex");
         yield return new WaitForSeconds(2);
-        text.color = new Color(1,1,1,0);
+        ColorChange(0);
         yield break;
+    }
+
+    public void ColorChange(int alpha)
+    {
+        var color = text.color;
+        color.a = alpha;
+        text.color = color;
     }
 }
