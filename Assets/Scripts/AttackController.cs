@@ -125,13 +125,9 @@ public class AttackController : MonoBehaviour
         if(randomCritical <= criticalPer || criticalPer >= 100)
         {
             damage *= 3;
-            // Debug.Log("critial");
-            // Debug.Log(attackPower);
         }
         if(randomHit <= hitPer || hitPer >= 100)
         {
-            // Debug.Log("hit");
-            // Debug.Log(attackPower);
             if (gm.playerTurn)
             {
                 unitcontroller.enemyController[selectEnemy].Damage(damage);
@@ -139,11 +135,8 @@ public class AttackController : MonoBehaviour
             {
                 unitcontroller.playerController[selectPlayer].Damage(damage);
             }
-            Debug.Log(unitcontroller.enemyController[selectEnemy].hp);
         } else
         {
-            // Debug.Log("miss");
-            // Debug.Log(attackPower);
             if (gm.playerTurn)
             {
                 unitcontroller.enemyController[selectEnemy].Damage(0);

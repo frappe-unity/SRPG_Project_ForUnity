@@ -30,6 +30,7 @@ public class CirsorController : MonoBehaviour {
         {
             if(chara.stateCount < 3)
             {
+                // unitcontroller.UnitMovable();
                 if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
                 {
                     unitcontroller.selectPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
@@ -50,7 +51,13 @@ public class CirsorController : MonoBehaviour {
         }
         if (map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
         {
-            unitcontroller.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+            for(int i = 0; i < unitcontroller.player.Count; i++)
+            {
+                if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID == unitcontroller.selectPlayer)
+                {
+                    unitcontroller.paramPlayer = i;
+                }
+            }
         }
         else
         {

@@ -7,6 +7,7 @@ public class TextManager : MonoBehaviour {
     [SerializeField] private UnitController unitcontroller;
     [SerializeField] private GameController gm;
     [SerializeField] private AttackController attackController;
+    [SerializeField] private CharacterMoveController chara;
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private Text tex;
 
@@ -56,22 +57,28 @@ public class TextManager : MonoBehaviour {
                 }
                 break;
             case TextCommand.Parameter:
-                int playerNum = unitcontroller.paramPlayer;
-                int enemyNum = unitcontroller.paramEnemy;
-                if (playerNum != 99 && enemyNum == 99)
+                
+                if (!chara.isAttack)
                 {
-                    var param = unitcontroller.playerController[playerNum];
-                    tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                    int playerNum = unitcontroller.paramPlayer;
+                    int enemyNum = unitcontroller.paramEnemy;
+                    if (playerNum != 99 && enemyNum == 99)
+                    {
+                        var param = unitcontroller.playerController[playerNum];
+                        tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                    }
+                    else if (playerNum == 99 && enemyNum != 99)
+                    {
+                        Debug.Log("Chara is:" + chara.isAttack);
+                        var param = unitcontroller.enemyController[enemyNum];
+                        tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
+                    }
+                    else if (playerNum == 99 && enemyNum == 99)
+                    {
+                        tex.text = "";
+                    }
                 }
-                else if (playerNum == 99 && enemyNum != 99)
-                {
-                    var param = unitcontroller.enemyController[enemyNum];
-                    tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
-                }
-                else if (playerNum == 99 && enemyNum == 99)
-                {
-                    tex.text = "";
-                }
+                
                 break;
             case TextCommand.PlayerBattle:
                 int damage = attackController.damage;

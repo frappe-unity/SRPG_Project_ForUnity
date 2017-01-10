@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour {
         StartCoroutine("damageText");
         if(hp <= 0)
         {
-            // unitcontroller.EnemyListRemove(enemyID);
+            unitcontroller.EnemyListRemove(enemyID);
             Destroy(gameObject);
         }
     }

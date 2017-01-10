@@ -8,10 +8,12 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject cirsor;
     [SerializeField] private CharacterMoveController charactermovecontroller;
     [SerializeField] private MovableScript movablescript;
+    [SerializeField] private CirsorController cirsorcontroller;
 
     public int turnCount = 0;
     public int start = 0;
     public bool playerTurn = false;
+    public bool isChange = false;
     // public bool enemyTurn = false;
 
 	// Use this for initialization
@@ -24,7 +26,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(unit.stayCount == unit.playerObj.Length && playerTurn)
+	    if(unit.stayCount == unit.player.Count && playerTurn)
         {
             unit.stayCount = 0;
             StartEnemy();
@@ -33,23 +35,31 @@ public class GameController : MonoBehaviour {
         {
             SceneManager.LoadScene("clear");
         }
-	}
+        if (unit.player.Count == 0)
+        {
+            SceneManager.LoadScene("gameover");
+        }
+    }
 
     public void StartPlayer()
     {
+        // isChange = true;
         unit.UnitMovable();
         movablescript.Initialize();
         unit.stayCount = 0;
+        cirsor.SetActive(true);
         charactermovecontroller.isCirsor = false;
-        charactermovecontroller.playerID = 99;
-        for(int i = 0;i < unit.playerObj.Length; i++)
+        unit.selectPlayer = unit.playerController[0].playerID;
+        // unit.paramPlayer = unit.playerController[0].playerID;
+        cirsorcontroller.cirsorPos = unit.playerController[0].playerPos;
+        for(int i = 0;i < unit.player.Count; i++)
         {
             unit.playerController[i].isAct = false;
         }
-        cirsor.SetActive(true);
         turnCount++;
         // enemyTurn = false;
         playerTurn = true;
+        // isChange = false;
     }
 
     public void StartEnemy()

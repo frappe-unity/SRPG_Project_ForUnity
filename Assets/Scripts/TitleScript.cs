@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -17,5 +18,9 @@ public class TitleScript : MonoBehaviour {
         }
         // Alpha値を増減させてセット
         this.gameObject.GetComponent<Image>().color = new Color(255, 255, 255, toColor + speed);
+        if (Input.GetButtonDown("Submit"))
+        {
+            SceneManager.LoadScene("test");
+        }
     }
 }

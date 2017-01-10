@@ -20,6 +20,7 @@ public class UnitController : MonoBehaviour {
     public List<EnemySet> entryEnemy = new List<EnemySet>();
     public GameObject[] playerObj;
     public GameObject[] enemyObj;
+    public List<GameObject> player = new List<GameObject>();
     public List<GameObject> enemy = new List<GameObject>();
     public int selectPlayer = 99;
     public int selectEnemy = 99;
@@ -66,6 +67,7 @@ public class UnitController : MonoBehaviour {
         // プレイヤー
         for (int i = 0; i < playerObj.Length; i++)
         {
+            player.Add(playerObj[i]);
             playerController.Add(playerObj[i].GetComponent<PlayerController>());
             entryPlayer.Add(mapdata.entryPlayer[i]);
             playerController[i].playerID = chara.entryPlayer[i].playerID;
@@ -87,7 +89,7 @@ public class UnitController : MonoBehaviour {
         // エネミー
         for (int i = 0; i < enemyObj.Length; i++)
         {
-            enemy.Add(enemyObj[0]);
+            enemy.Add(enemyObj[i]);
             enemyController.Add(enemyObj[i].GetComponent<EnemyController>());
             entryEnemy.Add(mapdata.entryEnemy[i]);
             enemyController[i].enemyID = i;
@@ -110,6 +112,7 @@ public class UnitController : MonoBehaviour {
                 mapUnit[x, y] = new MapUnit();
             }
         }
+        Debugger.List(enemyController);
         // SaveCharaParam();
         // Debug.Log(mapdata.entryPlayer);
     }
@@ -132,9 +135,9 @@ public class UnitController : MonoBehaviour {
             }
         }
         // プレイヤー
-        for (int i = 0; i < playerObj.Length; i++)
+        for (int i = 0; i < player.Count; i++)
         {
-            map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].enemyMovable = false;
+            map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].movable = false;
             map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].playerOn = true;
             map.block[Mathf.FloorToInt(playerController[i].playerPos.x), Mathf.FloorToInt(playerController[i].playerPos.y)].playerID = playerController[i].playerID;
         }
@@ -149,15 +152,22 @@ public class UnitController : MonoBehaviour {
 
     public void PlayerListRemove(int playerID)
     {
-        playerController.Remove(playerObj[playerID].GetComponent<PlayerController>());
-        entryPlayer.Remove(mapdata.entryPlayer[playerID]);
+        player.RemoveAt(playerID);
+        playerController.RemoveAt(playerID);
+        entryPlayer.RemoveAt(playerID);
+        paramPlayer = 99;
+        UnitMovable();
     }
 
     public void EnemyListRemove(int enemyID)
     {
-       enemy.Remove(enemyObj[enemyID]);
-       enemyController.RemoveAt(enemyID);
-       entryEnemy.RemoveAt(enemyID);
+        Debug.Log("Remove");
+        enemy.RemoveAt(enemyID);
+        enemyController.RemoveAt(enemyID);
+        entryEnemy.RemoveAt(enemyID);
+        paramEnemy = 99;
+        UnitMovable();
+        Debugger.List(enemyController);
     }
 
     public void SaveCharaParam()

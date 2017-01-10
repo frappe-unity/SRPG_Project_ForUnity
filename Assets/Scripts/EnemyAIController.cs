@@ -11,7 +11,7 @@ public class EnemyAIController : MonoBehaviour {
     [SerializeField] private AttackController attackcontroller;
     [SerializeField] private WeaponData weapondata;
     public int cirsorEnemy;
-    public GameObject enemy;
+    // public GameObject enemy;
     public bool section = true;
     List<int> areaPlayer = new List<int>();
     List<Vector2> movable = new List<Vector2>();
@@ -27,24 +27,14 @@ public class EnemyAIController : MonoBehaviour {
 	void Update () {
         if (!gamecontroller.playerTurn)
         {
-            /*
-            for(int i = 0;i < unitcontroller.enemy.Count; i++)
-            {
-                Initialize();
-                cirsorEnemy = unitcontroller.enemyController[i].enemyID;
-                enemy = unitcontroller.enemyObj[cirsorEnemy];
-                Search();
-            }
-            
-            */
             if(section && unitcontroller.stayCount < unitcontroller.enemy.Count)
             {
                 section = false;
 
                 Initialize();
                 cirsorEnemy = unitcontroller.enemyController[unitcontroller.stayCount].enemyID;
-                enemy = unitcontroller.enemyObj[cirsorEnemy];
-                Search();
+                // enemy = unitcontroller.enemy[cirsorEnemy];
+                Search();                                                               
 
             }
             if (unitcontroller.stayCount >= unitcontroller.enemy.Count  && section)
@@ -71,11 +61,23 @@ public class EnemyAIController : MonoBehaviour {
         PlayerSearch();
         MoveSquare(Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.x), Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.y), weapondata.blade[unitcontroller.enemyController[cirsorEnemy].selectWeapon].range);
         // Debug.Log(movable.Count);
-
-        // 移動
-        Invoke("Move", moveTime);
+        if(movable.Count > 0)
+        {
+            // 移動
+            Invoke("Move", moveTime);
+        } else if (movable.Count == 0)
+        {
+            unitcontroller.enemyController[cirsorEnemy].isAct = true;
+            unitcontroller.stayCount++;
+            Invoke("NextChara", moveTime);
+        }
+        
     }
 
+    public void CircleAreaSearch()
+    {
+
+    }
 
     public int WeaponRangeSearch(int range)
     {
@@ -181,6 +183,8 @@ public class EnemyAIController : MonoBehaviour {
 
     public void Attack()
     {
+        Debug.Log(selectPlayer);
+        Debug.Log(unitcontroller.playerController[selectPlayer]);
         attackcontroller.PlayerAttack(selectPlayer);
         attackcontroller.EnemyAttack(cirsorEnemy);
         attackcontroller.BattleParam();
