@@ -38,7 +38,7 @@ MonoBehaviour:
     attack: 7
     deffence: 5
     hit: 6
-    speed: 6
+    speed: 12
     lucky: 4
     moveCost: 7
     weapon: 0000000001000000

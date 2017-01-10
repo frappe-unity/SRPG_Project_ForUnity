@@ -152,9 +152,17 @@ public class UnitController : MonoBehaviour {
 
     public void PlayerListRemove(int playerID)
     {
-        player.RemoveAt(playerID);
-        playerController.RemoveAt(playerID);
-        entryPlayer.RemoveAt(playerID);
+        int deleteID = 99;
+        for (int i = 0; i < player.Count; i++)
+        {
+            if (playerController[i].playerID == playerID)
+            {
+                deleteID = i;
+            }
+        }
+        player.RemoveAt(deleteID);
+        playerController.RemoveAt(deleteID);
+        entryPlayer.RemoveAt(deleteID);
         paramPlayer = 99;
         UnitMovable();
     }
@@ -162,6 +170,7 @@ public class UnitController : MonoBehaviour {
     public void EnemyListRemove(int enemyID)
     {
         Debug.Log("Remove");
+        
         enemy.RemoveAt(enemyID);
         enemyController.RemoveAt(enemyID);
         entryEnemy.RemoveAt(enemyID);
@@ -172,5 +181,6 @@ public class UnitController : MonoBehaviour {
 
     public void SaveCharaParam()
     {
+
     }
 }

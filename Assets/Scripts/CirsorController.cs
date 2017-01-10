@@ -51,6 +51,8 @@ public class CirsorController : MonoBehaviour {
         }
         if (map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
         {
+            unitcontroller.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+            /*
             for(int i = 0; i < unitcontroller.player.Count; i++)
             {
                 if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID == unitcontroller.selectPlayer)
@@ -58,6 +60,7 @@ public class CirsorController : MonoBehaviour {
                     unitcontroller.paramPlayer = i;
                 }
             }
+            */
         }
         else
         {

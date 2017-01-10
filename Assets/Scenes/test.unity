@@ -335,11 +335,11 @@ RectTransform:
   m_Children:
   - {fileID: 1890274696}
   m_Father: {fileID: 630870982}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279.99994, y: 43}
+  m_AnchoredPosition: {x: 279.99994, y: 125}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &123208725
@@ -490,8 +490,9 @@ MonoBehaviour:
   attackcontroller: {fileID: 2096358045}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   cirsorEnemy: 0
-  enemy: {fileID: 0}
   section: 1
+  battle: 0
+  moveSkip: 0
   selectPlayer: 0
   moveTime: 1
 --- !u!1 &160633855
@@ -1293,8 +1294,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1478725103}
   - {fileID: 123208724}
+  - {fileID: 1478725103}
   - {fileID: 797717647}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1371,7 +1372,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280, y: -40}
+  m_AnchoredPosition: {x: 280, y: -45}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &797717648
@@ -1846,6 +1847,7 @@ MonoBehaviour:
   lucky: 0
   moveCost: 5
   isAct: 0
+  after: 0
   weapon: 
   selectWeapon: 0
 --- !u!23 &971558278
@@ -2361,11 +2363,11 @@ RectTransform:
   m_Children:
   - {fileID: 373683181}
   m_Father: {fileID: 630870982}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280, y: 125}
+  m_AnchoredPosition: {x: 280, y: 40}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1478725104
@@ -2637,6 +2639,7 @@ MonoBehaviour:
   lucky: 0
   moveCost: 5
   isAct: 0
+  after: 0
   weapon: 
   selectWeapon: 0
 --- !u!23 &1520356293
@@ -3390,6 +3393,7 @@ MonoBehaviour:
   turnCount: 0
   start: 0
   playerTurn: 0
+  isChange: 0
 --- !u!1 &2013951575
 GameObject:
   m_ObjectHideFlags: 0
@@ -3730,6 +3734,11 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   gm: {fileID: 2010087815}
+  enemy: {fileID: 156203463}
+  moveTime: 1
+  isDestroy: 0
+  isBattle: 0
+  count: 0
   attackPower: 0
   deffencePower: 0
   damage: 0
@@ -3739,6 +3748,15 @@ MonoBehaviour:
   criticalAvoid: 0
   hitPer: 0
   criticalPer: 0
+  counterAttackPower: 0
+  counterDeffencePower: 0
+  counterDamage: 0
+  counterHit: 0
+  counterAvoid: 0
+  counterCritical: 0
+  counterCriticalAvoid: 0
+  counterHitPer: 0
+  counterCriticalPer: 0
   selectPlayer: 0
   playerAttack: 0
   playerDeffence: 0

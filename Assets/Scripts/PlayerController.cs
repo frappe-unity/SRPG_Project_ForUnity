@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
 
         if (damage > 0)
         {
-            Debug.Log("PlayerID :" + playerID + "Damage :" + damage);
             text.text = damage.ToString();
             hp -= damage;
         }
@@ -85,8 +84,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator damageText()
     {
-        Debug.Log("tex");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         ColorChange(0);
         yield break;
     }

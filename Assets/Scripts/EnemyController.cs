@@ -5,6 +5,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
 
     UnitController unitcontroller;
+    EnemyAIController enemy;
 
     public Text text;
     public GameObject textObj;
@@ -21,6 +22,7 @@ public class EnemyController : MonoBehaviour {
     public int lucky;               // 幸運
     public int moveCost = 5;		// 移動力
     public bool isAct = false;
+    public bool after = false;
     private int cross = 10;
 
     public int[] weapon;
@@ -31,6 +33,7 @@ public class EnemyController : MonoBehaviour {
         // textObj = transform.FindChild("Canvas").gameObject;
         text = gameObject.GetComponentInChildren<Text>();
         unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
+        enemy = GameObject.Find("EnemyAIManager").GetComponent<EnemyAIController>();
         // textObj.SetActive(false);
         selectWeapon = weapon[0];
         ColorChange(0);
@@ -40,6 +43,7 @@ public class EnemyController : MonoBehaviour {
     void Update()
     {
         transform.position = new Vector3(enemyPos.x * cross, transform.position.y, enemyPos.y * cross);
+        
     }
 
     public void Damage(int damage)
@@ -47,7 +51,6 @@ public class EnemyController : MonoBehaviour {
         ColorChange(1);
         if(damage > 0)
         {
-            Debug.Log("EnemyID :" + enemyID + "Damage :" + damage);
             text.text = damage.ToString();
             hp -= damage;
         } else
@@ -55,7 +58,7 @@ public class EnemyController : MonoBehaviour {
             text.text = "Miss!";
         }
         StartCoroutine("damageText");
-        if(hp <= 0)
+        if (hp <= 0)
         {
             unitcontroller.EnemyListRemove(enemyID);
             Destroy(gameObject);
@@ -64,8 +67,7 @@ public class EnemyController : MonoBehaviour {
 
     IEnumerator damageText()
     {
-        Debug.Log("tex");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         ColorChange(0);
         yield break;
     }

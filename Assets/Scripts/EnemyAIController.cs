@@ -13,6 +13,8 @@ public class EnemyAIController : MonoBehaviour {
     public int cirsorEnemy;
     // public GameObject enemy;
     public bool section = true;
+    public bool battle = false;
+    public bool moveSkip = false;
     List<int> areaPlayer = new List<int>();
     List<Vector2> movable = new List<Vector2>();
     public int selectPlayer;
@@ -51,32 +53,70 @@ public class EnemyAIController : MonoBehaviour {
         areaPlayer.Clear();
         movable.Clear();
         var selectEnemy = unitcontroller.enemyController[cirsorEnemy];
-        movablescript.Initialize();
         unitcontroller.UnitMovable();
-        movablescript.MoveSearch(Mathf.RoundToInt(selectEnemy.enemyPos.x), Mathf.RoundToInt(selectEnemy.enemyPos.y), selectEnemy.moveCost, 1);
-        int range = 0;
-        range = WeaponRangeSearch(range);
-        movablescript.AttackSearch(range);
-        mapcontroller.DrawMap();
-        PlayerSearch();
-        MoveSquare(Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.x), Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.y), weapondata.blade[unitcontroller.enemyController[cirsorEnemy].selectWeapon].range);
-        // Debug.Log(movable.Count);
-        if(movable.Count > 0)
+        CirclePlayerSearch(Mathf.RoundToInt(selectEnemy.enemyPos.x), Mathf.RoundToInt(selectEnemy.enemyPos.y));
+        if (!moveSkip)
         {
-            // 移動
-            Invoke("Move", moveTime);
-        } else if (movable.Count == 0)
-        {
-            unitcontroller.enemyController[cirsorEnemy].isAct = true;
-            unitcontroller.stayCount++;
-            Invoke("NextChara", moveTime);
+            movablescript.Initialize();
+            unitcontroller.UnitMovable();
+            movablescript.MoveSearch(Mathf.RoundToInt(selectEnemy.enemyPos.x), Mathf.RoundToInt(selectEnemy.enemyPos.y), selectEnemy.moveCost, 1);
+            int range = 0;
+            range = WeaponRangeSearch(range);
+            movablescript.AttackSearch(range);
+            mapcontroller.DrawMap();
+            PlayerSearch();
+            MoveSquare(Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.x), Mathf.RoundToInt(unitcontroller.playerController[selectPlayer].playerPos.y), weapondata.blade[unitcontroller.enemyController[cirsorEnemy].selectWeapon].range);
+            // Debug.Log(movable.Count);
+            if (movable.Count > 0)
+            {
+                // 移動
+                Invoke("Move", moveTime);
+            }
+            else if (movable.Count == 0)
+            {
+                Invoke("NextChara", moveTime);
+            }
         }
         
     }
 
-    public void CircleAreaSearch()
+    public void CirclePlayerSearch(int x, int y)
     {
+        var up = mapcontroller.block[x, y - 1];
+        var down = mapcontroller.block[x, y + 1];
+        var right = mapcontroller.block[x + 1, y];
+        var left = mapcontroller.block[x - 1, y];
+        if (up.playerOn)
+        {
+            Debug.Log("Skip");
+            selectPlayer = up.playerID;
+            MoveAttack();
+        }
+        if (down.playerOn)
+        {
+            Debug.Log("Skip");
+            selectPlayer = down.playerID;
+            MoveAttack();
+        }
+        if (right.playerOn)
+        {
+            Debug.Log("Skip");
+            selectPlayer = right.playerID;
+            MoveAttack();
+        }
+        if (left.playerOn)
+        {
+            Debug.Log("Skip");
+            selectPlayer = left.playerID;
+            MoveAttack();
+        }
+    }
 
+    public void MoveAttack()
+    {
+        moveSkip = true;
+        unitcontroller.UnitMovable();
+        Invoke("Attack", moveTime);
     }
 
     public int WeaponRangeSearch(int range)
@@ -174,8 +214,6 @@ public class EnemyAIController : MonoBehaviour {
         Vector2 pos = movable[Random.Range(0, movable.Count)];
         // Vector2 pos = movable[0];
         unitcontroller.enemyController[cirsorEnemy].enemyPos = pos;
-        unitcontroller.enemyController[cirsorEnemy].isAct = true;
-        unitcontroller.stayCount++;
         unitcontroller.UnitMovable();
         // section = true;
         Invoke("Attack", moveTime);
@@ -189,12 +227,16 @@ public class EnemyAIController : MonoBehaviour {
         attackcontroller.EnemyAttack(cirsorEnemy);
         attackcontroller.BattleParam();
         attackcontroller.Battle();
-        Invoke("NextChara", moveTime);
+        battle = true;
     }
 
     public void NextChara()
     {
+        unitcontroller.enemyController[cirsorEnemy].isAct = true;
+        unitcontroller.stayCount++;
+        battle = false;
         section = true;
+        moveSkip = false;
     }
 
     // 初期化

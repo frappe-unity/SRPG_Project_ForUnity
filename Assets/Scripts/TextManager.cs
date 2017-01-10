@@ -64,6 +64,14 @@ public class TextManager : MonoBehaviour {
                     int enemyNum = unitcontroller.paramEnemy;
                     if (playerNum != 99 && enemyNum == 99)
                     {
+                        Debug.Log("PlayerNum" + playerNum);
+                        for(int i = 0;i < unitcontroller.player.Count; i++)
+                        {
+                            if(unitcontroller.playerController[i].playerID == unitcontroller.paramPlayer)
+                            {
+                                playerNum = i;
+                            }
+                        }
                         var param = unitcontroller.playerController[playerNum];
                         tex.text = "名前 : " + param.name + "\n" + "HP : " + param.hp + "\n" + "攻撃 : " + param.attack + "\n" + "防御 : " + param.deffence + "\n" + "技 : " + param.hit + "\n" + "移動力 : " + param.moveCost;
                     }

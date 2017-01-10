@@ -171,10 +171,10 @@ public class CharacterMoveController : MonoBehaviour {
                         unitcontroller.turnState = UnitController.TurnState.ATTACK;
                         movablescript.Initialize();
                         AttackRange();
-                        Debug.Log("AttackFase");
+                        // Debug.Log("AttackFase");
                         if (map.block[cirsorX, cirsorY].enemyOn && !backMenu && !isAttack)
                         {
-                            Debug.Log("if");
+                            // Debug.Log("if");
                             EnemySearch();
                             attackcontroller.PlayerAttack(unitcontroller.selectPlayer);
                             attackcontroller.EnemyAttack(unitcontroller.selectEnemy);
@@ -182,7 +182,7 @@ public class CharacterMoveController : MonoBehaviour {
                             if (Input.GetButtonDown("Submit") && !isAttack)
                             {
                                 isAttack = true;
-                                Debug.Log("enter");
+                                // Debug.Log("enter");
                                 attackcontroller.Battle();
                                 EndAct();
                                 movablescript.Initialize();
@@ -223,7 +223,7 @@ public class CharacterMoveController : MonoBehaviour {
                 playerID = i;
             }
         }
-        Debug.Log(playerID);
+        // Debug.Log(playerID);
         // playerID = unitcontroller.selectPlayer;                                       // 選択ユニットの番号
         // unitObj = unitcontroller.player[playerID];                               // ユニットの取得
         x = Mathf.RoundToInt(unitcontroller.playerController[playerID].playerPos.x);       // ユニットのX座標
