@@ -90,7 +90,6 @@ public class AttackController : MonoBehaviour
         selectEnemy = enemyID;
         if(selectEnemy != 99)
         {
-            // Debug.Log("EnemyID : " + selectEnemy);
             enemyAttack = unitcontroller.enemyController[selectEnemy].attack;
             enemyDeffence = unitcontroller.enemyController[selectEnemy].deffence;
             enemyHit = unitcontroller.enemyController[selectEnemy].hit;
