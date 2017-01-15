@@ -46,6 +46,22 @@ public class MovableScript : MonoBehaviour {
         {
             if (gamecontroller.playerTurn)
             {
+                if (up.enemyOn)
+                {
+                    up.color = 3;
+                }
+                if (down.enemyOn)
+                {
+                    down.color = 3;
+                }
+                if (right.enemyOn)
+                {
+                    right.color = 3;
+                }
+                if (left.enemyOn)
+                {
+                    left.color = 3;
+                }
                 // 上
                 if (up.blockNum != -20 && !up.enemyOn && step + 1 >= -up.blockNum)
                 {

@@ -15,6 +15,7 @@ public class CharacterMoveController : MonoBehaviour {
     [SerializeField] private UnitController unitcontroller;
     [SerializeField] private PlayerController player;
     [SerializeField] private GameController gm;
+    [SerializeField] private SoundController soundcontroller;
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private GameObject cirsor;
     [SerializeField] private GameObject[] window;
@@ -119,6 +120,7 @@ public class CharacterMoveController : MonoBehaviour {
                         // キャラ上でボタンを押したらMOVEに移る
                         if (Input.GetButtonDown("Submit") && isCirsor && stateCount == 0)
                         {
+                            soundcontroller.SoundPlayer(1);
                             isMove = true;
                             playerState = PlayerState.MOVE;     // ステート移動
                         }
@@ -141,6 +143,7 @@ public class CharacterMoveController : MonoBehaviour {
                             /// </summary>
                             if (Input.GetButtonDown("Submit") && isMove && !backMenu)
                             {
+                                soundcontroller.SoundPlayer(1);
                                 savePos = unitcontroller.playerController[playerID].playerPos;    // posを保存しておく
                                                                                         // カーソルの位置にキャラを移動
                                 unitcontroller.playerController[playerID].playerPos = cirsorcontroller.cirsorPos;
@@ -181,6 +184,7 @@ public class CharacterMoveController : MonoBehaviour {
                             attackcontroller.BattleParam();
                             if (Input.GetButtonDown("Submit") && !isAttack)
                             {
+                                soundcontroller.SoundPlayer(1);
                                 isAttack = true;
                                 // Debug.Log("enter");
                                 attackcontroller.Battle();

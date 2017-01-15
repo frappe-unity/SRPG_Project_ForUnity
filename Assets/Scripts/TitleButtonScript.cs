@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class TitleButtonScript : MonoBehaviour {
     
+    [SerializeField] private SoundController soundcontroller;
+
     public enum State
     {
         Start,
@@ -18,7 +20,7 @@ public class TitleButtonScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        soundcontroller = GameObject.Find("SoundManager").GetComponent<SoundController>();
 	}
 	
 	// Update is called once per frame
@@ -30,6 +32,12 @@ public class TitleButtonScript : MonoBehaviour {
 	}
 
     public void OnClick()
+    {
+        soundcontroller.SoundPlayer(1);
+        Invoke("Act", 0.5F);
+    }
+
+    public void Act()
     {
         switch (states)
         {

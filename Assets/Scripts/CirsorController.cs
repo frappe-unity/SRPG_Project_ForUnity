@@ -17,6 +17,7 @@ public class CirsorController : MonoBehaviour {
     public float cirsorSpeed = 20F;
     public float speed = 1F;
     public float speedUp = 1.5F;
+    private float speedTo;
 
     void Start()
     {
@@ -111,7 +112,10 @@ public class CirsorController : MonoBehaviour {
             }
             if (Input.GetButton("Cancel") && chara.stateCount == 0)
             {
-                speed = speedUp;
+                speedTo = speedUp;
+            } else
+            {
+                speedTo = speed;
             }
             Move();
         }
@@ -120,7 +124,7 @@ public class CirsorController : MonoBehaviour {
 
     public void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(cirsorPos.x * size, transform.position.y, cirsorPos.y * size), cirsorSpeed  * speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(cirsorPos.x * size, transform.position.y, cirsorPos.y * size), cirsorSpeed  * speedTo * Time.deltaTime);
         if(transform.position == new Vector3(cirsorPos.x * size, transform.position.y, cirsorPos.y * size))
         {
             isMove = false;

@@ -131,7 +131,7 @@ public class MapController : MonoBehaviour {
                             colorR = 0F;
                             colorG = 0.5F;
                             colorB = 1.0F;
-                            alphaA = 0.7F;
+                            alphaA = 0.5F;
                             panel[x, y].GetComponent<Renderer>().enabled = true;
                             panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
                             break;
@@ -140,7 +140,7 @@ public class MapController : MonoBehaviour {
                             colorR = 0.5F;
                             colorG = 1F;
                             colorB = 1F;
-                            alphaA = 0.7F;
+                            alphaA = 0.5F;
                             panel[x, y].GetComponent<Renderer>().enabled = true;
                             panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
                             break;
@@ -149,7 +149,7 @@ public class MapController : MonoBehaviour {
                             colorR = 1F;
                             colorG = 0F;
                             colorB = 0F;
-                            alphaA = 0.7F;
+                            alphaA = 0.5F;
                             panel[x, y].GetComponent<Renderer>().enabled = true;
                             panel[x, y].GetComponent<Renderer>().material.color = new Color(colorR, colorG, colorB, alphaA);
                             break;

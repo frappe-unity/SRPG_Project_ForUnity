@@ -12,6 +12,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private GameController gm;
     [SerializeField] private EnemyAIController enemy;
+    [SerializeField] private SoundController soundcontroller;
 
     public float moveTime = 1F;
     public bool isDestroy = false;
@@ -165,12 +166,18 @@ public class AttackController : MonoBehaviour
         randomCritical = Random.Range(1, 100);
         randomHit = Random.Range(1, 100);
 
-        if(randomCritical <= criticalPer || criticalPer >= 100)
-        {
-            damage *= 3;
-        }
+        
         if(randomHit <= hitPer || hitPer >= 100)
         {
+            if (randomCritical <= criticalPer || criticalPer >= 100)
+            {
+                damage *= 3;
+                soundcontroller.SoundPlayer(3);
+            }
+            else
+            {
+                soundcontroller.SoundPlayer(2);
+            }
             if (gm.playerTurn)
             {
                 Debug.Log("PlayerID :" + unitcontroller.playerController[selectPlayer].playerID + " → EnemyID :" + unitcontroller.enemyController[selectEnemy].enemyID + " damage :" + damage);
@@ -190,6 +197,7 @@ public class AttackController : MonoBehaviour
             }
         } else
         {
+            soundcontroller.SoundPlayer(4);
             if (gm.playerTurn)
             {
                 unitcontroller.enemyController[selectEnemy].Damage(0);
@@ -227,12 +235,18 @@ public class AttackController : MonoBehaviour
         randomCritical = Random.Range(1, 100);
         randomHit = Random.Range(1, 100);
 
-        if (randomCritical <= counterCriticalPer || counterCriticalPer >= 100)
-        {
-            counterDamage *= 3;
-        }
+        
         if (randomHit <= counterHitPer || counterHitPer >= 100)
         {
+            if (randomCritical <= counterCriticalPer || counterCriticalPer >= 100)
+            {
+                counterDamage *= 3;
+                soundcontroller.SoundPlayer(3);
+            }
+            else
+            {
+                soundcontroller.SoundPlayer(2);
+            }
             if (gm.playerTurn)
             {
                 Debug.Log("EnemyID :" + unitcontroller.enemyController[selectEnemy].enemyID + "→ PlayerID :" + unitcontroller.playerController[selectPlayer].playerID + " damage :" + counterDamage);
@@ -254,6 +268,7 @@ public class AttackController : MonoBehaviour
         }
         else
         {
+            soundcontroller.SoundPlayer(4);
             if (gm.playerTurn)
             {
                 unitcontroller.playerController[selectPlayer].Damage(0);

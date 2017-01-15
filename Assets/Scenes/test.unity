@@ -441,6 +441,7 @@ MonoBehaviour:
   chara: {fileID: 570525674}
   unitcontroller: {fileID: 0}
   movablescript: {fileID: 0}
+  soundcontroller: {fileID: 0}
   weaponNumber: 0
   command: 0
 --- !u!1 &156203461
@@ -1028,6 +1029,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip:
   - {fileID: 8300000, guid: 23b3d713e9eb4bd4a9d6ec7dbc66bc04, type: 3}
+  - {fileID: 8300000, guid: e655aca33e920e149845126b8f0e3233, type: 3}
+  - {fileID: 8300000, guid: edeb0c209ee768f44b94857f33f04d64, type: 3}
+  - {fileID: 8300000, guid: 4ec47251fad15634396f7a16a03442c8, type: 3}
+  - {fileID: 8300000, guid: a71636a71cbbfd34d9a327cd9809b1a5, type: 3}
 --- !u!82 &444487210
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1306,6 +1311,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   player: {fileID: 0}
   gm: {fileID: 2010087815}
+  soundcontroller: {fileID: 444487209}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   cirsor: {fileID: 1902271174}
   window:
@@ -1747,6 +1753,7 @@ MonoBehaviour:
   chara: {fileID: 570525674}
   unitcontroller: {fileID: 0}
   movablescript: {fileID: 0}
+  soundcontroller: {fileID: 0}
   weaponNumber: 0
   command: 1
 --- !u!1 &829210538
@@ -1790,6 +1797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a2c45eb4e7bc44d8858aad5eba8be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapSize: {x: 20, y: 20}
   size: 10
   insMap: 0
   isAlpha: 0
@@ -2840,6 +2848,7 @@ MonoBehaviour:
   chara: {fileID: 570525674}
   unitcontroller: {fileID: 0}
   movablescript: {fileID: 0}
+  soundcontroller: {fileID: 0}
   weaponNumber: 0
   command: 2
 --- !u!1 &1492499909
@@ -4110,6 +4119,7 @@ MonoBehaviour:
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   gm: {fileID: 2010087815}
   enemy: {fileID: 156203463}
+  soundcontroller: {fileID: 444487209}
   moveTime: 1
   isDestroy: 0
   isBattle: 0

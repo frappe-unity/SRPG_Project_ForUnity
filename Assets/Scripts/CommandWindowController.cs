@@ -6,6 +6,7 @@ public class CommandWindowController : MonoBehaviour {
     [SerializeField] private CharacterMoveController chara;
     [SerializeField] private UnitController unitcontroller;
     [SerializeField] private MovableScript movablescript;
+    [SerializeField] private SoundController soundcontroller;
     int stateNumber = 0;
 
     public int weaponNumber;
@@ -40,10 +41,12 @@ public class CommandWindowController : MonoBehaviour {
         chara = GameObject.Find("CharacterMoveManager").GetComponent<CharacterMoveController>();
         unitcontroller = GameObject.FindGameObjectWithTag("UniCon").GetComponent<UnitController>();
         movablescript = GameObject.Find("MapManager").GetComponent<MovableScript>();
+        soundcontroller = GameObject.Find("SoundManager").GetComponent<SoundController>();
     }
 
 	public void OnClick()
     {
+        soundcontroller.SoundPlayer(1);
         // chara.MenuEnd();
         if (stateNumber == 1)
         {
