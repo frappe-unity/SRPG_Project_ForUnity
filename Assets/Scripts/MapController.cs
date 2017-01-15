@@ -7,6 +7,7 @@ public class MapController : MonoBehaviour {
 
 	public const int m_Width = 20;
 	public const int m_Height = 20;
+    public Vector2 mapSize = new Vector2(m_Width,m_Height);
 	public float size = 10F;
     public bool insMap = false;
 	public bool isAlpha = false;
