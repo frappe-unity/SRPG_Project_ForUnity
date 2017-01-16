@@ -7,6 +7,7 @@ public class TextManager : MonoBehaviour {
     [SerializeField] private UnitController unitcontroller;
     [SerializeField] private GameController gm;
     [SerializeField] private AttackController attackController;
+    [SerializeField] private EnemyAIController enemyAI;
     [SerializeField] private CharacterMoveController chara;
     [SerializeField] private WeaponData weapondata;
     [SerializeField] private Text tex;

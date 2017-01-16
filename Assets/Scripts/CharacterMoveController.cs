@@ -166,6 +166,7 @@ public class CharacterMoveController : MonoBehaviour {
                         // メニュー関数を実行
                         break;
                     case PlayerState.SELECT_ATTACK:
+                        //savePos = unitcontroller.playerController[playerID].playerPos;    // posを保存しておく
                         unitcontroller.turnState = UnitController.TurnState.SELECT_ATTACK;
                         movablescript.Initialize();
                         MenuFunc(1);
@@ -222,6 +223,7 @@ public class CharacterMoveController : MonoBehaviour {
         /// <summary>
         /// 必要な情報の取得
         /// </summary>
+        /*
         for(int i = 0;i < unitcontroller.player.Count; i++)
         {
             if(unitcontroller.selectPlayer == unitcontroller.playerController[i].playerID)
@@ -229,8 +231,9 @@ public class CharacterMoveController : MonoBehaviour {
                 playerID = i;
             }
         }
+        */
         // Debug.Log(playerID);
-        // playerID = unitcontroller.selectPlayer;                                       // 選択ユニットの番号
+        playerID = unitcontroller.selectPlayer;                                       // 選択ユニットの番号
         // unitObj = unitcontroller.player[playerID];                               // ユニットの取得
         x = Mathf.RoundToInt(unitcontroller.playerController[playerID].playerPos.x);       // ユニットのX座標
         y = Mathf.RoundToInt(unitcontroller.playerController[playerID].playerPos.y);       // ユニットのZ座標
