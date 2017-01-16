@@ -179,6 +179,8 @@ public class CharacterMoveController : MonoBehaviour {
                         {
                             // Debug.Log("if");
                             EnemySearch();
+                            Debug.Log(unitcontroller.selectPlayer);
+                            Debug.Log("Weapon " + unitcontroller.playerController[unitcontroller.selectPlayer].selectWeapon);
                             attackcontroller.PlayerAttack(unitcontroller.selectPlayer);
                             attackcontroller.EnemyAttack(unitcontroller.selectEnemy);
                             attackcontroller.BattleParam();
@@ -271,6 +273,11 @@ public class CharacterMoveController : MonoBehaviour {
         {
             playerState = PlayerState.MOVE;
         }
+        else if (stateCount == 2)
+        {
+            MenuFunc(0);
+            playerState = PlayerState.MENU;
+        }
         else if (stateCount == 3)
         {
             playerState = PlayerState.SELECT_ATTACK;
@@ -335,10 +342,14 @@ public class CharacterMoveController : MonoBehaviour {
 
     public void Cancel()
     {
-        if (stateCount == 2 || stateCount == 3)
+        if (stateCount == 2 || stateCount == 4)
         {
             MenuEnd();
             ReturnPos();
+        } else if(stateCount == 3)
+        {
+            MenuEnd();
+            isMove = false;
         }
         stateCount--;
         unitcontroller.UnitMovable();

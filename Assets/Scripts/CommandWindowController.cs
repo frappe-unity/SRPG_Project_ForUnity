@@ -10,6 +10,7 @@ public class CommandWindowController : MonoBehaviour {
     int stateNumber = 0;
 
     public int weaponNumber;
+    public bool selectOn = false;
 
     public enum Command
     {
@@ -23,6 +24,7 @@ public class CommandWindowController : MonoBehaviour {
 
     void Start()
     {
+        selectOn = false;
         switch (command)
         {
             case Command.ATTACK:
@@ -73,13 +75,20 @@ public class CommandWindowController : MonoBehaviour {
             chara.MoveState();
         } else if(stateNumber == 4)
         {
-            NodeDelete();
+            Debug.Log(weaponNumber);
+            for (int i = 0; i < unitcontroller.player.Count; i++)
+            {
+                if (unitcontroller.playerController[i].playerID == unitcontroller.selectPlayer)
+                {
+                    unitcontroller.playerController[i].selectWeapon = weaponNumber;
+                }
+            }
             chara.MenuEnd();
-            unitcontroller.playerController[unitcontroller.selectPlayer].selectWeapon = weaponNumber;
             chara.backMenu = true;
             Invoke("BackMenu", 1F);
             chara.stateCount = 4;
             chara.MoveState();
+            NodeDelete();
         }
     }
 

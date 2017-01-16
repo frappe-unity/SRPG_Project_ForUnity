@@ -37,7 +37,14 @@ public class CirsorController : MonoBehaviour {
                 // unitcontroller.UnitMovable();
                 if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
                 {
-                    unitcontroller.selectPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
+                    for(int i = 0;i < unitcontroller.player.Count; i++)
+                    {
+                        if(unitcontroller.playerController[i].playerID == map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID)
+                        {
+                            unitcontroller.selectPlayer = i;
+                        }
+                    }
+                    // unitcontroller.selectPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
                 } else
                 {
                     unitcontroller.selectPlayer = 99;
@@ -46,8 +53,16 @@ public class CirsorController : MonoBehaviour {
         }
         if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyOn)
         {
-            unitcontroller.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
-            unitcontroller.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            for (int i = 0; i < unitcontroller.player.Count; i++)
+            {
+                if (unitcontroller.enemyController[i].enemyID == map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID)
+                {
+                    unitcontroller.selectEnemy = i;
+                    unitcontroller.paramEnemy = i;
+                }
+            }
+            // unitcontroller.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            // unitcontroller.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
         } else
         {
             unitcontroller.selectEnemy = 99;
@@ -56,15 +71,15 @@ public class CirsorController : MonoBehaviour {
         if (map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerOn)
         {
             unitcontroller.paramPlayer = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID;
-            /*
+            
             for(int i = 0; i < unitcontroller.player.Count; i++)
             {
-                if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID == unitcontroller.selectPlayer)
+                if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].playerID == unitcontroller.playerController[i].playerID)
                 {
                     unitcontroller.paramPlayer = i;
                 }
             }
-            */
+            
         }
         else
         {
