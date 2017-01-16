@@ -89,22 +89,12 @@ public class AttackController : MonoBehaviour
     public void EnemyAttack(int enemyID)
     {
         selectEnemy = enemyID;
-        if(selectEnemy != 99)
-        {
-            enemyAttack = unitcontroller.enemyController[selectEnemy].attack;
-            enemyDeffence = unitcontroller.enemyController[selectEnemy].deffence;
-            enemyHit = unitcontroller.enemyController[selectEnemy].hit;
-            enemySpeed = unitcontroller.enemyController[selectEnemy].speed;
-            enemyLucky = unitcontroller.enemyController[selectEnemy].lucky;
-            enemyWeapon = unitcontroller.enemyController[selectEnemy].selectWeapon;
-        } else
-        {
-            enemyAttack = 0;
-            enemyDeffence = 0;
-            enemyHit = 0;
-            enemySpeed = 0;
-            enemyLucky = 0;
-        }
+        enemyAttack = unitcontroller.enemyController[selectEnemy].attack;
+        enemyDeffence = unitcontroller.enemyController[selectEnemy].deffence;
+        enemyHit = unitcontroller.enemyController[selectEnemy].hit;
+        enemySpeed = unitcontroller.enemyController[selectEnemy].speed;
+        enemyLucky = unitcontroller.enemyController[selectEnemy].lucky;
+        enemyWeapon = unitcontroller.enemyController[selectEnemy].selectWeapon;
     }
 
     public void BattleParam()
@@ -120,17 +110,17 @@ public class AttackController : MonoBehaviour
             critical = weapondata.blade[playerWeapon].criticalper + (playerHit / 2);
             criticalAvoid = enemyLucky;
             hitPer = hit - avoid;
-            criticalAvoid = critical - criticalAvoid;
+            criticalPer = critical - criticalAvoid;
 
             counterAttackPower = enemyAttack + weapondata.blade[enemyWeapon].attack;
             counterDeffencePower = playerDeffence;
-            counterDamage = attackPower - deffencePower;
+            counterDamage = counterAttackPower - counterDeffencePower;
             counterHit = weapondata.blade[enemyWeapon].hitper + (enemyHit / 2);
             counterAvoid = playerSpeed * 2 + playerLucky;
             counterCritical = weapondata.blade[enemyWeapon].criticalper + (enemyHit / 2);
             counterCriticalAvoid = playerLucky;
-            counterHitPer = hit - avoid;
-            counterCriticalPer = critical - criticalAvoid;
+            counterHitPer = counterHit - counterAvoid;
+            counterCriticalPer = counterCritical - counterCriticalAvoid;
         } else if(!gm.playerTurn)
         {
             attackPower = enemyAttack + weapondata.blade[enemyWeapon].attack;

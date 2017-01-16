@@ -21,6 +21,7 @@ public class TextManager : MonoBehaviour {
         TURN_NAME,
         Parameter,
         PlayerBattle,
+        EnemyBattle,
         Weapon,
     }
 
@@ -94,8 +95,34 @@ public class TextManager : MonoBehaviour {
                 int criticalPer = attackController.criticalPer;
                 if(unitcontroller.selectEnemy != 99 && unitcontroller.turnState == UnitController.TurnState.ATTACK)
                 {
-                    tex.text = "命中率 : " + hitPer + "\n" + "攻撃 : " + damage + "\n" + "必殺" + criticalPer; 
+                    if(attackController.playerSpeed >= attackController.enemySpeed * 2)
+                    {
+                        tex.text = hitPer + "\n" + damage + "\n" + criticalPer + "\n" + "x2";
+                    } else
+                    {
+                        tex.text = hitPer + "\n" + damage + "\n" + criticalPer;
+                    }
                 } else
+                {
+                    tex.text = "";
+                }
+                break;
+            case TextCommand.EnemyBattle:
+                int enemyDamage = attackController.counterDamage;
+                int enemyHitPer = attackController.counterHitPer;
+                int enemyCriticalPer = attackController.counterCriticalPer;
+                if (unitcontroller.selectEnemy != 99 && unitcontroller.turnState == UnitController.TurnState.ATTACK)
+                {
+                    if (attackController.enemySpeed >= attackController.playerSpeed * 2)
+                    {
+                        tex.text = enemyHitPer + "\n" + enemyDamage + "\n" + enemyCriticalPer + "\n" + "x2";
+                    }
+                    else
+                    {
+                        tex.text = enemyHitPer + "\n" + enemyDamage + "\n" + enemyCriticalPer;
+                    }
+                }
+                else
                 {
                     tex.text = "";
                 }

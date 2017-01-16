@@ -25,10 +25,10 @@ MonoBehaviour:
     level: 0
     hp: 12
     attack: 5
-    deffence: 3
-    hit: 4
+    deffence: 7
+    hit: 2
     speed: 3
-    lucky: 4
+    lucky: 0
     moveCost: 5
     weapon: 00000000
   - enemyID: 1
@@ -36,10 +36,10 @@ MonoBehaviour:
     enemyPos: {x: 3, y: 4}
     level: 0
     hp: 16
-    attack: 6
-    deffence: 4
-    hit: 5
+    attack: 10
+    deffence: 3
+    hit: 4
     speed: 5
-    lucky: 6
+    lucky: 0
     moveCost: 5
     weapon: 0000000001000000
