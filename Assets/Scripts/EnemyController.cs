@@ -60,8 +60,8 @@ public class EnemyController : MonoBehaviour {
         StartCoroutine("damageText");
         if (hp <= 0)
         {
-            unitcontroller.EnemyListRemove(enemyID);
-            Destroy(gameObject);
+            text.text = damage.ToString();
+            Invoke("Delete", 1.5F);
         }
     }
 
@@ -77,5 +77,12 @@ public class EnemyController : MonoBehaviour {
         var color = text.color;
         color.a = alpha;
         text.color = color;
+    }
+
+    public void Delete()
+    {
+        Debug.Log("Delete");
+        unitcontroller.EnemyListRemove(enemyID);
+        Destroy(gameObject);
     }
 }

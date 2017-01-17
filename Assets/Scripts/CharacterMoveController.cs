@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CharacterMoveController : MonoBehaviour {
 
@@ -49,7 +50,7 @@ public class CharacterMoveController : MonoBehaviour {
     public int cirsorY = 0;
 
     public Vector3 pos;
-    public Vector2 savePos;
+    public Vector2[] savePos;
     private int div = 10;
     private float divF = 10F;
 
@@ -66,6 +67,7 @@ public class CharacterMoveController : MonoBehaviour {
 
     void Start()
     {
+        savePos = new Vector2[2];
         eventSystem.SetActive(true);
         for(int i = 0;i < window.Length; i++)
         {
@@ -144,7 +146,9 @@ public class CharacterMoveController : MonoBehaviour {
                             if (Input.GetButtonDown("Submit") && isMove && !backMenu)
                             {
                                 soundcontroller.SoundPlayer(1);
-                                savePos = unitcontroller.playerController[playerID].playerPos;    // posを保存しておく
+                                Debug.Log("save" + savePos[0]);
+                                Debug.Log("x:" + unitcontroller.playerController[playerID].playerPos.x + " y:" + unitcontroller.playerController[playerID].playerPos.y);
+                                savePos[0] = new Vector2(unitcontroller.playerController[playerID].playerPos.x, unitcontroller.playerController[playerID].playerPos.y);    // posを保存しておく
                                                                                         // カーソルの位置にキャラを移動
                                 unitcontroller.playerController[playerID].playerPos = cirsorcontroller.cirsorPos;
                                 isMove = false;
@@ -166,7 +170,7 @@ public class CharacterMoveController : MonoBehaviour {
                         // メニュー関数を実行
                         break;
                     case PlayerState.SELECT_ATTACK:
-                        //savePos = unitcontroller.playerController[playerID].playerPos;    // posを保存しておく
+                        savePos[1] = new Vector2(unitcontroller.playerController[playerID].playerPos.x, unitcontroller.playerController[playerID].playerPos.y);    // posを保存しておく
                         unitcontroller.turnState = UnitController.TurnState.SELECT_ATTACK;
                         movablescript.Initialize();
                         MenuFunc(1);
@@ -331,12 +335,12 @@ public class CharacterMoveController : MonoBehaviour {
         MoveState();
     }
 
-    public void ReturnPos()
+    public void ReturnPos(int num)
     {
         isMove = true;
-        unitcontroller.playerController[playerID].playerPos = savePos;
-        cirsor.transform.position = new Vector3(savePos.x * div, cirsor.transform.position.y, savePos.y * div);
-        cirsorcontroller.cirsorPos = new Vector2(savePos.x, savePos.y);
+        unitcontroller.playerController[playerID].playerPos = savePos[num];
+        cirsor.transform.position = new Vector3(savePos[num].x * div, cirsor.transform.position.y, savePos[num].y * div);
+        cirsorcontroller.cirsorPos = new Vector2(savePos[num].x, savePos[num].y);
         cirsorcontroller.isMove = true;
         cirsorcontroller.Move();
         movablescript.Initialize();
@@ -345,12 +349,17 @@ public class CharacterMoveController : MonoBehaviour {
 
     public void Cancel()
     {
-        if (stateCount == 2 || stateCount == 4)
+        if (stateCount == 2)
         {
             MenuEnd();
-            ReturnPos();
+            ReturnPos(0);
         } else if(stateCount == 3)
         {
+            MenuEnd();
+            isMove = false;
+        } else if(stateCount == 4)
+        {
+            ReturnPos(1);
             MenuEnd();
             isMove = false;
         }

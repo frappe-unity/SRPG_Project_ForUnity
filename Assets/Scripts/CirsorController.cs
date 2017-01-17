@@ -7,6 +7,7 @@ public class CirsorController : MonoBehaviour {
     [SerializeField] private MapController map;
     [SerializeField] private CharacterMoveController chara;
     [SerializeField] private SoundController soundcontroller;
+    [SerializeField] private AttackController attackcontroller;
     private PlayerController player;
     private EnemyController enemy;
 
@@ -53,6 +54,7 @@ public class CirsorController : MonoBehaviour {
         }
         if(map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyOn)
         {
+            /*
             for (int i = 0; i < unitcontroller.player.Count; i++)
             {
                 if (unitcontroller.enemyController[i].enemyID == map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID)
@@ -61,8 +63,9 @@ public class CirsorController : MonoBehaviour {
                     unitcontroller.paramEnemy = i;
                 }
             }
-            // unitcontroller.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
-            // unitcontroller.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            */
+            unitcontroller.selectEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
+            unitcontroller.paramEnemy = map.block[Mathf.RoundToInt(cirsorPos.x), Mathf.RoundToInt(cirsorPos.y)].enemyID;
         } else
         {
             unitcontroller.selectEnemy = 99;
@@ -87,7 +90,7 @@ public class CirsorController : MonoBehaviour {
         }
         if (chara.stateCount == 0 || chara.stateCount == 1 || chara.stateCount == 4)
         {
-            if (!isMove)
+            if (!isMove && !attackcontroller.isBattle)
             {
                 // transform.position = startPos;
                 if (Input.GetAxis("Horizontal") >= 0.8 || Input.GetKey(KeyCode.RightArrow))

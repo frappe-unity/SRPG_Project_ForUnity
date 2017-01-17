@@ -53,12 +53,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(playerPos.x * cross, transform.position.y, playerPos.y * cross);
-
-        // hpが0になったらデリート
-        if(hp <= 0)
-        {
-            unitcontroller.PlayerListRemove(playerID);
-        }
     }
 
     public void Damage(int damage)
@@ -77,8 +71,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine("damageText");
         if (hp <= 0)
         {
-            unitcontroller.PlayerListRemove(playerID);
-            Destroy(gameObject);
+            text.text = damage.ToString();
+            Invoke("Delete", 1.5F);
         }
     }
 
@@ -94,6 +88,13 @@ public class PlayerController : MonoBehaviour
         var color = text.color;
         color.a = alpha;
         text.color = color;
+    }
+
+    public void Delete()
+    {
+        Debug.Log("Delete");
+        unitcontroller.PlayerListRemove(playerID);
+        Destroy(gameObject);
     }
 
 }

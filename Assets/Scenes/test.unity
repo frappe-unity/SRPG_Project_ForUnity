@@ -197,6 +197,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 37301445}
@@ -443,6 +444,7 @@ MonoBehaviour:
   movablescript: {fileID: 0}
   soundcontroller: {fileID: 0}
   weaponNumber: 0
+  selectOn: 0
   command: 0
 --- !u!1 &156203461
 GameObject:
@@ -796,6 +798,7 @@ MonoBehaviour:
   selectPlayer: 99
   selectEnemy: 99
   isUnit: 0
+  isAttack: 0
   stayCount: 0
   paramPlayer: 99
   paramEnemy: 99
@@ -927,6 +930,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 380342344}
@@ -1331,7 +1335,7 @@ MonoBehaviour:
   cirsorX: 0
   cirsorY: 0
   pos: {x: 0, y: 0, z: 0}
-  savePos: {x: 0, y: 0}
+  savePos: []
   playerState: 0
 --- !u!1 &596201967
 GameObject:
@@ -1755,6 +1759,7 @@ MonoBehaviour:
   movablescript: {fileID: 0}
   soundcontroller: {fileID: 0}
   weaponNumber: 0
+  selectOn: 0
   command: 1
 --- !u!1 &829210538
 GameObject:
@@ -2444,6 +2449,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 1201910266}
@@ -2945,6 +2951,7 @@ MonoBehaviour:
   movablescript: {fileID: 0}
   soundcontroller: {fileID: 0}
   weaponNumber: 0
+  selectOn: 0
   command: 2
 --- !u!1 &1492499909
 GameObject:
@@ -3050,6 +3057,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 1492499912}
@@ -3286,6 +3294,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 570525674}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 1640211824}
@@ -3381,6 +3390,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 1804160093}
@@ -3565,6 +3575,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 1871283728}
@@ -3782,6 +3793,7 @@ MonoBehaviour:
   map: {fileID: 829210540}
   chara: {fileID: 570525674}
   soundcontroller: {fileID: 444487209}
+  attackcontroller: {fileID: 2096358045}
   cirsorPos: {x: 0, y: 0}
   isMove: 0
   cirsorSpeed: 60
@@ -4549,6 +4561,7 @@ MonoBehaviour:
   unitcontroller: {fileID: 368118498}
   gm: {fileID: 2010087815}
   attackController: {fileID: 2096358045}
+  enemyAI: {fileID: 0}
   chara: {fileID: 0}
   weapondata: {fileID: 11400000, guid: 2b7a7416e458b4f43b85ca1f0f3dc195, type: 2}
   tex: {fileID: 2130151984}

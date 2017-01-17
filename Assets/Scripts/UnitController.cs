@@ -25,6 +25,7 @@ public class UnitController : MonoBehaviour {
     public int selectPlayer = 99;
     public int selectEnemy = 99;
     public bool isUnit = false;
+    public bool isAttack = false;
     public int stayCount = 0;
     public int paramPlayer = 99;
     public int paramEnemy = 99;
