@@ -17,6 +17,7 @@ public class EnemyAIController : MonoBehaviour {
     public bool moveSkip = false;
     List<int> areaPlayer = new List<int>();
     List<Vector2> movable = new List<Vector2>();
+    public List<int> enemyStorage = new List<int>();
     public int selectPlayer;
     public float moveTime = 1F;
 
@@ -29,12 +30,13 @@ public class EnemyAIController : MonoBehaviour {
 	void Update () {
         if (!gamecontroller.playerTurn)
         {
-            if(section && unitcontroller.stayCount < unitcontroller.enemy.Count)
+            if(section && unitcontroller.stayCount < enemyStorage.Count)
             {
                 section = false;
 
                 Initialize();
-                cirsorEnemy = unitcontroller.enemyController[unitcontroller.stayCount].enemyID;
+                cirsorEnemy = unitcontroller.enemyController[enemyStorage[unitcontroller.stayCount]].enemyID;
+                // cirsorEnemy = enemyStorage[unitcontroller.stayCount];
                 // enemy = unitcontroller.enemy[cirsorEnemy];
                 Search();                                                               
 

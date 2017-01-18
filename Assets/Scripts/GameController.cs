@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private CharacterMoveController charactermovecontroller;
     [SerializeField] private MovableScript movablescript;
     [SerializeField] private CirsorController cirsorcontroller;
+    [SerializeField] private EnemyAIController enemyAI;
 
     public int turnCount = 0;
     public int start = 0;
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour {
 
     public void StartPlayer()
     {
+        enemyAI.enemyStorage.Clear();
         // isChange = true;
         unit.UnitMovable();
         movablescript.Initialize();
@@ -72,6 +74,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < unit.enemy.Count; i++)
         {
             unit.enemyController[i].isAct = false;
+            enemyAI.enemyStorage.Add(i);
         }
         cirsor.SetActive(false);
         playerTurn = false;

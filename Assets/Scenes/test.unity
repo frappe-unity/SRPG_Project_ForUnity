@@ -496,6 +496,7 @@ MonoBehaviour:
   section: 1
   battle: 0
   moveSkip: 0
+  enemyStorage: 
   selectPlayer: 0
   moveTime: 1
 --- !u!1 &160633855
@@ -4049,6 +4050,7 @@ MonoBehaviour:
   charactermovecontroller: {fileID: 570525674}
   movablescript: {fileID: 829210541}
   cirsorcontroller: {fileID: 1902271179}
+  enemyAI: {fileID: 156203463}
   turnCount: 0
   start: 0
   playerTurn: 0
